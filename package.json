@@ -1,0 +1,36 @@
+{
+  "name": "reflex",
+  "version": "0.1.0",
+  "description": "Fast, auditable incident triage. The model judges, the code decides.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "author": "Ryan Meadows",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "dev": "concurrently -k -n server,web -c blue,magenta \"npm:dev:server\" \"npm:dev:web\"",
+    "dev:server": "tsx watch src/server/index.ts",
+    "dev:web": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "record": "tsx scripts/record.ts",
+    "local-run": "tsx scripts/local-run.ts",
+    "make-sample": "tsx scripts/make-sample.ts"
+  },
+  "dependencies": {
+    "@hono/node-server": "2.1.4",
+    "@typesafe-ai/sdk": "0.6.0",
+    "dotenv": "18.0.7",
+    "hono": "4.13.13"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "concurrently": "10.0.6",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3",
+    "vite": "8.3.4",
+    "vitest": "5.0.4"
+  }
+}

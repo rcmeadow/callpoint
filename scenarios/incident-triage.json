@@ -1,0 +1,139 @@
+{
+  "id": "incident-triage",
+  "title": "Checkout errors after a payments deploy",
+  "goal": "Restore checkout for customers as fast as possible without losing or corrupting payment records.",
+  "incident": {
+    "summary": "At 14:02 payments-service v2.31 was deployed. Since 14:04 checkout returns HTTP 500 for about 12% of requests and p99 latency on the payments API is 4.8 seconds (normal is 300 ms). The primary payments database is at 92% CPU.",
+    "service": "payments-service (checkout path)",
+    "started_at": "14:04",
+    "severity": "SEV-1, customer-facing"
+  },
+  "options": [
+    {
+      "id": "rollback",
+      "name": "Roll back to v2.30",
+      "description": "Redeploy the previous payments-service build (v2.30) to all pods through the normal CI/CD pipeline."
+    },
+    {
+      "id": "disable_flag",
+      "name": "Disable the smart-retries flag",
+      "description": "Turn off the smart-retries feature flag in the flag service. The change applies to running pods within about one minute and can be turned back on instantly."
+    },
+    {
+      "id": "scale_db",
+      "name": "Fail over to a larger database",
+      "description": "Promote a larger replica instance to be the new primary payments database. Requires a primary failover of roughly two minutes."
+    },
+    {
+      "id": "region_failover",
+      "name": "Fail over checkout to us-west-2",
+      "description": "Shift all checkout traffic from us-east-1 to the standby us-west-2 region using DNS weights."
+    },
+    {
+      "id": "hotfix",
+      "name": "Ship a forward hotfix",
+      "description": "Have the payments team write a code fix on top of v2.31 and ship it as v2.32 through CI/CD."
+    }
+  ],
+  "criteria": [
+    {
+      "id": "impact",
+      "name": "Error reduction",
+      "question": "How much would carrying out the option reduce the checkout errors customers are seeing?",
+      "levels": [
+        "Would not reduce the errors, or would make them worse",
+        "Small reduction; most customers would still see errors",
+        "Large reduction; a few customers would still see errors",
+        "Would very likely stop the errors"
+      ],
+      "weight": 0.4
+    },
+    {
+      "id": "speed",
+      "name": "Time to effect",
+      "question": "How quickly would the option take effect for customers once someone starts it?",
+      "levels": [
+        "An hour or more",
+        "Between 30 and 60 minutes",
+        "Between 5 and 30 minutes",
+        "Under 5 minutes"
+      ],
+      "weight": 0.25
+    },
+    {
+      "id": "safety",
+      "name": "Safety",
+      "question": "How safe is carrying out the option right now, in terms of causing new or wider damage?",
+      "levels": [
+        "High chance of a new or wider outage, or of damaging data",
+        "Moderate risk of new problems",
+        "Low risk",
+        "Very low risk and easy to undo"
+      ],
+      "weight": 0.2
+    },
+    {
+      "id": "evidence",
+      "name": "Evidence fit",
+      "question": "How well does the evidence in the incident timeline support that the option addresses the actual cause?",
+      "levels": [
+        "The evidence points to a different cause",
+        "No real evidence either way",
+        "Some evidence supports it",
+        "Strong, direct evidence supports it"
+      ],
+      "weight": 0.15
+    }
+  ],
+  "constraints": [
+    {
+      "id": "data_loss",
+      "name": "No payment data loss",
+      "question": "Would carrying out the option risk losing or corrupting committed customer payment records?",
+      "threshold": 0.5
+    },
+    {
+      "id": "ic_forbidden",
+      "name": "Respect incident commander orders",
+      "question": "Has the incident commander explicitly forbidden this kind of action in the incident timeline?",
+      "threshold": 0.5
+    }
+  ],
+  "updates": [
+    {
+      "id": "u1",
+      "at": "14:10",
+      "title": "Deploy diff reviewed",
+      "text": "The v2.31 diff turns on the new smart-retries feature flag by default. Since 14:02, retry traffic from payments-service to the primary database has tripled.",
+      "affects": ["impact", "evidence"]
+    },
+    {
+      "id": "u2",
+      "at": "14:13",
+      "title": "Database team report",
+      "text": "Replicas are 40 seconds behind the primary because of the write load. A primary failover right now would drop the most recent committed writes, including payment records.",
+      "affects": ["safety", "data_loss"]
+    },
+    {
+      "id": "u3",
+      "at": "14:16",
+      "title": "Standby region check",
+      "text": "The us-west-2 standby region reads and writes through the same primary payments database in us-east-1. It runs the same v2.31 build.",
+      "affects": ["impact", "evidence"]
+    },
+    {
+      "id": "u4",
+      "at": "14:19",
+      "title": "Incident commander order",
+      "text": "Incident commander: no new code changes or new builds go to production until the error rate is under 1%. Configuration and flag changes are allowed.",
+      "affects": ["ic_forbidden", "speed"]
+    },
+    {
+      "id": "u5",
+      "at": "14:22",
+      "title": "Rollback artifact problem",
+      "text": "The v2.30 build artifact expired from the registry. A rollback would need a fresh v2.30 build, which takes about 25 minutes in CI.",
+      "affects": ["speed", "safety"]
+    }
+  ]
+}

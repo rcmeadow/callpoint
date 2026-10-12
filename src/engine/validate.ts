@@ -1,0 +1,29 @@
+import type { Scenario } from "./types";
+
+/** Light structural check so a hand-written scenario fails with a readable message. */
+export function validateScenario(s: unknown, source = "scenario"): Scenario {
+  const fail = (msg: string): never => {
+    throw new Error(`${source}: ${msg}`);
+  };
+  const x = s as Scenario;
+  if (!x || typeof x !== "object") fail("not an object");
+  if (typeof x.id !== "string" || !x.id) fail("missing id");
+  if (typeof x.title !== "string") fail("missing title");
+  if (typeof x.goal !== "string") fail("missing goal");
+  if (!Array.isArray(x.options) || x.options.length < 2) fail("needs at least 2 options");
+  if (!Array.isArray(x.criteria) || x.criteria.length < 1) fail("needs at least 1 criterion");
+  if (!Array.isArray(x.constraints)) fail("constraints must be an array (can be empty)");
+  if (!Array.isArray(x.updates)) fail("updates must be an array");
+  const ids = new Set<string>();
+  for (const c of [...x.criteria, ...x.constraints]) {
+    if (ids.has(c.id)) fail(`duplicate criterion/constraint id ${c.id}`);
+    ids.add(c.id);
+  }
+  for (const c of x.criteria) {
+    if (!Array.isArray(c.levels) || c.levels.length < 2 || c.levels.length > 10) fail(`criterion ${c.id} needs 2 to 10 levels`);
+  }
+  for (const u of x.updates) {
+    for (const a of u.affects ?? []) if (!ids.has(a)) fail(`update ${u.id} affects unknown id ${a}`);
+  }
+  return x;
+}
