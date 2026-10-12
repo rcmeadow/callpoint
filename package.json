@@ -6,7 +6,7 @@
   "type": "module",
   "license": "MIT",
   "author": "Ryan Meadows",
-  "engines": { "node": ">=20" },
+  "engines": { "node": ">=22.12" },
   "scripts": {
     "dev": "concurrently -k -n server,web -c blue,magenta \"npm:dev:server\" \"npm:dev:web\"",
     "dev:server": "tsx watch src/server/index.ts",

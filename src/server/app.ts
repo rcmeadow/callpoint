@@ -11,12 +11,36 @@ export interface AppDeps {
   getScenario: (id: string) => Scenario | undefined;
   listScenarios: () => Scenario[];
   status: () => Promise<unknown>;
+  /** Ports a browser page may call from (Vite dev, Vite preview, the API itself). */
+  allowedPorts?: number[];
+}
+
+const LOOPBACK_HOSTS = new Set(["localhost", "127.0.0.1", "[::1]"]);
+
+/** True for http(s)://localhost or 127.0.0.1 (or [::1]) on one of the allowed ports. */
+export function isAllowedOrigin(origin: string, ports: number[]): boolean {
+  try {
+    const u = new URL(origin);
+    if (u.protocol !== "http:" && u.protocol !== "https:") return false;
+    const port = Number(u.port || (u.protocol === "https:" ? 443 : 80));
+    return LOOPBACK_HOSTS.has(u.hostname) && ports.includes(port);
+  } catch {
+    return false;
+  }
 }
 
 /** The HTTP API. Every model call happens here; the browser only ever sees judgments. */
 export function createApp(deps: AppDeps) {
   const caches: Record<EngineId, JudgmentCache> = { jev: new JudgmentCache(), local: new JudgmentCache() };
   const app = new Hono();
+  const ports = deps.allowedPorts ?? [5173, 4173, 8787];
+
+  // Only pages served from this machine may call the API (no Origin = curl or the Vite proxy's own requests).
+  app.use("/api/*", async (c, next) => {
+    const origin = c.req.header("origin");
+    if (origin && !isAllowedOrigin(origin, ports)) return c.json({ error: "Origin not allowed", code: "bad_origin" }, 403);
+    await next();
+  });
 
   app.get("/api/status", async (c) => c.json(await deps.status()));
 

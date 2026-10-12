@@ -8,6 +8,38 @@ export interface Snapshot {
   /** ISO time the fact was applied. */
   appliedAt: string;
   result: StepResult;
+  /** Weights and constraints in force when this step was applied (the receipt ranks with these). */
+  settings?: RankSettings;
+}
+
+/** A weights or constraints change, recorded so the receipt keeps an honest history. */
+export interface TuningEvent {
+  /** Display time (local clock, HH:MM). */
+  at: string;
+  /** ISO time of the change. */
+  appliedAt: string;
+  /** Number of facts applied when the change happened (0 = before any fact). */
+  afterFact: number;
+  /** Human-readable changes, e.g. "Error reduction 0.40 → 0.60". */
+  changes: string[];
+  /** Settings after the change. */
+  settings: RankSettings;
+}
+
+/** Describe what changed between two settings, in scenario labels. Empty when nothing did. */
+export function describeTuning(scenario: Scenario, before: RankSettings, after: RankSettings): string[] {
+  const out: string[] = [];
+  for (const c of scenario.criteria) {
+    const a = before.weights[c.id] ?? 0;
+    const b = after.weights[c.id] ?? 0;
+    if (Math.abs(a - b) > 1e-9) out.push(`${c.name} ${a.toFixed(2)} → ${b.toFixed(2)}`);
+  }
+  for (const k of scenario.constraints) {
+    const a = before.constraintsEnabled[k.id] !== false;
+    const b = after.constraintsEnabled[k.id] !== false;
+    if (a !== b) out.push(`Constraint "${k.name}" turned ${b ? "on" : "off"}`);
+  }
+  return out;
 }
 
 export interface Driver {

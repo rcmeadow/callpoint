@@ -3,6 +3,7 @@ import {
   buildReceipt,
   compareToBaseline,
   defaultSettings,
+  describeTuning,
   explain,
   nearTieMarginOf,
   rank,
@@ -19,6 +20,7 @@ import {
   type Scenario,
   type Snapshot,
   type StepResult,
+  type TuningEvent,
 } from "../engine/index";
 import { cloneScenario, renderEditor } from "./editor";
 import { gaugeLayout, type GaugeLabel } from "./gauge";
@@ -84,6 +86,10 @@ const state = {
   rerank: null as null | { ms: number; reason: string },
   /** Compare rows with their extra reasons expanded. */
   cmpOpen: new Set<string>(),
+  /** Weights/constraint changes made in this session (the receipt's history). */
+  tuning: [] as TuningEvent[],
+  /** Settings as of the last recorded tuning event (or the session start). */
+  lastTuned: null as RankSettings | null,
   /** Receipt preview open, kept across re-renders. */
   receiptOpen: false,
   playing: false,
@@ -113,6 +119,8 @@ function resetSession(opts: { defaults?: boolean } = {}) {
   state.playing = false;
   state.cols = Object.fromEntries(ENGINES.map((e) => [e, { snapshots: [], loading: false, error: null, model: defaultModel(e), metric: null }])) as unknown as Record<EngineId, Column>;
   state.rerank = null;
+  state.tuning = [];
+  state.lastTuned = cloneSettings(state.settings);
   // A fresh session should not animate the call banner as if the call had changed.
   const call = document.querySelector<HTMLElement>("#call");
   if (call) delete call.dataset.key;
@@ -127,7 +135,7 @@ function primeReplay() {
     const r = rec.engines[e]?.steps[0];
     if (!r) continue;
     const col = state.cols[e];
-    col.snapshots[0] = { fact: null, appliedAt: new Date().toISOString(), result: r };
+    col.snapshots[0] = { fact: null, appliedAt: new Date().toISOString(), result: r, settings: cloneSettings(state.settings) };
     col.model = r.model;
     col.metric = { kind: "step", ms: r.ms, asked: r.asked, total: r.total, requests: r.requests };
   }
@@ -184,7 +192,7 @@ async function runEngine(engine: EngineId, runId: number) {
   try {
     const r = await fetchResult(engine, facts, runId);
     if (runId !== state.runId) return;
-    col.snapshots[index] = { fact: facts[index - 1] ?? null, appliedAt: new Date().toISOString(), result: r };
+    col.snapshots[index] = { fact: facts[index - 1] ?? null, appliedAt: new Date().toISOString(), result: r, settings: cloneSettings(state.settings) };
     col.model = r.model;
     col.metric = { kind: "step", ms: r.ms, asked: r.asked, total: r.total, requests: r.requests };
   } catch (err) {
@@ -272,7 +280,7 @@ async function setCompareLocal(on: boolean) {
     else {
       for (let i = 0; i <= state.facts.length; i++) {
         const r = rec.steps[i];
-        if (r) col.snapshots[i] = { fact: state.facts[i - 1] ?? null, appliedAt: new Date().toISOString(), result: r };
+        if (r) col.snapshots[i] = { fact: state.facts[i - 1] ?? null, appliedAt: new Date().toISOString(), result: r, settings: state.cols.jev.snapshots[i]?.settings ?? cloneSettings(state.settings) };
       }
       const last = rec.steps[state.facts.length];
       if (last) col.metric = { kind: "step", ms: last.ms, asked: last.asked, total: last.total, requests: last.requests };
@@ -302,6 +310,31 @@ function setScenario(id: string) {
   state.settings = defaultSettings(s);
   resetSession();
   renderAll(true);
+}
+
+// A function declaration (hoisted): resetSession() runs at load, before this line.
+function cloneSettings(st: RankSettings): RankSettings {
+  return { weights: { ...st.weights }, constraintsEnabled: { ...st.constraintsEnabled } };
+}
+
+/** Add a timeline/receipt event for any weights or constraints change since the last one. */
+function recordTuning() {
+  if (!state.started || !state.lastTuned) {
+    state.lastTuned = cloneSettings(state.settings);
+    return;
+  }
+  const changes = describeTuning(scenario(), state.lastTuned, state.settings);
+  if (!changes.length) return;
+  const now = new Date();
+  state.tuning.push({
+    at: now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }),
+    appliedAt: now.toISOString(),
+    afterFact: state.facts.length,
+    changes,
+    settings: cloneSettings(state.settings),
+  });
+  state.lastTuned = cloneSettings(state.settings);
+  renderAll();
 }
 
 function rerank(reason: string) {
@@ -379,7 +412,7 @@ function receipt(): string {
       : rec?.synthetic
         ? "Replay of SAMPLE data (hand-written, not a real run)"
         : `Replay of a real recording made ${rec?.recordedAt ?? "unknown"}`;
-  return buildReceipt({ scenario: scenario(), settings: state.settings, engines, generatedAt: new Date().toISOString(), mode });
+  return buildReceipt({ scenario: scenario(), settings: state.settings, engines, generatedAt: new Date().toISOString(), mode, tuning: state.tuning });
 }
 
 // ---------- Rendering ----------
@@ -431,6 +464,7 @@ function shell() {
     <footer class="card caveats">
       <h2>Keys, terms and licenses</h2>
       <p class="terms">Bring your own keys. Callpoint doesn't include or resell model access. Live mode calls TypeSafe's API with your own key, and your use is governed by TypeSafe's terms. The local comparison runs Cloudflare's Clef (Apache 2.0) through Ollama on your machine, under their licenses. Callpoint is not affiliated with or endorsed by TypeSafe or Cloudflare. Provided as is under the MIT license.</p>
+      <p class="terms">Live facts and your scenario text are sent to TypeSafe's API (and to Ollama on your machine if the comparison is on). Don't paste secrets or customer data. Sessions live only in your browser tab and are gone on reload.</p>
       <p class="terms-links small">
         <a href="https://typesafe.ai/legal/mca" target="_blank" rel="noopener noreferrer">TypeSafe terms</a>
         <a href="https://typesafe.ai/legal/acceptable-use-policy" target="_blank" rel="noopener noreferrer">TypeSafe acceptable use policy</a>
@@ -443,6 +477,7 @@ function shell() {
         <li>Too close to call: when totals are within the near-tie margin (default 0.02, chained), the code makes no call between them. They share a rank like "1=" and are shown in file order, and a swap inside that margin is not reported as a move.</li>
         <li>Free-text facts have no labels saying what they affect, so each one re-asks every question in one request per engine. Scripted demo updates only re-ask what they touch.</li>
         <li>The local comparison runs Cloudflare Clef (clef-flash:9b, Apache 2.0 open weights) through Ollama with the same questions. It is a different model and can disagree. Latency is wall clock: Jev includes the network from one machine, Clef is this one Mac.</li>
+        <li>Scores and certainty are model judgments, not validated outcome probabilities.</li>
         <li>This is a demo scenario, not incident advice. You set the goals, weights, and constraints.</li>
       </ul>
     </footer>
@@ -610,8 +645,21 @@ function renderTimeline() {
         return `<span class="pill">${LABEL[e]} ${fmtMs(r.ms)} · ${i === firstIndex(e) ? (r.asked === 0 ? "first pass, cached" : `first pass, ${r.asked} asked`) : `${r.asked}/${r.total} re-asked`}</span>`;
       })
       .join("");
+  const tuningItems = (afterFact: number) =>
+    state.tuning
+      .filter((t) => t.afterFact === afterFact)
+      .forEach((t) =>
+        items.push(`<li class="tl-item tuning">
+      <div class="tl-time">${esc(t.at)}</div>
+      <div class="tl-body">
+        <div class="tl-title"><strong>Weights changed</strong> <span class="src">0 model calls</span></div>
+        <ul class="moves">${t.changes.map((c) => `<li>${esc(c)}</li>`).join("")}</ul>
+      </div>
+    </li>`),
+      );
   if (state.started) {
     items.push(`<li class="tl-item start"><div class="tl-time">Start</div><div class="tl-body"><strong>Starting point</strong><div class="tl-metrics">${metricLine(0)}</div></div></li>`);
+    tuningItems(0);
   }
   state.facts.forEach((f, idx) => {
     const i = idx + 1;
@@ -637,6 +685,7 @@ function renderTimeline() {
         ${loading}${moves}
       </div>
     </li>`);
+    tuningItems(i);
   });
   const next = nextScripted();
   const live = state.mode === "live";
@@ -787,8 +836,8 @@ function rowHtml(r: RankedOption, judgments: Record<string, Judgment>): string {
   const parts = s.criteria.map((c) => `<span class="chip"><i style="width:${Math.round((r.parts[c.id] ?? 0) * 100)}%"></i><span>${esc(c.name)} ${(r.parts[c.id] ?? 0).toFixed(2)}</span></span>`).join("");
   const details = `
       <div class="details-body">
-        <div class="conf-line" title="Average confidence of this option's Score answers, from the model's own probabilities">
-          <span>Model confidence ${conf.toFixed(2)}</span>
+        <div class="conf-line" title="Average certainty of this option's Score answers, from the model's own probabilities. A model judgment, not a validated probability.">
+          <span>Model certainty ${conf.toFixed(2)}</span>
           <div class="conf"><span style="width:${Math.round(conf * 100)}%"></span></div>
         </div>
         <div class="parts">${parts}</div>
@@ -1019,17 +1068,21 @@ function renderTuning() {
       rerank(`${nameOf(id)} weight changed`);
     }),
   );
+  // Record the change once, when the slider is released, so the receipt has one line per change.
+  document.querySelectorAll<HTMLInputElement>("[data-weight]").forEach((input) => input.addEventListener("change", () => recordTuning()));
   document.querySelectorAll<HTMLInputElement>("[data-constraint]").forEach((input) =>
     input.addEventListener("change", () => {
       const id = input.dataset.constraint!;
       state.settings = { ...state.settings, constraintsEnabled: { ...state.settings.constraintsEnabled, [id]: input.checked } };
       rerank(`${nameOf(id)} turned ${input.checked ? "on" : "off"}`);
+      recordTuning();
     }),
   );
   $("#reset-weights").addEventListener("click", () => {
     state.settings = defaultSettings(s) as RankSettings;
     renderTuning();
     rerank("Weights reset");
+    recordTuning();
   });
 }
 

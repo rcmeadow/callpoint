@@ -1,6 +1,6 @@
 # Callpoint
 
-An incident co-pilot. **The model judges, the code decides.**
+An inspectable incident decision-support demo. **The model judges, the code decides.**
 
 Set the problem: what is happening, the options on the table, what a good outcome looks like,
 and the hard rules. Add facts as they come in. Callpoint asks a decision model (TypeSafe Jev) to
@@ -20,7 +20,7 @@ What it gives you:
   "where we are going" line under it. When the top options are within the near-tie margin it
   turns amber, says "Too close to call", and shows the near-tie note under it instead.
 - **The race.** Options ranked by weighted score, one bar each. Details shows the model's
-  confidence (from its own probabilities) and the score per goal. Amber means too close to
+  certainty (from its own probabilities) and the score per goal. Amber means too close to
   call. Options blocked by a hard constraint fold into compact struck-through rows below.
 - **Where we were, where we are.** The starting ranking next to the current one, with the
   change in score and the facts that moved each option most.
@@ -29,8 +29,9 @@ What it gives you:
   falls below 0.80". When the top two are within the near-tie margin it says "Too close to
   call: this is a human decision."
 - **Decision receipt.** A timestamped markdown log of every fact, the ranking after it, what
-  moved and why, near-tie flags, the final call, and the engine and model versions. Copy it or
-  download it as `.md`.
+  moved and why, near-tie flags, every weights or constraints change, the final call, and the
+  engine and model versions. Each section is ranked with the weights in force at that moment,
+  so later tuning never rewrites an earlier recommendation. Copy it or download it as `.md`.
 - **The code decides.** Weight sliders and constraint toggles re-rank the same judgments
   instantly, with 0 model calls.
 - **Optional local comparison.** Turn on "Compare local model" (Cloudflare Clef via
@@ -42,7 +43,7 @@ so "Play demo" works on a static host. Live mode needs the local server and your
 
 ## Quickstart
 
-Needs Node 20 or newer.
+Needs Node 22.12+ (24 recommended; `.nvmrc` says 24).
 
 1. `git clone https://github.com/rcmeadow/callpoint && cd callpoint && npm install`
    (the repo will live at github.com/rcmeadow/callpoint; it is not public yet)
@@ -57,6 +58,8 @@ Without a key, use Replay mode. The local comparison only needs Ollama when you 
 ## Keys, terms and licenses
 
 Bring your own keys. Callpoint doesn't include or resell model access. Live mode calls TypeSafe's API with your own key, and your use is governed by TypeSafe's terms. The local comparison runs Cloudflare's Clef (Apache 2.0) through Ollama on your machine, under their licenses. Callpoint is not affiliated with or endorsed by TypeSafe or Cloudflare. Provided as is under the MIT license.
+
+Live facts and your scenario text are sent to TypeSafe's API (and to Ollama on your machine if the comparison is on). Don't paste secrets or customer data. Sessions live only in your browser tab and are gone on reload.
 
 - TypeSafe terms: https://typesafe.ai/legal/mca and https://typesafe.ai/legal/acceptable-use-policy
 - Clef model card: https://huggingface.co/Cloudflare/clef-flash
@@ -78,6 +81,10 @@ Callpoint never ships a key. The server loads yours once at startup and keeps it
 The key never reaches the browser. The page only calls `/api/*` on the local server, and the
 server makes every TypeSafe call. The Jev model is pinned to `jev-1.13.0` (`JEV_MODEL` in
 `.env`), not `jev-latest`.
+
+The API listens on `127.0.0.1` only, so nobody else on your network can spend your key. Set
+`HOST` to change that (the server prints a warning when it is not loopback). It also rejects
+browser requests whose `Origin` is not localhost or 127.0.0.1 on the dev, preview, or API port.
 
 ### Local engine options
 
@@ -196,7 +203,7 @@ Moves:
 - Clef (Cloudflare, local via Ollama): **Disable the smart-retries flag** (0.868)
   - Where we are going: Disable the smart-retries flag stays first unless the chance it breaks "No payment data loss" reaches 0.5 (now 0.24). Then Fail over to a larger database takes the lead.
 
-_Judgments come from the models. The ranking, constraint gates, near ties, and this receipt are plain code. Rankings above use the weights listed at the top._
+_Judgments come from the models. The ranking, constraint gates, near ties, and this receipt are plain code. Each section is ranked with the weights in force at that time; the final call uses the current weights._
 ```
 
 At update 1 the top two are 0.003 apart, so they share "1=" and the race shows them in amber.
@@ -220,6 +227,8 @@ The next update settles it.
 - `src/web/`: Vite and TypeScript, no framework.
 
 ## Honest caveats
+
+- **Scores and certainty are model judgments.** They are not validated outcome probabilities.
 
 - **Jev output is not guaranteed bit-identical across runs.** TypeSafe's own cookbook shows
   small run-to-run noise on some questions (measured there on jev-1.12). Same inputs give the

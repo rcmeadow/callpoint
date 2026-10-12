@@ -63,3 +63,22 @@ describe("facts endpoint", () => {
     expect(bad2.status).toBe(400);
   });
 });
+
+describe("origin check", () => {
+  it("allows no Origin and loopback dev origins, rejects others", async () => {
+    const { isAllowedOrigin } = await import("../src/server/app");
+    const ports = [5173, 4173, 8787];
+    expect(isAllowedOrigin("http://localhost:5173", ports)).toBe(true);
+    expect(isAllowedOrigin("http://127.0.0.1:4173", ports)).toBe(true);
+    expect(isAllowedOrigin("http://[::1]:8787", ports)).toBe(true);
+    expect(isAllowedOrigin("http://localhost:3000", ports)).toBe(false);
+    expect(isAllowedOrigin("http://192.168.1.20:5173", ports)).toBe(false);
+    expect(isAllowedOrigin("https://evil.example", ports)).toBe(false);
+    expect(isAllowedOrigin("null", ports)).toBe(false);
+    const a = app();
+    expect((await a.request("/api/status")).status).toBe(200);
+    expect((await a.request("/api/status", { headers: { origin: "http://localhost:5173" } })).status).toBe(200);
+    const bad = await a.request("/api/local/step", { method: "POST", headers: { origin: "https://evil.example" }, body: JSON.stringify({ scenarioId: s.id, step: 0 }) });
+    expect(bad.status).toBe(403);
+  });
+});

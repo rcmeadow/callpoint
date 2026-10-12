@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { JudgmentCache } from "../src/engine/cache";
-import { compareToBaseline, whereWeAreGoing, type Snapshot } from "../src/engine/insight";
+import { compareToBaseline, describeTuning, whereWeAreGoing, type Snapshot } from "../src/engine/insight";
 import { buildQuestionsFor, questionKey, scriptedFacts, stateForFacts } from "../src/engine/questions";
 import { defaultSettings, rank } from "../src/engine/rank";
 import { buildReceipt } from "../src/engine/receipt";
@@ -218,6 +218,30 @@ describe("compare view and receipt", () => {
     const cached = { ...snaps[0]!, result: { ...snaps[0]!.result, asked: 0, requests: 0, ms: 0 } };
     const md = buildReceipt({ scenario: s, settings, generatedAt: "x", mode: "Live", engines: [{ id: "jev", label: "Jev", model: "m", snapshots: [cached] }] });
     expect(md).toContain("**Jev**: 0 ms, first pass, cached, 0 requests");
+  });
+
+  it("keeps history: a weight change after step 2 does not rewrite step 1, and the change is recorded", () => {
+    const withSettings = snaps.map((x) => ({ ...x, settings }));
+    const before = buildReceipt({ scenario: s, settings, generatedAt: "x", mode: "Live", engines: [{ id: "jev", label: "Jev", model: "m", snapshots: withSettings }] });
+    const tuned = { ...settings, weights: { ...settings.weights, impact: 0, speed: 1 } };
+    const event = { at: "14:30", appliedAt: "2026-10-12T16:05:00.000Z", afterFact: 2, changes: describeTuning(s, settings, tuned), settings: tuned };
+    const after = buildReceipt({ scenario: s, settings: tuned, generatedAt: "x", mode: "Live", engines: [{ id: "jev", label: "Jev", model: "m", snapshots: withSettings }], tuning: [event] });
+    const section = (md: string, start: string, end: string) => md.slice(md.indexOf(start), md.indexOf(end));
+    expect(section(after, "## Fact 1:", "## Fact 2:")).toBe(section(before, "## Fact 1:", "## Fact 2:"));
+    expect(event.changes).toEqual(["Error reduction 0.40 → 0.00", "Time to effect 0.25 → 1.00"]);
+    expect(after).toContain("## Weights changed (14:30)");
+    expect(after).toContain("- Error reduction 0.40 → 0.00");
+    expect(after).toContain("re-ranked the same judgments, 0 model calls");
+    expect(after).toContain("- Weights at start: Error reduction 0.40, Time to effect 0.25, Safety 0.20, Evidence fit 0.15");
+    expect(after).toContain("- Weights now: Error reduction 0.00, Time to effect 1.00");
+    expect(after.indexOf("## Weights changed")).toBeGreaterThan(after.indexOf("## Fact 2:"));
+    expect(after.indexOf("## Weights changed")).toBeLessThan(after.indexOf("## Final call"));
+  });
+
+  it("describes constraint toggles", () => {
+    const off = { ...settings, constraintsEnabled: { ...settings.constraintsEnabled, data_loss: false } };
+    expect(describeTuning(s, settings, off)).toEqual(['Constraint "No payment data loss" turned off']);
+    expect(describeTuning(s, settings, settings)).toEqual([]);
   });
 
   it("flags near ties in the receipt", () => {
