@@ -162,7 +162,7 @@ the whole thing.
 
 Moves:
 - Disable the smart-retries flag moved 3= to 1=: Error reduction rose, P(top level) 0.02 to 0.64 (score 0.6 to 2.6 of 3).
-- Fail over to a larger database moved 2 to 3=: Error reduction fell, P(top level) 0.16 to 0.18 (score 1.5 to 1.4 of 3).
+- Fail over to a larger database moved 2 to 3=: Error reduction fell, score 1.5 to 1.4 of 3.
 
 **Clef (Cloudflare, local via Ollama)**: 3118 ms, 10 of 30 questions re-asked, 1 request
 

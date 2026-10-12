@@ -143,6 +143,11 @@ textarea { resize: vertical; }
 }
 .race { display: grid; gap: 16px; min-width: 0; }
 .race.two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.race-note { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; }
+/* Desktop: the timeline scrolls inside itself instead of stretching the page. Newest is on top. */
+@media (min-width: 821px) {
+  .timeline { position: sticky; top: 1rem; max-height: calc(100vh - 2rem); overflow: auto; overscroll-behavior: contain; }
+}
 /* With two engines the race needs the room: timeline | race, and the insight moves under the race. */
 .layout.two { grid-template-columns: minmax(250px, 0.8fr) minmax(0, 2.2fr); }
 .layout.two .timeline { grid-row: span 2; }
@@ -254,6 +259,7 @@ input[type="range"] { width: 100%; accent-color: var(--accent); min-height: 28px
 }
 /* Phone-only toggles: hidden on desktop, where everything shows. */
 .more-toggle, .parts-toggle { display: none; }
+.narrow-only { display: none; }
 
 @media (max-width: 820px) {
   .problem-text:not(.open) { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden; }
@@ -294,9 +300,10 @@ input[type="range"] { width: 100%; accent-color: var(--accent); min-height: 28px
   .actions button { flex: 1 1 auto; }
   .problem h2 { font-size: 18px; }
   .wide-only { display: none; }
+  .narrow-only { display: inline; }
   /* Phones: status tag moves into the confidence row; the bar stays, the number goes. */
   .tag.block, .conf-row em { display: none; }
-  .tag.in-row { display: inline-block; margin: 0; font-size: 11px; padding: 1px 7px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tag.in-row { display: inline-block; margin: 0; font-size: 11px; padding: 1px 7px; min-width: 0; flex: 0 1 auto; white-space: normal; line-height: 1.35; }
   .conf-row { margin-top: 4px; }
   .parts-toggle { margin-left: auto; flex: none; }
   .tagline { display: none; }

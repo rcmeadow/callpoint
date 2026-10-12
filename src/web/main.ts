@@ -78,6 +78,8 @@ const state = {
   /** Phone-only UI state: expanded problem text and option cards with criteria showing. */
   problemOpen: false,
   partsOpen: new Set<string>(),
+  /** The last weights/constraints re-rank (shared by both columns); cleared on the next step. */
+  rerank: null as null | { ms: number; reason: string },
   playing: false,
   cols: {} as Record<EngineId, Column>,
   status: null as Status | null,
@@ -102,6 +104,23 @@ function resetSession() {
   state.started = false;
   state.playing = false;
   state.cols = Object.fromEntries(ENGINES.map((e) => [e, { snapshots: [], loading: false, error: null, model: defaultModel(e), metric: null }])) as unknown as Record<EngineId, Column>;
+  state.rerank = null;
+  if (state.mode === "replay") primeReplay();
+}
+
+/** Replay: show the recorded starting point right away, so a visitor sees a ranking on load. */
+function primeReplay() {
+  const rec = recordingFor(state.base.id);
+  if (!rec) return;
+  for (const e of activeEngines()) {
+    const r = rec.engines[e]?.steps[0];
+    if (!r) continue;
+    const col = state.cols[e];
+    col.snapshots[0] = { fact: null, appliedAt: new Date().toISOString(), result: r };
+    col.model = r.model;
+    col.metric = { kind: "step", ms: r.ms, asked: r.asked, total: r.total, requests: r.requests };
+  }
+  state.started = !!state.cols.jev.snapshots[0];
 }
 resetSession();
 
@@ -187,6 +206,7 @@ function nextScripted(): Fact | undefined {
 
 async function applyFact(f: Fact) {
   await ensureStarted();
+  state.rerank = null;
   state.facts.push(f);
   await runActive();
 }
@@ -278,10 +298,7 @@ function rerank(reason: string) {
   // Everything below is derived from cached judgments; there is no fetch on this path.
   renderAll();
   const ms = performance.now() - t0;
-  for (const e of activeEngines()) {
-    const last = latest(e);
-    if (last) state.cols[e].metric = { kind: "rerank", ms, asked: 0, total: last.result.total, requests: 0 };
-  }
+  state.rerank = latest("jev") ? { ms, reason } : null;
   state.toast = `${reason}: re-ranked with 0 model calls.`;
   renderAll();
 }
@@ -458,9 +475,9 @@ function renderProblem() {
         <h2>${esc(s.title)}</h2>
       </div>
       <div class="actions">
-        <button type="button" class="primary" id="play" ${isBusy || state.playing || applied >= n ? "disabled" : ""}>${state.playing ? "Playing..." : applied ? `Continue<span class="wide-only"> demo</span>` : "Play demo"}</button>
+        <button type="button" class="primary" id="play" ${isBusy || state.playing || applied >= n ? "disabled" : ""}>${playLabel(applied, n)}</button>
         <button type="button" id="next" ${isBusy || state.playing || applied >= n ? "disabled" : ""}>Next<span class="wide-only"> update</span>${state.started ? ` (${applied}/${n})` : ""}</button>
-        <button type="button" class="ghost" id="reset" ${state.started ? "" : "disabled"}>Start over</button>
+        <button type="button" class="${applied >= n ? "" : "ghost"}" id="reset" ${applied || state.facts.length ? "" : "disabled"}>${resetLabel(applied, n)}</button>
       </div>
     </div>
     <div class="problem-text ${state.problemOpen ? "open" : ""}" id="problem-text">
@@ -483,8 +500,10 @@ function renderProblem() {
     b.setAttribute("aria-expanded", String(state.problemOpen));
   });
   $("#reset").addEventListener("click", () => {
+    const again = state.mode === "replay" && state.facts.filter((f) => f.source === "scripted").length >= scenario().updates.length;
     resetSession();
     renderAll(true);
+    if (again) void playDemo();
   });
   renderEditor($("#editor"), state.draft, {
     liveAvailable: liveAvailable(),
@@ -562,6 +581,12 @@ function renderTimeline() {
     </form>
     ${items.length ? `<ol class="tl">${items.reverse().join("")}</ol>` : `<p class="muted">Press Play demo to watch the scripted incident unfold${state.mode === "live" ? ", or add a fact" : ""}.</p>`}
     ${next && state.started ? `<p class="muted small">Next in the demo: ${esc(next.at)} ${esc(next.title)}</p>` : ""}`;
+  // Newest fact is on top; jump back to it whenever a fact lands.
+  const tl = $("#timeline");
+  if (Number(tl.dataset.count ?? -1) !== state.facts.length) {
+    tl.scrollTop = 0;
+    tl.dataset.count = String(state.facts.length);
+  }
   $<HTMLFormElement>("#fact-form").addEventListener("submit", (e) => {
     e.preventDefault();
     const ta = $<HTMLTextAreaElement>("#fact-text");
@@ -575,6 +600,15 @@ function renderRace() {
   const root = $("#race");
   const engines = activeEngines();
   root.classList.toggle("two", engines.length === 2);
+  let note = root.querySelector<HTMLElement>(".race-note");
+  if (state.rerank) {
+    if (!note) {
+      note = document.createElement("div");
+      note.className = "race-note";
+      root.prepend(note);
+    }
+    note.innerHTML = `<span class="pill strong">0 model calls</span><span class="pill">${esc(state.rerank.reason)}: ${engines.length === 2 ? "both columns" : "ranking"} re-ranked in ${fmtMs(state.rerank.ms)}</span>`;
+  } else note?.remove();
   $("#layout").classList.toggle("two", engines.length === 2);
   for (const e of ENGINES) {
     let col = root.querySelector<HTMLElement>(`[data-engine="${e}"]`);
@@ -587,8 +621,10 @@ function renderRace() {
       col.className = "card col";
       col.dataset.engine = e;
       col.innerHTML = `<div class="col-head"></div><div class="metrics"></div><div class="col-msg"></div><ul class="ranked"></ul>`;
-      if (e === "jev") root.prepend(col);
-      else root.appendChild(col);
+      const noteEl = root.querySelector(".race-note");
+      if (e !== "jev") root.appendChild(col);
+      else if (noteEl) noteEl.after(col);
+      else root.prepend(col);
     }
     const c = state.cols[e];
     col.querySelector(".col-head")!.innerHTML = `<h2>${LONG_LABEL[e]}</h2><span class="model">${esc(c.model)}</span>`;
@@ -680,7 +716,8 @@ function renderInsight() {
     if (l && j) localLine = `<p class="small muted">${l.optionId === j.optionId ? `Clef agrees: ${esc(nameOf(l.optionId))} first.` : `Clef puts ${esc(nameOf(l.optionId))} first instead.`}</p>`;
   }
   const rows = compareToBaseline(s, jevSnaps, state.settings);
-  const delta = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(2)}`;
+  const clean = (n: number) => (Math.abs(n) < 0.005 ? 0 : n);
+  const delta = (n: number) => `${clean(n) >= 0 ? "+" : ""}${clean(n).toFixed(2)}`;
   $("#insight").innerHTML = `
     <div class="card callout ${outlook.kind === "too-close" ? "amber" : outlook.kind === "all-blocked" ? "red" : ""}">
       <p class="eyebrow">Where we are going</p>
@@ -701,7 +738,7 @@ function renderInsight() {
             <td><span class="name">${esc(r.name)}</span>${r.drivers.length ? `<div class="drivers">${r.drivers.map((d) => `<span>${esc(d.fact.at)} ${esc(d.fact.title)}: ${esc(d.text)}</span>`).join("")}</div>` : ""}</td>
             <td>${esc(r.rankThen)}<div class="small muted">${r.totalThen.toFixed(2)}</div></td>
             <td><strong>${esc(r.rankNow)}</strong><div class="small muted">${r.totalNow.toFixed(2)}</div></td>
-            <td class="${r.totalNow - r.totalThen >= 0 ? "up" : "down"}">${delta(r.totalNow - r.totalThen)}</td>
+            <td class="${clean(r.totalNow - r.totalThen) > 0 ? "up" : clean(r.totalNow - r.totalThen) < 0 ? "down" : ""}">${delta(r.totalNow - r.totalThen)}</td>
           </tr>`,
           )
           .join("")}</tbody>
@@ -812,13 +849,28 @@ function renderAll(full = false) {
   renderToast();
 }
 
+function playLabel(applied: number, n: number): string {
+  if (state.playing) return "Playing...";
+  if (applied >= n) return `<span class="wide-only">Demo finished</span><span class="narrow-only">Done</span>`;
+  return applied ? `Continue<span class="wide-only"> demo</span>` : "Play demo";
+}
+
+function resetLabel(applied: number, n: number): string {
+  return applied >= n && state.mode === "replay" ? `<span class="wide-only">Replay from start</span><span class="narrow-only">Replay</span>` : "Start over";
+}
+
 function refreshProblemButtons() {
   const n = scenario().updates.length;
   const applied = state.facts.filter((f) => f.source === "scripted").length;
   const off = busy() || state.playing || applied >= n;
-  $<HTMLButtonElement>("#play").disabled = off;
+  const play = $<HTMLButtonElement>("#play");
+  play.disabled = off;
+  play.innerHTML = playLabel(applied, n);
   $<HTMLButtonElement>("#next").disabled = off;
-  $<HTMLButtonElement>("#reset").disabled = !state.started;
+  const reset = $<HTMLButtonElement>("#reset");
+  reset.disabled = !(applied || state.facts.length);
+  reset.innerHTML = resetLabel(applied, n);
+  reset.className = applied >= n ? "" : "ghost";
 }
 
 document.addEventListener("click", (e) => {
