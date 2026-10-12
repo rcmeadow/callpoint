@@ -758,12 +758,59 @@ function rowHtml(r: RankedOption, judgments: Record<string, Judgment>): string {
     </div>`;
 }
 
+const f2 = (n: number) => n.toFixed(2);
+
+const numLabel = (label: string, v: number) => `<span>${esc(label)} <b>${f2(v)}</b></span>`;
+
+/** A thin track with a dot at the current value and a tick at the point where the call flips. Labels sit on the side of their mark. */
+function gauge(now: number, at: number, nowLabel: string, atLabel: string): string {
+  const pct = (v: number) => `${(Math.min(1, Math.max(0, v)) * 100).toFixed(1)}%`;
+  const lo = Math.min(now, at);
+  const hi = Math.max(now, at);
+  return `<span class="gauge" role="img" aria-label="${esc(nowLabel)} ${f2(now)}, ${esc(atLabel)} ${f2(at)}">
+    <span class="g-track"><span class="g-gap" style="left:${pct(lo)};width:calc(${pct(hi)} - ${pct(lo)})"></span><span class="g-tick" style="left:${pct(at)}"></span><span class="g-dot" style="left:${pct(now)}"></span></span>
+    <span class="g-nums">${now <= at ? `${numLabel(nowLabel, now)}${numLabel(atLabel, at)}` : `${numLabel(atLabel, at)}${numLabel(nowLabel, now)}`}</span>
+  </span>`;
+}
+
+/** The card body, drawn from whereWeAreGoing's structured fields (not from its sentence). */
+function outlookBody(o: ReturnType<typeof whereWeAreGoing>): string {
+  if (o.kind === "flip") {
+    const leader = esc(nameOf(o.leaderId));
+    const challenger = esc(nameOf(o.challengerId));
+    const label =
+      o.via === "gate"
+        ? `Risk to "${esc(o.targetName)}"`
+        : o.via === "raise-second"
+          ? `${challenger}'s "${esc(o.targetName)}"`
+          : `Its "${esc(o.targetName)}"`;
+    const verb = o.via === "gate" ? "reaches" : o.via === "raise-second" ? "rises above" : "falls below";
+    return `
+      <p class="oc-lead"><span class="oc-name">${leader}</span> stays first unless:</p>
+      <div class="oc-cond">
+        <div class="oc-label">${label} <span class="muted">${verb}</span></div>
+        ${gauge(o.from, o.to, "now", o.via === "gate" ? "blocks at" : "flips at")}
+      </div>
+      <p class="oc-then"><span class="muted">Then:</span> <span class="oc-name">${challenger}</span> takes the lead.</p>`;
+  }
+  if (o.kind === "too-close") {
+    const rows = o.optionIds
+      .map((id, i) => `<li><span class="oc-name">${esc(nameOf(id))}</span><span class="oc-num">${(o.totals[i] ?? 0).toFixed(3)}</span></li>`)
+      .join("");
+    return `
+      <ul class="oc-tie">${rows}</ul>
+      <div class="oc-tie-foot"><span class="oc-num">gap ${o.gap.toFixed(3)}, inside the ${o.margin} margin</span><span class="tag amber">Your call</span></div>`;
+  }
+  return `<p class="oc-plain">${esc(o.text)}</p>`;
+}
+
 function renderInsight() {
   const s = scenario();
   const jevSnaps = state.cols.jev.snapshots.filter(Boolean) as Snapshot[];
   const last = latest("jev");
+  const cardHead = `<div class="card-head"><h2>What would change the call</h2><span class="pill">0 model calls</span></div>`;
   if (!last) {
-    $("#insight").innerHTML = `<div class="card callout"><p class="eyebrow">Where we are going</p><p class="muted">Start the demo to see what would change the call.</p></div>`;
+    $("#insight").innerHTML = `<div class="card outlook-card">${cardHead}<p class="muted small">Start the demo to see what would change the call.</p></div>`;
     return;
   }
   const outlook = whereWeAreGoing(s, last.result.judgments, state.settings);
@@ -771,7 +818,7 @@ function renderInsight() {
   if (state.compareLocal) {
     const l = rankedNow("local").find((r) => !r.blocked);
     const j = rankedNow("jev").find((r) => !r.blocked);
-    if (l && j) localLine = `<p class="small muted">${l.optionId === j.optionId ? `Clef agrees: ${esc(nameOf(l.optionId))} first.` : `Clef puts ${esc(nameOf(l.optionId))} first instead.`}</p>`;
+    if (l && j) localLine = `<p class="oc-local">${l.optionId === j.optionId ? `Clef agrees: ${esc(nameOf(l.optionId))} first.` : `Clef puts ${esc(nameOf(l.optionId))} first instead.`}</p>`;
   }
   const rows = compareToBaseline(s, jevSnaps, state.settings, 4);
   const clean = (n: number) => (Math.abs(n) < 0.005 ? 0 : n);
@@ -799,14 +846,13 @@ function renderInsight() {
     })
     .join("");
   $("#insight").innerHTML = `
-    <div class="card callout ${outlook.kind === "too-close" ? "amber" : outlook.kind === "all-blocked" ? "red" : ""}">
-      <p class="eyebrow">Where we are going</p>
-      <p class="outlook">${esc(outlook.text)}</p>
-      <p class="small muted">Worked out by code from the current judgments. No model call.</p>
+    <div class="card outlook-card ${outlook.kind}" aria-label="What would change the call">
+      ${cardHead}
+      ${outlookBody(outlook)}
       ${localLine}
     </div>
     <div class="card compare">
-      <p class="eyebrow">Where we were, where we are</p>
+      <div class="card-head"><h2>Where we were, where we are</h2></div>
       ${
         jevSnaps.length < 2
           ? `<p class="muted small">Add a fact or play the demo to compare against the starting point.</p>`

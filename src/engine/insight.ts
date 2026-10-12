@@ -95,10 +95,30 @@ export function compareToBaseline(scenario: Scenario, snapshots: Snapshot[], set
   });
 }
 
+/**
+ * What would change the call. `text` is the one-line sentence (banner, receipt); the other
+ * fields are the same facts in structured form, so a UI can draw them without parsing text.
+ */
 export type Outlook =
-  | { kind: "flip"; text: string; via: "raise-second" | "lower-first" | "gate"; optionId: string; targetId: string; from: number; to: number; change: number }
-  | { kind: "too-close"; text: string; optionIds: string[] }
-  | { kind: "only-one"; text: string }
+  | {
+      kind: "flip";
+      text: string;
+      via: "raise-second" | "lower-first" | "gate";
+      /** The option whose judgment would have to change. */
+      optionId: string;
+      /** Current #1 and #2 (unblocked). */
+      leaderId: string;
+      challengerId: string;
+      /** Criterion or constraint id and display name. */
+      targetId: string;
+      targetName: string;
+      /** Current value and flip point on the 0 to 1 scale (gate: P(yes) and the threshold). */
+      from: number;
+      to: number;
+      change: number;
+    }
+  | { kind: "too-close"; text: string; optionIds: string[]; totals: number[]; gap: number; margin: number }
+  | { kind: "only-one"; text: string; leaderId: string; challengerId?: string }
   | { kind: "all-blocked"; text: string };
 
 function levelHint(levels: string[], v: number): string {
@@ -117,7 +137,7 @@ export function whereWeAreGoing(scenario: Scenario, judgments: Record<string, Ju
   const name = (id: string) => scenario.options.find((o) => o.id === id)?.name ?? id;
   if (open.length === 0) return { kind: "all-blocked", text: "Every option is blocked by a constraint. This is a human decision." };
   const a = open[0]!;
-  if (open.length === 1) return { kind: "only-one", text: `${name(a.optionId)} is the only option not blocked by a constraint.` };
+  if (open.length === 1) return { kind: "only-one", leaderId: a.optionId, text: `${name(a.optionId)} is the only option not blocked by a constraint.` };
   const b = open[1]!;
   const margin = nearTieMarginOf(scenario);
   if (a.nearTie && b.nearTie && a.groupRank === b.groupRank) {
@@ -127,6 +147,9 @@ export function whereWeAreGoing(scenario: Scenario, judgments: Record<string, Ju
     return {
       kind: "too-close",
       optionIds: group.map((r) => r.optionId),
+      totals: group.map((r) => r.total),
+      gap: a.tieSpread,
+      margin,
       text: `Too close to call: this is a human decision. ${list} are ${a.tieSpread.toFixed(3)} apart, inside the ${margin} margin.`,
     };
   }
@@ -142,7 +165,7 @@ export function whereWeAreGoing(scenario: Scenario, judgments: Record<string, Ju
     if (bv + d <= 1 + 1e-9) {
       const to = Math.min(1, bv + d);
       cands.push({
-        kind: "flip", via: "raise-second", optionId: b.optionId, targetId: c.id, from: bv, to, change: d,
+        kind: "flip", via: "raise-second", optionId: b.optionId, leaderId: a.optionId, challengerId: b.optionId, targetId: c.id, targetName: c.name, from: bv, to, change: d,
         text: `${name(a.optionId)} stays first unless ${name(b.optionId)}'s "${c.name}" rises above ${f2(to)} (now ${f2(bv)} on a 0 to 1 scale, roughly "${levelHint(c.levels, to)}").`,
       });
     }
@@ -150,7 +173,7 @@ export function whereWeAreGoing(scenario: Scenario, judgments: Record<string, Ju
     if (av - d >= -1e-9) {
       const to = Math.max(0, av - d);
       cands.push({
-        kind: "flip", via: "lower-first", optionId: a.optionId, targetId: c.id, from: av, to, change: d,
+        kind: "flip", via: "lower-first", optionId: a.optionId, leaderId: a.optionId, challengerId: b.optionId, targetId: c.id, targetName: c.name, from: av, to, change: d,
         text: `${name(a.optionId)} stays first unless its "${c.name}" falls below ${f2(to)} (now ${f2(av)} on a 0 to 1 scale, roughly "${levelHint(c.levels, to)}").`,
       });
     }
@@ -161,13 +184,13 @@ export function whereWeAreGoing(scenario: Scenario, judgments: Record<string, Ju
     const p = j && j.kind === "noul" ? j.p : 0;
     if (p >= k.threshold) continue;
     cands.push({
-      kind: "flip", via: "gate", optionId: a.optionId, targetId: k.id, from: p, to: k.threshold, change: k.threshold - p,
+      kind: "flip", via: "gate", optionId: a.optionId, leaderId: a.optionId, challengerId: b.optionId, targetId: k.id, targetName: k.name, from: p, to: k.threshold, change: k.threshold - p,
       text: `${name(a.optionId)} stays first unless the chance it breaks "${k.name}" reaches ${k.threshold} (now ${f2(p)}). Then ${name(b.optionId)} takes the lead.`,
     });
   }
   const order = { "raise-second": 0, "lower-first": 1, gate: 2 } as const;
   cands.sort((x, y) => x.change - y.change || order[x.via] - order[y.via]);
   const best = cands[0];
-  if (!best) return { kind: "only-one", text: `${name(a.optionId)} leads, and no single judgment change would put ${name(b.optionId)} on top.` };
+  if (!best) return { kind: "only-one", leaderId: a.optionId, challengerId: b.optionId, text:`${name(a.optionId)} leads, and no single judgment change would put ${name(b.optionId)} on top.` };
   return best;
 }

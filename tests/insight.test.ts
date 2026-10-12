@@ -70,6 +70,41 @@ describe("facts and state", () => {
   });
 });
 
+describe("where we are going: structured fields", () => {
+  it("criterion flip carries leader, challenger, target name, current value and flip point", () => {
+    const o = whereWeAreGoing(s, distinct(), settings);
+    expect(o).toMatchObject({ kind: "flip", via: "raise-second", leaderId: "rollback", challengerId: "disable_flag", optionId: "disable_flag", targetId: "impact", targetName: "Error reduction" });
+    if (o.kind !== "flip") return;
+    expect(o.from).toBeCloseTo(2 / 3, 6);
+    expect(o.to).toBeCloseTo(1, 6);
+  });
+
+  it("gate flip carries the constraint name, P(yes) and threshold", () => {
+    const o = whereWeAreGoing(s, distinct({ [questionKey("rollback", "data_loss")]: { kind: "noul", p: 0.45 } }), settings);
+    expect(o).toMatchObject({ kind: "flip", via: "gate", leaderId: "rollback", challengerId: "disable_flag", optionId: "rollback", targetId: "data_loss", targetName: "No payment data loss", from: 0.45, to: 0.5 });
+  });
+
+  it("near tie carries the group, totals, gap and margin", () => {
+    const o = whereWeAreGoing(
+      s,
+      distinct({ [questionKey("rollback", "impact")]: spread(2.97, [0, 0, 0.03, 0.97]), [questionKey("disable_flag", "impact")]: score(3) }),
+      settings,
+    );
+    expect(o.kind).toBe("too-close");
+    if (o.kind !== "too-close") return;
+    expect(o.optionIds).toEqual(["rollback", "disable_flag"]);
+    expect(o.totals[0]).toBeCloseTo(0.596, 6);
+    expect(o.totals[1]).toBeCloseTo(0.6, 6);
+    expect(o.gap).toBeCloseTo(0.004, 6);
+    expect(o.margin).toBe(0.02);
+  });
+
+  it("only-one names the leader", () => {
+    const blocked = flat(Object.fromEntries(s.options.filter((x) => x.id !== "hotfix").map((x) => [questionKey(x.id, "data_loss"), { kind: "noul" as const, p: 0.9 }])));
+    expect(whereWeAreGoing(s, blocked, settings)).toMatchObject({ kind: "only-one", leaderId: "hotfix" });
+  });
+});
+
 describe("where we are going", () => {
   it("finds the smallest single change that flips #1 and #2", () => {
     const o = whereWeAreGoing(s, distinct(), settings);
