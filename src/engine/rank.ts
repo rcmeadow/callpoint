@@ -54,7 +54,10 @@ export function rank(
     const d = Math.round((b.total - a.total) * 1e9);
     return d !== 0 ? d : a.index - b.index;
   });
-  return rows.map(({ index: _index, ...r }, i) => ({ ...r, rank: i + 1 }));
+  const tieKey = (r: { blocked: boolean; total: number }) => `${r.blocked}:${Math.round(r.total * 1e9)}`;
+  const counts = new Map<string, number>();
+  for (const r of rows) counts.set(tieKey(r), (counts.get(tieKey(r)) ?? 0) + 1);
+  return rows.map(({ index: _index, ...r }, i) => ({ ...r, rank: i + 1, tied: (counts.get(tieKey(r)) ?? 0) > 1 }));
 }
 
 export function order(ranked: RankedOption[]): string[] {

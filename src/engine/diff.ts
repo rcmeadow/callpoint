@@ -10,6 +10,9 @@ export interface MoveReason {
   before: number;
   after: number;
   /** Score only: expected level before and after, and the top level number. */
+  /** Score only, when both judgments are one-hot (e.g. the local engine): the level descriptions. */
+  levelBefore?: string;
+  levelAfter?: string;
   scoreBefore?: number;
   scoreAfter?: number;
   topLevel?: number;
@@ -28,6 +31,16 @@ function topP(j: Judgment | undefined, levels: number): number {
   if (!j || j.kind !== "score") return 0;
   return j.probabilities[levels - 1] ?? 0;
 }
+
+/** The single level of a one-hot score judgment, or null when probability is spread. */
+export function oneHotLevel(j: Judgment | undefined): number | null {
+  if (!j || j.kind !== "score") return null;
+  const hot = j.probabilities.findIndex((p) => p === 1);
+  if (hot < 0 || j.probabilities.some((p, i) => i !== hot && p !== 0)) return null;
+  return hot;
+}
+
+const shortLevel = (s: string) => s.split(";")[0]!.trim();
 
 function noulP(j: Judgment | undefined): number {
   return j && j.kind === "noul" ? j.p : 0;
@@ -75,6 +88,12 @@ export function reasonFor(
         scoreAfter: nj && nj.kind === "score" ? nj.score : 0,
         topLevel: n - 1,
       };
+      const lb = oneHotLevel(pj);
+      const la = oneHotLevel(nj);
+      if (lb !== null && la !== null) {
+        best.levelBefore = shortLevel(c.levels[lb] ?? String(lb));
+        best.levelAfter = shortLevel(c.levels[la] ?? String(la));
+      }
     }
   }
   return best;
@@ -88,6 +107,9 @@ export function describe(optionName: string, from: number, to: number, r: MoveRe
     return `${optionName} ${motion}: ${verb} "${r.targetName}", P(yes) ${f2(r.before)} to ${f2(r.after)}.`;
   }
   const dir = (r.scoreAfter ?? 0) >= (r.scoreBefore ?? 0) ? "rose" : "fell";
+  if (r.levelBefore !== undefined && r.levelAfter !== undefined) {
+    return `${optionName} ${motion}: ${r.targetName} ${dir}, level "${r.levelBefore}" to "${r.levelAfter}" (${f1(r.scoreBefore ?? 0)} to ${f1(r.scoreAfter ?? 0)} of ${r.topLevel}).`;
+  }
   return `${optionName} ${motion}: ${r.targetName} ${dir}, P(top level) ${f2(r.before)} to ${f2(r.after)} (score ${f1(r.scoreBefore ?? 0)} to ${f1(r.scoreAfter ?? 0)} of ${r.topLevel}).`;
 }
 

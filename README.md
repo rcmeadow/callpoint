@@ -133,6 +133,10 @@ Tips:
 - **Latency numbers come from one machine and one network.** Jev timings include the network
   round trip; local timings depend on your hardware and Ollama settings. Expect different
   numbers on yours.
+- **Ties are broken by file order.** When two options have the same weighted score (to
+  1e-9), they keep the order they have in the scenario file, and the UI marks them "tied".
+  Blocked options always sort last. The local engine's all-or-nothing values make ties more
+  likely in its column.
 - The bundled scenario is a demo, not incident advice. Weights and constraints are yours.
 - TypeSafe and Jev are named here only to say what the app calls. This project is not
   affiliated with or endorsed by TypeSafe.

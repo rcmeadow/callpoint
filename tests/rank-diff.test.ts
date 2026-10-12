@@ -29,6 +29,8 @@ describe("ranker", () => {
     expect(r[0]!.optionId).toBe("hotfix");
     expect(order(r).slice(1)).toEqual(["rollback", "disable_flag", "scale_db", "region_failover"]);
     expect(r.map((x) => x.rank)).toEqual([1, 2, 3, 4, 5]);
+    expect(r[0]!.tied).toBe(false);
+    expect(r.slice(1).every((x) => x.tied)).toBe(true);
   });
 
   it("gates on constraints before the weighted sum", () => {
@@ -103,6 +105,19 @@ describe("why it moved", () => {
     expect(rb.to).toBe(5);
     expect(rb.reason?.kind).toBe("constraint");
     expect(rb.text).toBe('Roll back to v2.30 moved 1 to 5: now blocked by "No payment data loss", P(yes) 0.05 to 0.82.');
+  });
+
+  it("shows the level change, not P(top level), when both judgments are one-hot", () => {
+    const settings = defaultSettings(s);
+    const prevJ = judgments();
+    const nextJ = judgments({ [questionKey("scale_db", "impact")]: score(3) });
+    const moves = explain(s, { judgments: prevJ, ranked: rank(s, prevJ) }, { judgments: nextJ, ranked: rank(s, nextJ) }, settings);
+    const m = moves.find((x) => x.optionId === "scale_db")!;
+    expect(m.reason?.levelBefore).toBe("Small reduction");
+    expect(m.reason?.levelAfter).toBe("Would very likely stop the errors");
+    expect(m.text).toBe(
+      'Fail over to a larger database moved 3 to 1: Error reduction rose, level "Small reduction" to "Would very likely stop the errors" (1.0 to 3.0 of 3).',
+    );
   });
 
   it("is empty when nothing moved", () => {

@@ -94,6 +94,8 @@ export interface RankedOption {
   total: number;
   blocked: boolean;
   blockedBy: string[];
+  /** True when another option in the same gate group has the same total (to 1e-9). The tie keeps scenario order. */
+  tied: boolean;
   /** Normalized value 0..1 per criterion id. */
   parts: Record<string, number>;
 }

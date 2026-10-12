@@ -144,6 +144,7 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px s
 li.blocked .rank { background: var(--surface); color: var(--bad); }
 .name-row { display: flex; justify-content: space-between; gap: 8px; }
 .name { font-weight: 600; overflow-wrap: anywhere; }
+.tag { font-size: 11px; font-weight: 600; padding: 1px 6px; border-radius: 999px; background: var(--warn-soft); color: var(--warn); vertical-align: 1px; }
 .total { font-variant-numeric: tabular-nums; color: var(--muted); }
 .bar { height: 6px; background: var(--line); border-radius: 3px; margin: 6px 0; overflow: hidden; }
 .bar span { display: block; height: 100%; background: var(--bar); border-radius: 3px; transition: width 600ms ease; }

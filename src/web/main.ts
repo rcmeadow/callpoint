@@ -232,7 +232,15 @@ function setMode(mode: Mode) {
   state.step = -1;
   state.columns = freshColumns();
   state.feed = [];
-  if (mode === "live") void loadStatus().then(render);
+  if (mode === "live")
+    void loadStatus().then(() => {
+      if (state.mode !== "live") return;
+      for (const e of ENGINES) {
+        const col = state.columns[e];
+        if (!col.model) col.model = e === "jev" ? state.status?.jev.model ?? "" : state.status?.local.model ?? "";
+      }
+      render();
+    });
   render();
 }
 
@@ -252,7 +260,7 @@ function setScenario(id: string) {
 
 const $ = <T extends HTMLElement = HTMLElement>(sel: string) => document.querySelector<T>(sel)!;
 const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
-const fmtMs = (ms: number) => (ms < 10 ? `${ms.toFixed(2)} ms` : `${Math.round(ms).toLocaleString("en-US")} ms`);
+const fmtMs = (ms: number) => (ms < 1 ? "under 1 ms" : ms < 10 ? `${ms.toFixed(1)} ms` : `${Math.round(ms).toLocaleString("en-US")} ms`);
 
 function shell() {
   $("#app").innerHTML = `
@@ -280,6 +288,7 @@ function shell() {
         <li>Jev answers are not guaranteed bit-identical across runs. TypeSafe's own docs show small run-to-run noise on some questions. Same inputs give the same ranking here because the model is pinned (jev-1.13.0), judgments are cached by a hash of state and question, and the ranking is plain code.</li>
         <li>The local engine asks a small model (default llama3.2:3b) for one level per question and parses it. It has no probabilities, so its values are all-or-nothing.</li>
         <li>Latency is wall clock from one machine and one network. Your numbers will differ. Jev runs each step as batched requests; the local engine runs one request per question with bounded concurrency.</li>
+        <li>Options with the same weighted score are marked "tied" and keep the order they have in the scenario file. Blocked options always sort last.</li>
         <li>This is a demo scenario, not incident advice. Constraints and weights are yours to change.</li>
       </ul>
     </footer>`;
@@ -422,7 +431,7 @@ function rowHtml(r: RankedOption): string {
   return `
     <div class="rank">${r.blocked ? "X" : r.rank}</div>
     <div class="body">
-      <div class="name-row"><span class="name">${esc(o.name)}</span><span class="total">${r.total.toFixed(2)}</span></div>
+      <div class="name-row"><span class="name">${esc(o.name)}${r.tied ? ` <span class="tag" title="Same weighted score as another option. Ties keep the scenario file order.">tied</span>` : ""}</span><span class="total">${r.total.toFixed(2)}</span></div>
       <div class="bar"><span style="width:${pct}%"></span></div>
       ${gate}
       <div class="parts">${parts}</div>
