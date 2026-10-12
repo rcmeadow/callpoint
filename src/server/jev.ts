@@ -1,7 +1,7 @@
 import { TypeSafeClient, type Fetch, type Questions } from "@typesafe-ai/sdk";
 import type { Adapter, AdapterResult } from "../engine/runner";
 import type { BuiltQuestion, JsonValue } from "../engine/questions";
-import type { Judgment } from "../engine/types";
+import type { EngineId, Judgment } from "../engine/types";
 
 export const DEFAULT_JEV_MODEL = "jev-1.13.0";
 
@@ -27,15 +27,87 @@ export function toQuestions(questions: BuiltQuestion[]): Questions {
   return out;
 }
 
-/** Convert one API answer to the engine's Judgment. */
-export function toJudgment(answer: unknown, levels: number): Judgment {
-  const a = answer as { type?: string; noul?: number; score?: number; probabilities?: Record<string, number>; confidence?: number };
-  if (a?.type === "noul" && typeof a.noul === "number") return { kind: "noul", p: a.noul };
-  if (a?.type === "score" && typeof a.score === "number") {
-    const probabilities = Array.from({ length: levels }, (_, i) => Number(a.probabilities?.[String(i)] ?? 0));
-    return { kind: "score", score: a.score, probabilities, ...(typeof a.confidence === "number" ? { confidence: a.confidence } : {}) };
+/**
+ * Convert one System One answer to the engine's Judgment. Tolerant of small shape differences
+ * between servers (TypeSafe and Ollama's /v1/systemone): probabilities may be an object keyed
+ * by level or an array, and a noul may arrive as `noul`, `probability`, or `p`.
+ */
+export function toJudgment(answer: unknown, levels: number, kind?: "score" | "noul"): Judgment {
+  const a = answer as {
+    type?: string;
+    noul?: number;
+    probability?: number;
+    p?: number;
+    score?: number;
+    probabilities?: Record<string, number> | number[];
+    confidence?: number;
+  };
+  const type = a?.type ?? kind;
+  if (type === "noul") {
+    const p = a.noul ?? a.probability ?? a.p;
+    if (typeof p === "number") return { kind: "noul", p };
   }
-  throw new Error(`Unexpected Jev answer: ${JSON.stringify(answer)}`);
+  if (type === "score" && a && (typeof a.score === "number" || a.probabilities)) {
+    const raw = a.probabilities;
+    const probabilities = Array.from({ length: levels }, (_, i) =>
+      Number(Array.isArray(raw) ? raw[i] ?? 0 : raw?.[String(i)] ?? 0),
+    );
+    const score = typeof a.score === "number" ? a.score : probabilities.reduce((s, p, i) => s + p * i, 0);
+    return { kind: "score", score, probabilities, ...(typeof a.confidence === "number" ? { confidence: a.confidence } : {}) };
+  }
+  throw new Error(`Unexpected System One answer: ${JSON.stringify(answer)}`);
+}
+
+export interface SystemOneOptions {
+  engine: EngineId;
+  apiKey: string | undefined;
+  model: string;
+  baseURL?: string;
+  fetch?: Fetch;
+  timeoutMs?: number;
+  /** Map transport errors to engine-specific errors (e.g. "local model not running"). */
+  mapError?: (err: unknown) => unknown;
+}
+
+/** System One adapter: one batched systemOne request per distinct state, model pinned. */
+export function createSystemOneAdapter(opts: SystemOneOptions): Adapter {
+  let client: TypeSafeClient | null = null;
+  const getClient = () => {
+    if (!opts.apiKey) throw new NoKeyError();
+    client ??= new TypeSafeClient({
+      apiKey: opts.apiKey,
+      defaultModel: opts.model,
+      logLevel: "error",
+      timeout: opts.timeoutMs ?? 30000,
+      ...(opts.baseURL ? { baseURL: opts.baseURL } : {}),
+      ...(opts.fetch ? { fetch: opts.fetch } : {}),
+    });
+    return client;
+  };
+  return {
+    engine: opts.engine,
+    model: opts.model,
+    async ask(state: { [key: string]: JsonValue }, questions: BuiltQuestion[]): Promise<AdapterResult> {
+      const c = getClient();
+      let res;
+      try {
+        res = await c.systemOne({ state, questions: toQuestions(questions), model: opts.model });
+      } catch (err) {
+        throw opts.mapError ? opts.mapError(err) : err;
+      }
+      const answers: Record<string, Judgment> = {};
+      for (const q of questions) {
+        const levels = q.spec.type === "score" ? q.spec.criteria.length : 2;
+        answers[q.key] = toJudgment((res.answers as Record<string, unknown>)[q.key], levels, q.spec.type);
+      }
+      const u = res.usage as { input_tokens?: number; output_tokens?: number } | undefined;
+      return {
+        answers,
+        requests: 1,
+        ...(u && typeof u.input_tokens === "number" ? { usage: { input_tokens: u.input_tokens, output_tokens: u.output_tokens ?? 0 } } : {}),
+      };
+    },
+  };
 }
 
 export interface JevOptions {
@@ -46,32 +118,14 @@ export interface JevOptions {
   timeoutMs?: number;
 }
 
-/** Jev adapter: one batched systemOne request per distinct state, model pinned. */
+/** Jev on api.typesafe.ai. The real key is only ever given to this adapter. */
 export function createJevAdapter(opts: JevOptions): Adapter {
-  const model = opts.model ?? DEFAULT_JEV_MODEL;
-  let client: TypeSafeClient | null = null;
-  const getClient = () => {
-    if (!opts.apiKey) throw new NoKeyError();
-    client ??= new TypeSafeClient({
-      apiKey: opts.apiKey,
-      defaultModel: model,
-      logLevel: "error",
-      timeout: opts.timeoutMs ?? 30000,
-      ...(opts.fetch ? { fetch: opts.fetch } : {}),
-    });
-    return client;
-  };
-  return {
+  return createSystemOneAdapter({
     engine: "jev",
-    model,
-    async ask(state: { [key: string]: JsonValue }, questions: BuiltQuestion[]): Promise<AdapterResult> {
-      const res = await getClient().systemOne({ state, questions: toQuestions(questions), model });
-      const answers: Record<string, Judgment> = {};
-      for (const q of questions) {
-        const levels = q.spec.type === "score" ? q.spec.criteria.length : 2;
-        answers[q.key] = toJudgment((res.answers as Record<string, unknown>)[q.key], levels);
-      }
-      return { answers, requests: 1, usage: { input_tokens: res.usage.input_tokens, output_tokens: res.usage.output_tokens } };
-    },
-  };
+    apiKey: opts.apiKey,
+    model: opts.model ?? DEFAULT_JEV_MODEL,
+    baseURL: "https://api.typesafe.ai",
+    ...(opts.fetch ? { fetch: opts.fetch } : {}),
+    ...(opts.timeoutMs ? { timeoutMs: opts.timeoutMs } : {}),
+  });
 }

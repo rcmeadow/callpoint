@@ -5,3 +5,4 @@ export * from "./rank";
 export * from "./diff";
 export { stableStringify } from "./stable";
 export { validateScenario } from "./validate";
+export * from "./ordercheck";

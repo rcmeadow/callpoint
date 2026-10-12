@@ -114,12 +114,27 @@ export function createLocalAdapter(opts: LocalOptions = {}): Adapter {
   };
 }
 
-export async function localStatus(url = "http://localhost:11434", model = DEFAULT_LOCAL_MODEL): Promise<{ running: boolean; modelPulled: boolean }> {
+export interface LocalStatus {
+  running: boolean;
+  modelPulled: boolean;
+  version?: string;
+}
+
+export async function localStatus(url = "http://localhost:11434", model = DEFAULT_LOCAL_MODEL): Promise<LocalStatus> {
+  const base = url.replace(/\/+$/, "");
   try {
-    const res = await fetch(`${url.replace(/\/+$/, "")}/api/tags`, { signal: AbortSignal.timeout(1500) });
-    if (!res.ok) return { running: true, modelPulled: false };
+    const res = await fetch(`${base}/api/tags`, { signal: AbortSignal.timeout(1500) });
+    let version: string | undefined;
+    try {
+      const v = await fetch(`${base}/api/version`, { signal: AbortSignal.timeout(1500) });
+      version = ((await v.json()) as { version?: string }).version;
+    } catch {
+      version = undefined;
+    }
+    if (!res.ok) return { running: true, modelPulled: false, ...(version ? { version } : {}) };
     const body = (await res.json()) as { models?: { name: string }[] };
-    return { running: true, modelPulled: !!body.models?.some((m) => m.name === model) };
+    const want = model.includes(":") ? model : `${model}:latest`;
+    return { running: true, modelPulled: !!body.models?.some((m) => m.name === want), ...(version ? { version } : {}) };
   } catch {
     return { running: false, modelPulled: false };
   }

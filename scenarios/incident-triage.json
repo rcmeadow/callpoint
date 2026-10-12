@@ -1,6 +1,7 @@
 {
   "id": "incident-triage",
   "title": "Checkout errors after a payments deploy",
+  "nearTieMargin": 0.02,
   "goal": "Restore checkout for customers as fast as possible without losing or corrupting payment records.",
   "incident": {
     "summary": "At 14:02 payments-service v2.31 was deployed. Since 14:04 checkout returns HTTP 500 for about 12% of requests and p99 latency on the payments API is 4.8 seconds (normal is 300 ms). The primary payments database is at 92% CPU.",

@@ -1,0 +1,3174 @@
+{
+  "scenarioId": "incident-triage",
+  "synthetic": false,
+  "note": "Live run on darwin/arm64, Node v24.20.0. Latency is wall clock from this one machine.",
+  "recordedAt": "2026-10-12T16:29:18.682Z",
+  "engines": {
+    "jev": {
+      "model": "jev-1.13.0",
+      "steps": [
+        {
+          "engine": "jev",
+          "model": "jev-1.13.0",
+          "step": 0,
+          "judgments": {
+            "rollback__impact": {
+              "kind": "score",
+              "score": 2.92,
+              "probabilities": [
+                0,
+                0,
+                0.07,
+                0.93
+              ],
+              "confidence": 0.93
+            },
+            "rollback__speed": {
+              "kind": "score",
+              "score": 2.25,
+              "probabilities": [
+                0,
+                0.01,
+                0.73,
+                0.26
+              ],
+              "confidence": 0.73
+            },
+            "rollback__safety": {
+              "kind": "score",
+              "score": 2.29,
+              "probabilities": [
+                0.01,
+                0.11,
+                0.47,
+                0.41
+              ],
+              "confidence": 0.46
+            },
+            "rollback__evidence": {
+              "kind": "score",
+              "score": 2.8,
+              "probabilities": [
+                0,
+                0.01,
+                0.18,
+                0.81
+              ],
+              "confidence": 0.8
+            },
+            "rollback__data_loss": {
+              "kind": "noul",
+              "p": 0.12
+            },
+            "rollback__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.03
+            },
+            "disable_flag__impact": {
+              "kind": "score",
+              "score": 0.55,
+              "probabilities": [
+                0.57,
+                0.32,
+                0.09,
+                0.02
+              ],
+              "confidence": 0.44
+            },
+            "disable_flag__speed": {
+              "kind": "score",
+              "score": 2.99,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "confidence": 1
+            },
+            "disable_flag__safety": {
+              "kind": "score",
+              "score": 2.03,
+              "probabilities": [
+                0.05,
+                0.28,
+                0.26,
+                0.41
+              ],
+              "confidence": 0.03
+            },
+            "disable_flag__evidence": {
+              "kind": "score",
+              "score": 0.69,
+              "probabilities": [
+                0.34,
+                0.63,
+                0.03,
+                0
+              ],
+              "confidence": 0.63
+            },
+            "disable_flag__data_loss": {
+              "kind": "noul",
+              "p": 0.13
+            },
+            "disable_flag__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.03
+            },
+            "scale_db__impact": {
+              "kind": "score",
+              "score": 1.53,
+              "probabilities": [
+                0.15,
+                0.32,
+                0.37,
+                0.16
+              ],
+              "confidence": 0.22
+            },
+            "scale_db__speed": {
+              "kind": "score",
+              "score": 2.98,
+              "probabilities": [
+                0,
+                0,
+                0.02,
+                0.98
+              ],
+              "confidence": 0.98
+            },
+            "scale_db__safety": {
+              "kind": "score",
+              "score": 0.7,
+              "probabilities": [
+                0.38,
+                0.55,
+                0.07,
+                0
+              ],
+              "confidence": 0.55
+            },
+            "scale_db__evidence": {
+              "kind": "score",
+              "score": 0.92,
+              "probabilities": [
+                0.51,
+                0.08,
+                0.39,
+                0.02
+              ],
+              "confidence": 0.08
+            },
+            "scale_db__data_loss": {
+              "kind": "noul",
+              "p": 0.31
+            },
+            "scale_db__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.04
+            },
+            "region_failover__impact": {
+              "kind": "score",
+              "score": 1.02,
+              "probabilities": [
+                0.57,
+                0.09,
+                0.1,
+                0.24
+              ],
+              "confidence": 0
+            },
+            "region_failover__speed": {
+              "kind": "score",
+              "score": 2.27,
+              "probabilities": [
+                0.03,
+                0.04,
+                0.55,
+                0.38
+              ],
+              "confidence": 0.52
+            },
+            "region_failover__safety": {
+              "kind": "score",
+              "score": 0.63,
+              "probabilities": [
+                0.46,
+                0.46,
+                0.07,
+                0.01
+              ],
+              "confidence": 0.37
+            },
+            "region_failover__evidence": {
+              "kind": "score",
+              "score": 0.23,
+              "probabilities": [
+                0.8,
+                0.19,
+                0.01,
+                0
+              ],
+              "confidence": 0.79
+            },
+            "region_failover__data_loss": {
+              "kind": "noul",
+              "p": 0.5
+            },
+            "region_failover__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.03
+            },
+            "hotfix__impact": {
+              "kind": "score",
+              "score": 1.95,
+              "probabilities": [
+                0.09,
+                0.19,
+                0.41,
+                0.31
+              ],
+              "confidence": 0.32
+            },
+            "hotfix__speed": {
+              "kind": "score",
+              "score": 1.16,
+              "probabilities": [
+                0.2,
+                0.44,
+                0.36,
+                0
+              ],
+              "confidence": 0.44
+            },
+            "hotfix__safety": {
+              "kind": "score",
+              "score": 0.67,
+              "probabilities": [
+                0.35,
+                0.63,
+                0.02,
+                0
+              ],
+              "confidence": 0.63
+            },
+            "hotfix__evidence": {
+              "kind": "score",
+              "score": 1.72,
+              "probabilities": [
+                0.05,
+                0.26,
+                0.61,
+                0.08
+              ],
+              "confidence": 0.56
+            },
+            "hotfix__data_loss": {
+              "kind": "noul",
+              "p": 0.25
+            },
+            "hotfix__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.04
+            }
+          },
+          "asked": 30,
+          "total": 30,
+          "requests": 1,
+          "ms": 840,
+          "usage": {
+            "input_tokens": 5368,
+            "output_tokens": 565
+          }
+        },
+        {
+          "engine": "jev",
+          "model": "jev-1.13.0",
+          "step": 1,
+          "judgments": {
+            "rollback__speed": {
+              "kind": "score",
+              "score": 2.25,
+              "probabilities": [
+                0,
+                0.01,
+                0.73,
+                0.26
+              ],
+              "confidence": 0.73
+            },
+            "rollback__safety": {
+              "kind": "score",
+              "score": 2.29,
+              "probabilities": [
+                0.01,
+                0.11,
+                0.47,
+                0.41
+              ],
+              "confidence": 0.46
+            },
+            "rollback__data_loss": {
+              "kind": "noul",
+              "p": 0.12
+            },
+            "rollback__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.03
+            },
+            "disable_flag__speed": {
+              "kind": "score",
+              "score": 2.99,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "confidence": 1
+            },
+            "disable_flag__safety": {
+              "kind": "score",
+              "score": 2.03,
+              "probabilities": [
+                0.05,
+                0.28,
+                0.26,
+                0.41
+              ],
+              "confidence": 0.03
+            },
+            "disable_flag__data_loss": {
+              "kind": "noul",
+              "p": 0.13
+            },
+            "disable_flag__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.03
+            },
+            "scale_db__speed": {
+              "kind": "score",
+              "score": 2.98,
+              "probabilities": [
+                0,
+                0,
+                0.02,
+                0.98
+              ],
+              "confidence": 0.98
+            },
+            "scale_db__safety": {
+              "kind": "score",
+              "score": 0.7,
+              "probabilities": [
+                0.38,
+                0.55,
+                0.07,
+                0
+              ],
+              "confidence": 0.55
+            },
+            "scale_db__data_loss": {
+              "kind": "noul",
+              "p": 0.31
+            },
+            "scale_db__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.04
+            },
+            "region_failover__speed": {
+              "kind": "score",
+              "score": 2.27,
+              "probabilities": [
+                0.03,
+                0.04,
+                0.55,
+                0.38
+              ],
+              "confidence": 0.52
+            },
+            "region_failover__safety": {
+              "kind": "score",
+              "score": 0.63,
+              "probabilities": [
+                0.46,
+                0.46,
+                0.07,
+                0.01
+              ],
+              "confidence": 0.37
+            },
+            "region_failover__data_loss": {
+              "kind": "noul",
+              "p": 0.5
+            },
+            "region_failover__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.03
+            },
+            "hotfix__speed": {
+              "kind": "score",
+              "score": 1.16,
+              "probabilities": [
+                0.2,
+                0.44,
+                0.36,
+                0
+              ],
+              "confidence": 0.44
+            },
+            "hotfix__safety": {
+              "kind": "score",
+              "score": 0.67,
+              "probabilities": [
+                0.35,
+                0.63,
+                0.02,
+                0
+              ],
+              "confidence": 0.63
+            },
+            "hotfix__data_loss": {
+              "kind": "noul",
+              "p": 0.25
+            },
+            "hotfix__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.04
+            },
+            "rollback__impact": {
+              "kind": "score",
+              "score": 2.93,
+              "probabilities": [
+                0,
+                0,
+                0.06,
+                0.94
+              ],
+              "confidence": 0.94
+            },
+            "rollback__evidence": {
+              "kind": "score",
+              "score": 2.96,
+              "probabilities": [
+                0,
+                0,
+                0.03,
+                0.97
+              ],
+              "confidence": 0.97
+            },
+            "disable_flag__impact": {
+              "kind": "score",
+              "score": 2.62,
+              "probabilities": [
+                0,
+                0.01,
+                0.35,
+                0.64
+              ],
+              "confidence": 0.63
+            },
+            "disable_flag__evidence": {
+              "kind": "score",
+              "score": 2.98,
+              "probabilities": [
+                0,
+                0,
+                0.02,
+                0.98
+              ],
+              "confidence": 0.98
+            },
+            "scale_db__impact": {
+              "kind": "score",
+              "score": 1.43,
+              "probabilities": [
+                0.23,
+                0.3,
+                0.29,
+                0.18
+              ],
+              "confidence": 0.12
+            },
+            "scale_db__evidence": {
+              "kind": "score",
+              "score": 0.64,
+              "probabilities": [
+                0.68,
+                0.03,
+                0.26,
+                0.03
+              ],
+              "confidence": 0.36
+            },
+            "region_failover__impact": {
+              "kind": "score",
+              "score": 0.75,
+              "probabilities": [
+                0.64,
+                0.12,
+                0.1,
+                0.14
+              ],
+              "confidence": 0.26
+            },
+            "region_failover__evidence": {
+              "kind": "score",
+              "score": 0.09,
+              "probabilities": [
+                0.92,
+                0.07,
+                0.01,
+                0
+              ],
+              "confidence": 0.91
+            },
+            "hotfix__impact": {
+              "kind": "score",
+              "score": 1.99,
+              "probabilities": [
+                0.08,
+                0.19,
+                0.4,
+                0.33
+              ],
+              "confidence": 0.32
+            },
+            "hotfix__evidence": {
+              "kind": "score",
+              "score": 1.83,
+              "probabilities": [
+                0.17,
+                0.05,
+                0.56,
+                0.22
+              ],
+              "confidence": 0.39
+            }
+          },
+          "asked": 10,
+          "total": 30,
+          "requests": 1,
+          "ms": 151,
+          "usage": {
+            "input_tokens": 2334,
+            "output_tokens": 176
+          }
+        },
+        {
+          "engine": "jev",
+          "model": "jev-1.13.0",
+          "step": 2,
+          "judgments": {
+            "rollback__impact": {
+              "kind": "score",
+              "score": 2.93,
+              "probabilities": [
+                0,
+                0,
+                0.06,
+                0.94
+              ],
+              "confidence": 0.94
+            },
+            "rollback__speed": {
+              "kind": "score",
+              "score": 2.25,
+              "probabilities": [
+                0,
+                0.01,
+                0.73,
+                0.26
+              ],
+              "confidence": 0.73
+            },
+            "rollback__evidence": {
+              "kind": "score",
+              "score": 2.96,
+              "probabilities": [
+                0,
+                0,
+                0.03,
+                0.97
+              ],
+              "confidence": 0.97
+            },
+            "rollback__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.03
+            },
+            "disable_flag__impact": {
+              "kind": "score",
+              "score": 2.62,
+              "probabilities": [
+                0,
+                0.01,
+                0.35,
+                0.64
+              ],
+              "confidence": 0.63
+            },
+            "disable_flag__speed": {
+              "kind": "score",
+              "score": 2.99,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "confidence": 1
+            },
+            "disable_flag__evidence": {
+              "kind": "score",
+              "score": 2.98,
+              "probabilities": [
+                0,
+                0,
+                0.02,
+                0.98
+              ],
+              "confidence": 0.98
+            },
+            "disable_flag__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.03
+            },
+            "scale_db__impact": {
+              "kind": "score",
+              "score": 1.43,
+              "probabilities": [
+                0.23,
+                0.3,
+                0.29,
+                0.18
+              ],
+              "confidence": 0.12
+            },
+            "scale_db__speed": {
+              "kind": "score",
+              "score": 2.98,
+              "probabilities": [
+                0,
+                0,
+                0.02,
+                0.98
+              ],
+              "confidence": 0.98
+            },
+            "scale_db__evidence": {
+              "kind": "score",
+              "score": 0.64,
+              "probabilities": [
+                0.68,
+                0.03,
+                0.26,
+                0.03
+              ],
+              "confidence": 0.36
+            },
+            "scale_db__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.04
+            },
+            "region_failover__impact": {
+              "kind": "score",
+              "score": 0.75,
+              "probabilities": [
+                0.64,
+                0.12,
+                0.1,
+                0.14
+              ],
+              "confidence": 0.26
+            },
+            "region_failover__speed": {
+              "kind": "score",
+              "score": 2.27,
+              "probabilities": [
+                0.03,
+                0.04,
+                0.55,
+                0.38
+              ],
+              "confidence": 0.52
+            },
+            "region_failover__evidence": {
+              "kind": "score",
+              "score": 0.09,
+              "probabilities": [
+                0.92,
+                0.07,
+                0.01,
+                0
+              ],
+              "confidence": 0.91
+            },
+            "region_failover__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.03
+            },
+            "hotfix__impact": {
+              "kind": "score",
+              "score": 1.99,
+              "probabilities": [
+                0.08,
+                0.19,
+                0.4,
+                0.33
+              ],
+              "confidence": 0.32
+            },
+            "hotfix__speed": {
+              "kind": "score",
+              "score": 1.16,
+              "probabilities": [
+                0.2,
+                0.44,
+                0.36,
+                0
+              ],
+              "confidence": 0.44
+            },
+            "hotfix__evidence": {
+              "kind": "score",
+              "score": 1.83,
+              "probabilities": [
+                0.17,
+                0.05,
+                0.56,
+                0.22
+              ],
+              "confidence": 0.39
+            },
+            "hotfix__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.04
+            },
+            "rollback__safety": {
+              "kind": "score",
+              "score": 1.97,
+              "probabilities": [
+                0.04,
+                0.22,
+                0.47,
+                0.27
+              ],
+              "confidence": 0.43
+            },
+            "rollback__data_loss": {
+              "kind": "noul",
+              "p": 0.22
+            },
+            "disable_flag__safety": {
+              "kind": "score",
+              "score": 2.11,
+              "probabilities": [
+                0.05,
+                0.23,
+                0.27,
+                0.45
+              ],
+              "confidence": 0.12
+            },
+            "disable_flag__data_loss": {
+              "kind": "noul",
+              "p": 0.13
+            },
+            "scale_db__safety": {
+              "kind": "score",
+              "score": 0.01,
+              "probabilities": [
+                0.99,
+                0.01,
+                0,
+                0
+              ],
+              "confidence": 0.99
+            },
+            "scale_db__data_loss": {
+              "kind": "noul",
+              "p": 0.9
+            },
+            "region_failover__safety": {
+              "kind": "score",
+              "score": 0.44,
+              "probabilities": [
+                0.69,
+                0.21,
+                0.08,
+                0.02
+              ],
+              "confidence": 0.57
+            },
+            "region_failover__data_loss": {
+              "kind": "noul",
+              "p": 0.72
+            },
+            "hotfix__safety": {
+              "kind": "score",
+              "score": 0.69,
+              "probabilities": [
+                0.36,
+                0.6,
+                0.03,
+                0.01
+              ],
+              "confidence": 0.59
+            },
+            "hotfix__data_loss": {
+              "kind": "noul",
+              "p": 0.2
+            }
+          },
+          "asked": 10,
+          "total": 30,
+          "requests": 1,
+          "ms": 163,
+          "usage": {
+            "input_tokens": 2049,
+            "output_tokens": 196
+          }
+        },
+        {
+          "engine": "jev",
+          "model": "jev-1.13.0",
+          "step": 3,
+          "judgments": {
+            "rollback__speed": {
+              "kind": "score",
+              "score": 2.25,
+              "probabilities": [
+                0,
+                0.01,
+                0.73,
+                0.26
+              ],
+              "confidence": 0.73
+            },
+            "rollback__safety": {
+              "kind": "score",
+              "score": 1.97,
+              "probabilities": [
+                0.04,
+                0.22,
+                0.47,
+                0.27
+              ],
+              "confidence": 0.43
+            },
+            "rollback__data_loss": {
+              "kind": "noul",
+              "p": 0.22
+            },
+            "rollback__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.03
+            },
+            "disable_flag__speed": {
+              "kind": "score",
+              "score": 2.99,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "confidence": 1
+            },
+            "disable_flag__safety": {
+              "kind": "score",
+              "score": 2.11,
+              "probabilities": [
+                0.05,
+                0.23,
+                0.27,
+                0.45
+              ],
+              "confidence": 0.12
+            },
+            "disable_flag__data_loss": {
+              "kind": "noul",
+              "p": 0.13
+            },
+            "disable_flag__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.03
+            },
+            "scale_db__speed": {
+              "kind": "score",
+              "score": 2.98,
+              "probabilities": [
+                0,
+                0,
+                0.02,
+                0.98
+              ],
+              "confidence": 0.98
+            },
+            "scale_db__safety": {
+              "kind": "score",
+              "score": 0.01,
+              "probabilities": [
+                0.99,
+                0.01,
+                0,
+                0
+              ],
+              "confidence": 0.99
+            },
+            "scale_db__data_loss": {
+              "kind": "noul",
+              "p": 0.9
+            },
+            "scale_db__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.04
+            },
+            "region_failover__speed": {
+              "kind": "score",
+              "score": 2.27,
+              "probabilities": [
+                0.03,
+                0.04,
+                0.55,
+                0.38
+              ],
+              "confidence": 0.52
+            },
+            "region_failover__safety": {
+              "kind": "score",
+              "score": 0.44,
+              "probabilities": [
+                0.69,
+                0.21,
+                0.08,
+                0.02
+              ],
+              "confidence": 0.57
+            },
+            "region_failover__data_loss": {
+              "kind": "noul",
+              "p": 0.72
+            },
+            "region_failover__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.03
+            },
+            "hotfix__speed": {
+              "kind": "score",
+              "score": 1.16,
+              "probabilities": [
+                0.2,
+                0.44,
+                0.36,
+                0
+              ],
+              "confidence": 0.44
+            },
+            "hotfix__safety": {
+              "kind": "score",
+              "score": 0.69,
+              "probabilities": [
+                0.36,
+                0.6,
+                0.03,
+                0.01
+              ],
+              "confidence": 0.59
+            },
+            "hotfix__data_loss": {
+              "kind": "noul",
+              "p": 0.2
+            },
+            "hotfix__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.04
+            },
+            "rollback__impact": {
+              "kind": "score",
+              "score": 2.88,
+              "probabilities": [
+                0.01,
+                0.01,
+                0.08,
+                0.9
+              ],
+              "confidence": 0.87
+            },
+            "rollback__evidence": {
+              "kind": "score",
+              "score": 2.96,
+              "probabilities": [
+                0,
+                0,
+                0.03,
+                0.97
+              ],
+              "confidence": 0.97
+            },
+            "disable_flag__impact": {
+              "kind": "score",
+              "score": 2.62,
+              "probabilities": [
+                0,
+                0.01,
+                0.35,
+                0.64
+              ],
+              "confidence": 0.63
+            },
+            "disable_flag__evidence": {
+              "kind": "score",
+              "score": 2.98,
+              "probabilities": [
+                0,
+                0,
+                0.02,
+                0.98
+              ],
+              "confidence": 0.98
+            },
+            "scale_db__impact": {
+              "kind": "score",
+              "score": 1.29,
+              "probabilities": [
+                0.27,
+                0.32,
+                0.26,
+                0.15
+              ],
+              "confidence": 0.17
+            },
+            "scale_db__evidence": {
+              "kind": "score",
+              "score": 0.48,
+              "probabilities": [
+                0.75,
+                0.04,
+                0.18,
+                0.03
+              ],
+              "confidence": 0.51
+            },
+            "region_failover__impact": {
+              "kind": "score",
+              "score": 0.06,
+              "probabilities": [
+                0.95,
+                0.03,
+                0.01,
+                0.01
+              ],
+              "confidence": 0.92
+            },
+            "region_failover__evidence": {
+              "kind": "score",
+              "score": 0.1,
+              "probabilities": [
+                0.93,
+                0.04,
+                0.03,
+                0
+              ],
+              "confidence": 0.9
+            },
+            "hotfix__impact": {
+              "kind": "score",
+              "score": 1.77,
+              "probabilities": [
+                0.11,
+                0.3,
+                0.3,
+                0.29
+              ],
+              "confidence": 0.01
+            },
+            "hotfix__evidence": {
+              "kind": "score",
+              "score": 1.96,
+              "probabilities": [
+                0.14,
+                0.06,
+                0.52,
+                0.28
+              ],
+              "confidence": 0.38
+            }
+          },
+          "asked": 10,
+          "total": 30,
+          "requests": 1,
+          "ms": 225,
+          "usage": {
+            "input_tokens": 2399,
+            "output_tokens": 176
+          }
+        },
+        {
+          "engine": "jev",
+          "model": "jev-1.13.0",
+          "step": 4,
+          "judgments": {
+            "rollback__impact": {
+              "kind": "score",
+              "score": 2.88,
+              "probabilities": [
+                0.01,
+                0.01,
+                0.08,
+                0.9
+              ],
+              "confidence": 0.87
+            },
+            "rollback__safety": {
+              "kind": "score",
+              "score": 1.97,
+              "probabilities": [
+                0.04,
+                0.22,
+                0.47,
+                0.27
+              ],
+              "confidence": 0.43
+            },
+            "rollback__evidence": {
+              "kind": "score",
+              "score": 2.96,
+              "probabilities": [
+                0,
+                0,
+                0.03,
+                0.97
+              ],
+              "confidence": 0.97
+            },
+            "rollback__data_loss": {
+              "kind": "noul",
+              "p": 0.22
+            },
+            "disable_flag__impact": {
+              "kind": "score",
+              "score": 2.62,
+              "probabilities": [
+                0,
+                0.01,
+                0.35,
+                0.64
+              ],
+              "confidence": 0.63
+            },
+            "disable_flag__safety": {
+              "kind": "score",
+              "score": 2.11,
+              "probabilities": [
+                0.05,
+                0.23,
+                0.27,
+                0.45
+              ],
+              "confidence": 0.12
+            },
+            "disable_flag__evidence": {
+              "kind": "score",
+              "score": 2.98,
+              "probabilities": [
+                0,
+                0,
+                0.02,
+                0.98
+              ],
+              "confidence": 0.98
+            },
+            "disable_flag__data_loss": {
+              "kind": "noul",
+              "p": 0.13
+            },
+            "scale_db__impact": {
+              "kind": "score",
+              "score": 1.29,
+              "probabilities": [
+                0.27,
+                0.32,
+                0.26,
+                0.15
+              ],
+              "confidence": 0.17
+            },
+            "scale_db__safety": {
+              "kind": "score",
+              "score": 0.01,
+              "probabilities": [
+                0.99,
+                0.01,
+                0,
+                0
+              ],
+              "confidence": 0.99
+            },
+            "scale_db__evidence": {
+              "kind": "score",
+              "score": 0.48,
+              "probabilities": [
+                0.75,
+                0.04,
+                0.18,
+                0.03
+              ],
+              "confidence": 0.51
+            },
+            "scale_db__data_loss": {
+              "kind": "noul",
+              "p": 0.9
+            },
+            "region_failover__impact": {
+              "kind": "score",
+              "score": 0.06,
+              "probabilities": [
+                0.95,
+                0.03,
+                0.01,
+                0.01
+              ],
+              "confidence": 0.92
+            },
+            "region_failover__safety": {
+              "kind": "score",
+              "score": 0.44,
+              "probabilities": [
+                0.69,
+                0.21,
+                0.08,
+                0.02
+              ],
+              "confidence": 0.57
+            },
+            "region_failover__evidence": {
+              "kind": "score",
+              "score": 0.1,
+              "probabilities": [
+                0.93,
+                0.04,
+                0.03,
+                0
+              ],
+              "confidence": 0.9
+            },
+            "region_failover__data_loss": {
+              "kind": "noul",
+              "p": 0.72
+            },
+            "hotfix__impact": {
+              "kind": "score",
+              "score": 1.77,
+              "probabilities": [
+                0.11,
+                0.3,
+                0.3,
+                0.29
+              ],
+              "confidence": 0.01
+            },
+            "hotfix__safety": {
+              "kind": "score",
+              "score": 0.69,
+              "probabilities": [
+                0.36,
+                0.6,
+                0.03,
+                0.01
+              ],
+              "confidence": 0.59
+            },
+            "hotfix__evidence": {
+              "kind": "score",
+              "score": 1.96,
+              "probabilities": [
+                0.14,
+                0.06,
+                0.52,
+                0.28
+              ],
+              "confidence": 0.38
+            },
+            "hotfix__data_loss": {
+              "kind": "noul",
+              "p": 0.2
+            },
+            "rollback__speed": {
+              "kind": "score",
+              "score": 2.12,
+              "probabilities": [
+                0.02,
+                0.05,
+                0.72,
+                0.21
+              ],
+              "confidence": 0.7
+            },
+            "rollback__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.83
+            },
+            "disable_flag__speed": {
+              "kind": "score",
+              "score": 3,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "confidence": 1
+            },
+            "disable_flag__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.05
+            },
+            "scale_db__speed": {
+              "kind": "score",
+              "score": 2.97,
+              "probabilities": [
+                0,
+                0,
+                0.02,
+                0.98
+              ],
+              "confidence": 0.98
+            },
+            "scale_db__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.09
+            },
+            "region_failover__speed": {
+              "kind": "score",
+              "score": 2.32,
+              "probabilities": [
+                0.03,
+                0.04,
+                0.52,
+                0.41
+              ],
+              "confidence": 0.49
+            },
+            "region_failover__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.09
+            },
+            "hotfix__speed": {
+              "kind": "score",
+              "score": 0.51,
+              "probabilities": [
+                0.6,
+                0.3,
+                0.1,
+                0
+              ],
+              "confidence": 0.5
+            },
+            "hotfix__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.96
+            }
+          },
+          "asked": 10,
+          "total": 30,
+          "requests": 1,
+          "ms": 273,
+          "usage": {
+            "input_tokens": 2015,
+            "output_tokens": 201
+          }
+        },
+        {
+          "engine": "jev",
+          "model": "jev-1.13.0",
+          "step": 5,
+          "judgments": {
+            "rollback__impact": {
+              "kind": "score",
+              "score": 2.88,
+              "probabilities": [
+                0.01,
+                0.01,
+                0.08,
+                0.9
+              ],
+              "confidence": 0.87
+            },
+            "rollback__evidence": {
+              "kind": "score",
+              "score": 2.96,
+              "probabilities": [
+                0,
+                0,
+                0.03,
+                0.97
+              ],
+              "confidence": 0.97
+            },
+            "rollback__data_loss": {
+              "kind": "noul",
+              "p": 0.22
+            },
+            "rollback__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.83
+            },
+            "disable_flag__impact": {
+              "kind": "score",
+              "score": 2.62,
+              "probabilities": [
+                0,
+                0.01,
+                0.35,
+                0.64
+              ],
+              "confidence": 0.63
+            },
+            "disable_flag__evidence": {
+              "kind": "score",
+              "score": 2.98,
+              "probabilities": [
+                0,
+                0,
+                0.02,
+                0.98
+              ],
+              "confidence": 0.98
+            },
+            "disable_flag__data_loss": {
+              "kind": "noul",
+              "p": 0.13
+            },
+            "disable_flag__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.05
+            },
+            "scale_db__impact": {
+              "kind": "score",
+              "score": 1.29,
+              "probabilities": [
+                0.27,
+                0.32,
+                0.26,
+                0.15
+              ],
+              "confidence": 0.17
+            },
+            "scale_db__evidence": {
+              "kind": "score",
+              "score": 0.48,
+              "probabilities": [
+                0.75,
+                0.04,
+                0.18,
+                0.03
+              ],
+              "confidence": 0.51
+            },
+            "scale_db__data_loss": {
+              "kind": "noul",
+              "p": 0.9
+            },
+            "scale_db__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.09
+            },
+            "region_failover__impact": {
+              "kind": "score",
+              "score": 0.06,
+              "probabilities": [
+                0.95,
+                0.03,
+                0.01,
+                0.01
+              ],
+              "confidence": 0.92
+            },
+            "region_failover__evidence": {
+              "kind": "score",
+              "score": 0.1,
+              "probabilities": [
+                0.93,
+                0.04,
+                0.03,
+                0
+              ],
+              "confidence": 0.9
+            },
+            "region_failover__data_loss": {
+              "kind": "noul",
+              "p": 0.72
+            },
+            "region_failover__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.09
+            },
+            "hotfix__impact": {
+              "kind": "score",
+              "score": 1.77,
+              "probabilities": [
+                0.11,
+                0.3,
+                0.3,
+                0.29
+              ],
+              "confidence": 0.01
+            },
+            "hotfix__evidence": {
+              "kind": "score",
+              "score": 1.96,
+              "probabilities": [
+                0.14,
+                0.06,
+                0.52,
+                0.28
+              ],
+              "confidence": 0.38
+            },
+            "hotfix__data_loss": {
+              "kind": "noul",
+              "p": 0.2
+            },
+            "hotfix__ic_forbidden": {
+              "kind": "noul",
+              "p": 0.96
+            },
+            "rollback__speed": {
+              "kind": "score",
+              "score": 1.72,
+              "probabilities": [
+                0.01,
+                0.27,
+                0.72,
+                0
+              ],
+              "confidence": 0.71
+            },
+            "disable_flag__speed": {
+              "kind": "score",
+              "score": 3,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "confidence": 1
+            },
+            "scale_db__speed": {
+              "kind": "score",
+              "score": 2.97,
+              "probabilities": [
+                0,
+                0,
+                0.02,
+                0.98
+              ],
+              "confidence": 0.98
+            },
+            "region_failover__speed": {
+              "kind": "score",
+              "score": 2.44,
+              "probabilities": [
+                0.01,
+                0.03,
+                0.48,
+                0.48
+              ],
+              "confidence": 0.47
+            },
+            "hotfix__speed": {
+              "kind": "score",
+              "score": 0.71,
+              "probabilities": [
+                0.34,
+                0.61,
+                0.05,
+                0
+              ],
+              "confidence": 0.61
+            },
+            "rollback__safety": {
+              "kind": "score",
+              "score": 1.13,
+              "probabilities": [
+                0.21,
+                0.48,
+                0.28,
+                0.03
+              ],
+              "confidence": 0.45
+            },
+            "disable_flag__safety": {
+              "kind": "score",
+              "score": 2.08,
+              "probabilities": [
+                0.05,
+                0.25,
+                0.25,
+                0.45
+              ],
+              "confidence": 0.1
+            },
+            "scale_db__safety": {
+              "kind": "score",
+              "score": 0.03,
+              "probabilities": [
+                0.98,
+                0.02,
+                0,
+                0
+              ],
+              "confidence": 0.98
+            },
+            "region_failover__safety": {
+              "kind": "score",
+              "score": 0.37,
+              "probabilities": [
+                0.71,
+                0.23,
+                0.05,
+                0.01
+              ],
+              "confidence": 0.64
+            },
+            "hotfix__safety": {
+              "kind": "score",
+              "score": 0.44,
+              "probabilities": [
+                0.57,
+                0.42,
+                0.01,
+                0
+              ],
+              "confidence": 0.56
+            }
+          },
+          "asked": 10,
+          "total": 30,
+          "requests": 2,
+          "ms": 803,
+          "usage": {
+            "input_tokens": 2918,
+            "output_tokens": 180
+          }
+        }
+      ]
+    },
+    "local": {
+      "model": "llama3.2:3b",
+      "steps": [
+        {
+          "engine": "local",
+          "model": "llama3.2:3b",
+          "step": 0,
+          "judgments": {
+            "rollback__impact": {
+              "kind": "score",
+              "score": 3,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "rollback__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "rollback__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "rollback__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "rollback__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "rollback__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "disable_flag__impact": {
+              "kind": "score",
+              "score": 3,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "disable_flag__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "disable_flag__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "disable_flag__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "disable_flag__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "disable_flag__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "scale_db__impact": {
+              "kind": "score",
+              "score": 3,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "scale_db__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "scale_db__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "scale_db__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "scale_db__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "scale_db__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "region_failover__impact": {
+              "kind": "score",
+              "score": 3,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "region_failover__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "region_failover__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "region_failover__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "region_failover__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "region_failover__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "hotfix__impact": {
+              "kind": "score",
+              "score": 3,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "hotfix__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "hotfix__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "hotfix__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "hotfix__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "hotfix__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            }
+          },
+          "asked": 30,
+          "total": 30,
+          "requests": 30,
+          "ms": 8597
+        },
+        {
+          "engine": "local",
+          "model": "llama3.2:3b",
+          "step": 1,
+          "judgments": {
+            "rollback__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "rollback__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "rollback__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "rollback__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "disable_flag__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "disable_flag__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "disable_flag__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "disable_flag__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "scale_db__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "scale_db__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "scale_db__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "scale_db__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "region_failover__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "region_failover__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "region_failover__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "region_failover__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "hotfix__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "hotfix__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "hotfix__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "hotfix__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "rollback__impact": {
+              "kind": "score",
+              "score": 3,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "rollback__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "disable_flag__impact": {
+              "kind": "score",
+              "score": 0,
+              "probabilities": [
+                1,
+                0,
+                0,
+                0
+              ]
+            },
+            "disable_flag__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "scale_db__impact": {
+              "kind": "score",
+              "score": 3,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "scale_db__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "region_failover__impact": {
+              "kind": "score",
+              "score": 3,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "region_failover__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "hotfix__impact": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "hotfix__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            }
+          },
+          "asked": 10,
+          "total": 30,
+          "requests": 10,
+          "ms": 2604
+        },
+        {
+          "engine": "local",
+          "model": "llama3.2:3b",
+          "step": 2,
+          "judgments": {
+            "rollback__impact": {
+              "kind": "score",
+              "score": 3,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "rollback__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "rollback__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "rollback__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "disable_flag__impact": {
+              "kind": "score",
+              "score": 0,
+              "probabilities": [
+                1,
+                0,
+                0,
+                0
+              ]
+            },
+            "disable_flag__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "disable_flag__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "disable_flag__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "scale_db__impact": {
+              "kind": "score",
+              "score": 3,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "scale_db__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "scale_db__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "scale_db__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "region_failover__impact": {
+              "kind": "score",
+              "score": 3,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "region_failover__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "region_failover__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "region_failover__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "hotfix__impact": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "hotfix__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "hotfix__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "hotfix__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "rollback__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "rollback__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "disable_flag__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "disable_flag__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "scale_db__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "scale_db__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "region_failover__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "region_failover__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "hotfix__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "hotfix__data_loss": {
+              "kind": "noul",
+              "p": 1
+            }
+          },
+          "asked": 10,
+          "total": 30,
+          "requests": 10,
+          "ms": 2667
+        },
+        {
+          "engine": "local",
+          "model": "llama3.2:3b",
+          "step": 3,
+          "judgments": {
+            "rollback__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "rollback__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "rollback__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "rollback__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "disable_flag__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "disable_flag__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "disable_flag__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "disable_flag__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "scale_db__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "scale_db__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "scale_db__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "scale_db__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "region_failover__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "region_failover__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "region_failover__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "region_failover__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "hotfix__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "hotfix__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "hotfix__data_loss": {
+              "kind": "noul",
+              "p": 1
+            },
+            "hotfix__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "rollback__impact": {
+              "kind": "score",
+              "score": 3,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "rollback__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "disable_flag__impact": {
+              "kind": "score",
+              "score": 3,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "disable_flag__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "scale_db__impact": {
+              "kind": "score",
+              "score": 3,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "scale_db__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "region_failover__impact": {
+              "kind": "score",
+              "score": 3,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "region_failover__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "hotfix__impact": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "hotfix__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            }
+          },
+          "asked": 10,
+          "total": 30,
+          "requests": 10,
+          "ms": 2793
+        },
+        {
+          "engine": "local",
+          "model": "llama3.2:3b",
+          "step": 4,
+          "judgments": {
+            "rollback__impact": {
+              "kind": "score",
+              "score": 3,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "rollback__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "rollback__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "rollback__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "disable_flag__impact": {
+              "kind": "score",
+              "score": 3,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "disable_flag__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "disable_flag__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "disable_flag__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "scale_db__impact": {
+              "kind": "score",
+              "score": 3,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "scale_db__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "scale_db__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "scale_db__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "region_failover__impact": {
+              "kind": "score",
+              "score": 3,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "region_failover__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "region_failover__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "region_failover__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "hotfix__impact": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "hotfix__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "hotfix__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "hotfix__data_loss": {
+              "kind": "noul",
+              "p": 1
+            },
+            "rollback__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "rollback__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "disable_flag__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "disable_flag__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "scale_db__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "scale_db__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "region_failover__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "region_failover__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "hotfix__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "hotfix__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            }
+          },
+          "asked": 10,
+          "total": 30,
+          "requests": 10,
+          "ms": 2602
+        },
+        {
+          "engine": "local",
+          "model": "llama3.2:3b",
+          "step": 5,
+          "judgments": {
+            "rollback__impact": {
+              "kind": "score",
+              "score": 3,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "rollback__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "rollback__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "rollback__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "disable_flag__impact": {
+              "kind": "score",
+              "score": 3,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "disable_flag__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "disable_flag__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "disable_flag__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "scale_db__impact": {
+              "kind": "score",
+              "score": 3,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "scale_db__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "scale_db__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "scale_db__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "region_failover__impact": {
+              "kind": "score",
+              "score": 3,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "region_failover__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "region_failover__data_loss": {
+              "kind": "noul",
+              "p": 0
+            },
+            "region_failover__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "hotfix__impact": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "hotfix__evidence": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "hotfix__data_loss": {
+              "kind": "noul",
+              "p": 1
+            },
+            "hotfix__ic_forbidden": {
+              "kind": "noul",
+              "p": 0
+            },
+            "rollback__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "disable_flag__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "scale_db__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "region_failover__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "hotfix__speed": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "rollback__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "disable_flag__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "scale_db__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "region_failover__safety": {
+              "kind": "score",
+              "score": 2,
+              "probabilities": [
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            "hotfix__safety": {
+              "kind": "score",
+              "score": 0,
+              "probabilities": [
+                1,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          "asked": 10,
+          "total": 30,
+          "requests": 10,
+          "ms": 3083
+        }
+      ]
+    }
+  }
+}

@@ -50,14 +50,43 @@ export function rank(
   });
   rows.sort((a, b) => {
     if (a.blocked !== b.blocked) return a.blocked ? 1 : -1;
-    // Round so float noise below 1e-9 cannot flip an order; ties keep scenario order.
+    // Round so float noise below 1e-9 cannot flip an order; exact ties keep scenario order.
     const d = Math.round((b.total - a.total) * 1e9);
     return d !== 0 ? d : a.index - b.index;
   });
-  const tieKey = (r: { blocked: boolean; total: number }) => `${r.blocked}:${Math.round(r.total * 1e9)}`;
-  const counts = new Map<string, number>();
-  for (const r of rows) counts.set(tieKey(r), (counts.get(tieKey(r)) ?? 0) + 1);
-  return rows.map(({ index: _index, ...r }, i) => ({ ...r, rank: i + 1, tied: (counts.get(tieKey(r)) ?? 0) > 1 }));
+  const margin = nearTieMarginOf(scenario);
+  // Chain unblocked neighbours whose totals are within the margin into near-tie groups.
+  const groups: (typeof rows)[] = [];
+  for (const r of rows) {
+    const g = groups[groups.length - 1];
+    const prev = g?.[g.length - 1];
+    if (g && prev && !r.blocked && !prev.blocked && prev.total - r.total <= margin + 1e-9) g.push(r);
+    else groups.push([r]);
+  }
+  const out: RankedOption[] = [];
+  for (const g of groups) {
+    const groupRank = out.length + 1;
+    const nearTie = g.length > 1;
+    const spread = nearTie ? Math.max(...g.map((x) => x.total)) - Math.min(...g.map((x) => x.total)) : 0;
+    // Inside a near tie the code makes no call, so show the group in scenario file order.
+    const shown = nearTie ? [...g].sort((x, y) => x.index - y.index) : g;
+    for (const { index: _index, ...r } of shown) {
+      out.push({ ...r, rank: out.length + 1, groupRank, nearTie, tieSpread: spread });
+    }
+  }
+  return out;
+}
+
+export const DEFAULT_NEAR_TIE_MARGIN = 0.02;
+
+export function nearTieMarginOf(scenario: Scenario): number {
+  const m = scenario.nearTieMargin;
+  return typeof m === "number" && m >= 0 ? m : DEFAULT_NEAR_TIE_MARGIN;
+}
+
+/** Display rank label: "2" or "2=" for a near-tie group. */
+export function rankLabel(r: Pick<RankedOption, "groupRank" | "nearTie">): string {
+  return `${r.groupRank}${r.nearTie ? "=" : ""}`;
 }
 
 export function order(ranked: RankedOption[]): string[] {

@@ -1,6 +1,6 @@
 import type { Judgment, RankedOption, RankSettings, Scenario } from "./types";
 import { questionKey } from "./questions";
-import { normalize } from "./rank";
+import { normalize, rankLabel } from "./rank";
 
 export interface MoveReason {
   kind: "criterion" | "constraint";
@@ -99,8 +99,8 @@ export function reasonFor(
   return best;
 }
 
-export function describe(optionName: string, from: number, to: number, r: MoveReason | null): string {
-  const motion = from === to ? `held at ${to}` : `moved ${from} to ${to}`;
+export function describe(optionName: string, from: number | string, to: number | string, r: MoveReason | null): string {
+  const motion = String(from) === String(to) ? `held at ${to}` : `moved ${from} to ${to}`;
   if (!r) return `${optionName} ${motion}: other options changed around it.`;
   if (r.kind === "constraint") {
     const verb = r.after >= r.before ? "now blocked by" : "no longer blocked by";
@@ -124,13 +124,16 @@ export function explain(
   const moves: Move[] = [];
   for (const row of next.ranked) {
     const before = prevRows.get(row.optionId);
-    const from = before?.rank ?? row.rank;
+    // Positions are compared as near-tie groups: a swap inside a "too close to call" group
+    // is display order only, not a move.
+    const from = before?.groupRank ?? row.groupRank;
     const gateChanged = (before?.blocked ?? false) !== row.blocked;
-    if (from === row.rank && !gateChanged) continue;
+    if (from === row.groupRank && !gateChanged) continue;
     const option = scenario.options.find((o) => o.id === row.optionId);
     const name = option?.name ?? row.optionId;
     const reason = reasonFor(scenario, row.optionId, prev.judgments, next.judgments, before, row, settings);
-    moves.push({ optionId: row.optionId, optionName: name, from, to: row.rank, reason, text: describe(name, from, row.rank, reason) });
+    const fromLabel = before ? rankLabel(before) : rankLabel(row);
+    moves.push({ optionId: row.optionId, optionName: name, from, to: row.groupRank, reason, text: describe(name, fromLabel, rankLabel(row), reason) });
   }
   moves.sort((a, b) => a.to - b.to);
   return moves;

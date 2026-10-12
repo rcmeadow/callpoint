@@ -8,8 +8,8 @@ import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 import type { Recording } from "../src/engine/types";
 import { createJevAdapter, DEFAULT_JEV_MODEL } from "../src/server/jev";
-import { loadKey } from "../src/server/key";
-import { createLocalAdapter, DEFAULT_LOCAL_MODEL, localStatus } from "../src/server/local";
+import { keychainError, loadKey } from "../src/server/key";
+import { createLocalEngine, localConfigFromEnv, localEngineStatus } from "../src/server/local-engine";
 import { getScenario, SCENARIO_DIR } from "../src/server/scenarios";
 import { arg, compareOrders, flag, runAndPrint, summarize } from "./common";
 
@@ -20,6 +20,7 @@ if (!scenario) throw new Error(`No scenario ${id}`);
 const { key, source } = loadKey();
 if (!key) {
   console.error("No TypeSafe key found. Set TYPESAFE_API_KEY in .env or add a Keychain item named TYPESAFE_API_KEY.");
+  if (keychainError) console.error(`Keychain lookup failed: ${keychainError}`);
   process.exit(1);
 }
 console.log(`TypeSafe key loaded from ${source}.`);
@@ -39,16 +40,15 @@ console.log(`Jev run 1: ${summarize(jevRun1)}`);
 recording.engines.jev = { model: jevModel, steps: jevRun1 };
 
 if (!flag("no-local")) {
-  const url = process.env.OLLAMA_URL?.trim() || "http://localhost:11434";
-  const model = process.env.LOCAL_MODEL?.trim() || DEFAULT_LOCAL_MODEL;
-  const st = await localStatus(url, model);
-  if (st.running && st.modelPulled) {
-    const local = createLocalAdapter({ url, model, concurrency: Number(process.env.LOCAL_CONCURRENCY ?? 4) });
-    const localRun = await runAndPrint(scenario, local, "Local run");
+  const cfg = localConfigFromEnv();
+  const st = await localEngineStatus(cfg);
+  if (st.ready) {
+    const local = createLocalEngine(cfg);
+    const localRun = await runAndPrint(scenario, local, `Local run (${cfg.kind})`);
     console.log(`Local run: ${summarize(localRun)}`);
-    recording.engines.local = { model, steps: localRun };
+    recording.engines.local = { model: cfg.model, steps: localRun };
   } else {
-    console.log("Local model not ready; recording Jev only.");
+    console.log(`Local engine ${cfg.kind} (${cfg.model}) not ready (running=${st.running}, pulled=${st.modelPulled}, ollama=${st.version ?? "?"}, versionOk=${st.versionOk}); recording Jev only.`);
   }
 }
 

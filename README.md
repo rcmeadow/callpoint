@@ -9,8 +9,10 @@ sum. When a new incident update lands, only the judgments that update can affect
 the ranking re-sorts on screen, and a "why it moved" feed names the judgment that moved each
 option with its probability before and after.
 
-The same questions also run through a local model (Ollama) in a second column, so you can
-compare speed and agreement side by side.
+The same questions also run through Cloudflare Clef (`clef-flash:9b`), an open-weight decision
+model that follows the same System One API, served locally by Ollama. It sits in a second
+column so you can compare speed and agreement side by side, with real probabilities on both
+sides.
 
 What you see on screen:
 
@@ -29,7 +31,9 @@ Needs Node 20 or newer.
 
 1. `npm install`
 2. `cp .env.example .env` and add your TypeSafe key (optional; see BYOK below). For the local
-   column, install [Ollama](https://ollama.com), start it, and run `ollama pull llama3.2:3b`.
+   column, install [Ollama](https://ollama.com) 0.35.1 or newer, start it, and pull Clef
+   (about 11 to 12 GB): `ollama pull clef-flash:9b`, or over HTTP:
+   `curl -X POST http://localhost:11434/api/pull -d '{"model":"clef-flash:9b"}'`.
 3. `npm run dev`, then open http://localhost:5173
 
 Without a key or Ollama, use Replay mode. Each column tells you what it is missing.
@@ -51,22 +55,31 @@ The key never reaches the browser. The page only calls `/api/*` on the local ser
 server makes every TypeSafe call. The Jev model is pinned to `jev-1.13.0` (`JEV_MODEL` in
 `.env`), not `jev-latest`.
 
+### Local engine options
+
+- `LOCAL_ENGINE=clef` (default): Clef through Ollama's `/v1/systemone`, using the same
+  System One adapter as Jev with a different base URL and model (`LOCAL_MODEL`, default
+  `clef-flash:9b`). One batched request per distinct state, like Jev.
+- `LOCAL_ENGINE=llm`: the older chat adapter that asks a small model (default `llama3.2:3b`)
+  for one level per question. No probabilities, one request per question.
+
 ## Record a run for Replay
 
 ```sh
 npm run record
 ```
 
-This runs the whole scenario live through Jev (and the local model if Ollama is up), writes
+This runs the whole scenario live through Jev (and the local engine if it is ready), writes
 `scenarios/incident-triage.recording.json` with the real judgments and timings, then runs Jev a
-second time with the cache cleared and checks that the ranking order matches at every update.
+second time with the cache cleared and checks that the ranking order matches at every update,
+after collapsing near ties (see below). It prints every swap it collapsed.
 Options: `--scenario <id>`, `--once` (skip the second run), `--no-local`.
 
 Until you record one, Replay uses `scenarios/incident-triage.recording.SAMPLE.json`. That file
 is marked `"synthetic": true` and the app labels it "sample data, not a real run": its
 judgments and timings were written by hand (`npm run make-sample`), not produced by a model.
 
-`npm run local-run` runs the scenario twice through the local model only and prints timings
+`npm run local-run` runs the scenario twice through the local engine only and prints timings
 and the same order check.
 
 ## Write your own scenario
@@ -80,6 +93,7 @@ Add a JSON file to `scenarios/`. It shows up in the scenario picker with no code
   "title": "Short title",
   "goal": "What a good response achieves.",
   "incident": { "summary": "What is happening, in plain words." },
+  "nearTieMargin": 0.02,
   "options": [{ "id": "a", "name": "Do A", "description": "What doing A involves." }],
   "criteria": [
     {
@@ -116,7 +130,8 @@ Tips:
   moved" diff. Unit tested with Vitest (`npm test`).
 - `src/server/`: Hono on Node. `/api/jev/step` sends each step's cache misses as one batched
   `systemOne` request per distinct state, through `@typesafe-ai/sdk` 0.6.0. `/api/local/step`
-  asks Ollama one question at a time with bounded concurrency (`LOCAL_CONCURRENCY`).
+  does the same against Ollama's `/v1/systemone` with the Clef model (or, with
+  `LOCAL_ENGINE=llm`, asks a chat model one question at a time).
 - `src/web/`: Vite and TypeScript, no framework.
 
 ## Honest caveats
@@ -125,18 +140,26 @@ Tips:
   small run-to-run noise on some questions (measured there on jev-1.12). Same inputs give the
   same ranking here because of three things: the model is pinned, judgments are cached by a
   hash of state and question, and the ranking is plain code. `npm run record` checks the order
-  across two uncached runs; it does not promise identical probabilities.
-- **The local column is a simpler method.** It asks the local model for one level (or yes/no)
-  per question as JSON and parses it. It has no probabilities, so its values are all or
-  nothing, and a 3B model makes judgment calls a larger model would not. It is there for a
-  speed and agreement comparison, not as an equal.
-- **Latency numbers come from one machine and one network.** Jev timings include the network
-  round trip; local timings depend on your hardware and Ollama settings. Expect different
+  across two uncached runs, except for swaps inside a declared near tie; it does not promise
+  identical probabilities.
+- **Clef is a different model, not a local copy of Jev.** Cloudflare publishes Clef as open
+  weights under Apache 2.0, and it answers the same System One question types. Expect the two
+  columns to disagree in places; that disagreement is part of what the app shows. Clef has no
+  documented seed or temperature setting, so treat its run-to-run stability as something to
+  measure, not assume.
+- **Local speed is this Mac only.** Clef timings depend on your hardware, memory, and Ollama
+  version. Jev timings include the network round trip from one machine. Expect different
   numbers on yours.
-- **Ties are broken by file order.** When two options have the same weighted score (to
-  1e-9), they keep the order they have in the scenario file, and the UI marks them "tied".
-  Blocked options always sort last. The local engine's all-or-nothing values make ties more
-  likely in its column.
+- **Near ties are too close to call.** When options' totals are within the scenario's
+  `nearTieMargin` (default 0.02), the code does not pick between them. Neighbours chain, so
+  a-b and b-c within the margin form one group. The UI marks the group "too close to call"
+  with the gap shown, gives it a shared rank like "1=", and lists it in scenario file order.
+  The "why it moved" feed does not report a swap inside the group as a move, and the
+  run-twice check collapses those swaps instead of failing. The real case behind this rule:
+  in the first live Jev recording, two uncached runs agreed at 5 of 6 steps, and the one
+  difference was the top two options at update 1, with totals of 0.883 and 0.879. That 0.004
+  gap is inside Jev's run-to-run noise, so calling it a ranking change would be false
+  precision. Blocked options always sort last.
 - The bundled scenario is a demo, not incident advice. Weights and constraints are yours.
 - TypeSafe and Jev are named here only to say what the app calls. This project is not
   affiliated with or endorsed by TypeSafe.

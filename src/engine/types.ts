@@ -43,6 +43,8 @@ export interface Scenario {
   criteria: Criterion[];
   constraints: Constraint[];
   updates: Update[];
+  /** Totals within this distance (chained) are "too close to call". Default 0.02. */
+  nearTieMargin?: number;
 }
 
 /** A judgment, normalized across engines. */
@@ -94,8 +96,15 @@ export interface RankedOption {
   total: number;
   blocked: boolean;
   blockedBy: string[];
-  /** True when another option in the same gate group has the same total (to 1e-9). The tie keeps scenario order. */
-  tied: boolean;
+  /**
+   * True when this option is in a near-tie group: unblocked options whose totals chain within
+   * the scenario's nearTieMargin. Inside a group the display order is scenario file order.
+   */
+  nearTie: boolean;
+  /** Rank of the group's first position (equals rank when not in a near tie). */
+  groupRank: number;
+  /** Max minus min total inside the near-tie group (0 when not in one). */
+  tieSpread: number;
   /** Normalized value 0..1 per criterion id. */
   parts: Record<string, number>;
 }

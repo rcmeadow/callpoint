@@ -1,21 +1,20 @@
-// Live run of a scenario through the local Ollama engine, twice with the cache cleared,
+// Live run of a scenario through the local engine (LOCAL_ENGINE=clef or llm), twice with the cache cleared,
 // to measure latency and check that the ranking order is the same at every step.
 import "dotenv/config";
-import { createLocalAdapter, DEFAULT_LOCAL_MODEL, localStatus } from "../src/server/local";
+import { createLocalEngine, localConfigFromEnv, localEngineStatus } from "../src/server/local-engine";
 import { getScenario } from "../src/server/scenarios";
 import { arg, compareOrders, flag, runAndPrint, summarize } from "./common";
 
 const id = arg("scenario") ?? "incident-triage";
 const scenario = getScenario(id);
 if (!scenario) throw new Error(`No scenario ${id}`);
-const url = process.env.OLLAMA_URL?.trim() || "http://localhost:11434";
-const model = process.env.LOCAL_MODEL?.trim() || DEFAULT_LOCAL_MODEL;
-const st = await localStatus(url, model);
-if (!st.running || !st.modelPulled) {
-  console.error(`Local model not ready (running=${st.running}, pulled=${st.modelPulled}).`);
+const cfg = localConfigFromEnv();
+const st = await localEngineStatus(cfg);
+if (!st.ready) {
+  console.error(`Local engine ${cfg.kind} (${cfg.model}) not ready (running=${st.running}, pulled=${st.modelPulled}, ollama=${st.version ?? "?"}, versionOk=${st.versionOk}).`);
   process.exit(1);
 }
-const adapter = createLocalAdapter({ url, model, concurrency: Number(process.env.LOCAL_CONCURRENCY ?? 4) });
+const adapter = createLocalEngine(cfg);
 const run1 = await runAndPrint(scenario, adapter, "run 1");
 console.log(`run 1: ${summarize(run1)}`);
 if (!flag("once")) {

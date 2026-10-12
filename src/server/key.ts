@@ -2,6 +2,9 @@ import { execFileSync } from "node:child_process";
 
 export type KeySource = "env" | "keychain" | "none";
 
+/** Why the Keychain lookup failed (exit code or error code only, never the value). */
+export let keychainError: string | undefined;
+
 /**
  * Load the TypeSafe key once at startup and keep it in memory only. Never log the value.
  * Order: process.env.TYPESAFE_API_KEY (dotenv loads .env first), then on macOS the
@@ -18,8 +21,11 @@ export function loadKey(): { key: string | undefined; source: KeySource } {
         timeout: 5000,
       }).trim();
       if (out) return { key: out, source: "keychain" };
-    } catch {
-      // Not found or access denied. Fall through without logging anything about the value.
+      keychainError = "Keychain item found but its value is empty";
+    } catch (err) {
+      // Not found or access denied. Keep only the exit/error code, nothing about the value.
+      const e = err as { status?: number | null; code?: string; signal?: string | null };
+      keychainError = `status=${e.status ?? "none"} code=${e.code ?? "none"} signal=${e.signal ?? "none"}`;
     }
   }
   return { key: undefined, source: "none" };

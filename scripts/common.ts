@@ -1,5 +1,6 @@
 import { JudgmentCache } from "../src/engine/cache";
-import { order, rank } from "../src/engine/rank";
+import { nearTieMarginOf, rank, rankLabel } from "../src/engine/rank";
+import { compareRankings } from "../src/engine/ordercheck";
 import { runScenario, type Adapter } from "../src/engine/runner";
 import type { Scenario, StepResult } from "../src/engine/types";
 
@@ -13,7 +14,7 @@ export async function runAndPrint(scenario: Scenario, adapter: Adapter, label: s
   const cache = new JudgmentCache();
   console.log(`\n== ${label}: ${adapter.engine} (${adapter.model}), cache cleared ==`);
   return runScenario(scenario, adapter, cache, (r) => {
-    const ranked = order(rank(scenario, r.judgments));
+    const ranked = rank(scenario, r.judgments).map((x) => `${x.optionId}(${x.blocked ? "X" : rankLabel(x)} ${x.total.toFixed(3)})`);
     const title = r.step === 0 ? "initial" : `update ${r.step} (${scenario.updates[r.step - 1]?.title})`;
     console.log(
       `step ${r.step} ${title.padEnd(36)} asked ${String(r.asked).padStart(2)}/${r.total}  requests ${String(r.requests).padStart(2)}  ${String(r.ms).padStart(6)} ms  order: ${ranked.join(" > ")}`,
@@ -24,13 +25,24 @@ export async function runAndPrint(scenario: Scenario, adapter: Adapter, label: s
 export function compareOrders(scenario: Scenario, a: StepResult[], b: StepResult[]): { same: boolean; lines: string[] } {
   const lines: string[] = [];
   let same = true;
+  const f3 = (n: number) => n.toFixed(3);
+  lines.push(`(near-tie margin ${nearTieMarginOf(scenario)}: swaps inside a near-tie group are collapsed, not failures)`);
   a.forEach((ra, i) => {
     const rb = b[i];
-    const oa = order(rank(scenario, ra.judgments)).join(" > ");
-    const ob = rb ? order(rank(scenario, rb.judgments)).join(" > ") : "(missing)";
-    const ok = oa === ob;
-    if (!ok) same = false;
-    lines.push(`step ${i}: ${ok ? "same order" : `DIFFERENT\n  run 1: ${oa}\n  run 2: ${ob}`}`);
+    if (!rb) {
+      same = false;
+      lines.push(`step ${i}: DIFFERENT (run 2 missing)`);
+      return;
+    }
+    const k1 = rank(scenario, ra.judgments);
+    const k2 = rank(scenario, rb.judgments);
+    const cmp = compareRankings(k1, k2);
+    if (!cmp.same) same = false;
+    const label = (k: typeof k1) => k.map((r) => `${r.optionId}(${rankLabel(r)} ${f3(r.total)})`).join(" > ");
+    lines.push(`step ${i}: ${cmp.same ? (cmp.collapsed.length ? "same order after collapsing near ties" : "same order") : "DIFFERENT"}`);
+    for (const s of cmp.collapsed) lines.push(`  collapsed swap: ${s.a} vs ${s.b}: run 1 ${f3(s.totals1[0])} vs ${f3(s.totals1[1])}, run 2 ${f3(s.totals2[0])} vs ${f3(s.totals2[1])}`);
+    for (const s of cmp.conflicts) lines.push(`  conflict: ${s.a} vs ${s.b}: run 1 ${f3(s.totals1[0])} vs ${f3(s.totals1[1])}, run 2 ${f3(s.totals2[0])} vs ${f3(s.totals2[1])}`);
+    if (!cmp.same) lines.push(`  run 1: ${label(k1)}\n  run 2: ${label(k2)}`);
   });
   return { same, lines };
 }

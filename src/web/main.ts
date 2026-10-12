@@ -2,7 +2,9 @@ import "./style.css";
 import {
   defaultSettings,
   explain,
+  nearTieMarginOf,
   rank,
+  rankLabel,
   validateScenario,
   type EngineId,
   type RankedOption,
@@ -62,7 +64,7 @@ const state = {
   columns: {} as Record<EngineId, Column>,
   feed: [] as FeedItem[],
   feedSeq: 0,
-  status: null as null | { jev: { keyPresent: boolean; keySource: string; model: string }; local: { running: boolean; modelPulled: boolean; model: string } },
+  status: null as null | { jev: { keyPresent: boolean; keySource: string; model: string }; local: { running: boolean; modelPulled: boolean; model: string; engine?: string; version?: string; versionOk?: boolean; minVersion?: string; ready?: boolean } },
   statusError: null as string | null,
   /** Count of every model-call request this page has made (live) or replayed. */
   modelCalls: 0,
@@ -285,10 +287,10 @@ function shell() {
     <footer class="panel caveats">
       <h2>Caveats</h2>
       <ul>
-        <li>Jev answers are not guaranteed bit-identical across runs. TypeSafe's own docs show small run-to-run noise on some questions. Same inputs give the same ranking here because the model is pinned (jev-1.13.0), judgments are cached by a hash of state and question, and the ranking is plain code.</li>
-        <li>The local engine asks a small model (default llama3.2:3b) for one level per question and parses it. It has no probabilities, so its values are all-or-nothing.</li>
-        <li>Latency is wall clock from one machine and one network. Your numbers will differ. Jev runs each step as batched requests; the local engine runs one request per question with bounded concurrency.</li>
-        <li>Options with the same weighted score are marked "tied" and keep the order they have in the scenario file. Blocked options always sort last.</li>
+        <li>Jev answers are not guaranteed bit-identical across runs. TypeSafe's own docs show small run-to-run noise on some questions. Same inputs give the same ranking here, apart from swaps inside a declared near tie, because the model is pinned (jev-1.13.0), judgments are cached by a hash of state and question, and the ranking is plain code.</li>
+        <li>The local column runs Cloudflare Clef (default clef-flash:9b, Apache 2.0 open weights) through Ollama's System One endpoint, with the same questions and batching as Jev. It is a different model, so the two columns can disagree. With LOCAL_ENGINE=llm the column falls back to a small chat model that returns one level per question, with no probabilities.</li>
+        <li>Latency is wall clock. Jev numbers include the network round trip from one machine; local numbers are from this one Mac's hardware. Your numbers will differ.</li>
+        <li>Near ties: when options' totals are within the scenario's near-tie margin (default 0.02, chained), they are marked "too close to call" with the gap shown, share a rank like "1=", and are listed in scenario file order. A swap inside that margin is noise, so the "why it moved" feed does not report it as a move. Blocked options always sort last.</li>
         <li>This is a demo scenario, not incident advice. Constraints and weights are yours to change.</li>
       </ul>
     </footer>`;
@@ -343,8 +345,14 @@ function renderBanner() {
     return;
   }
   const jev = s.jev.keyPresent ? `Jev ready (key from ${esc(s.jev.keySource)}, model ${esc(s.jev.model)}).` : "Jev: no TypeSafe key. Set TYPESAFE_API_KEY in .env or the macOS Keychain, then restart the server.";
-  const local = !s.local.running ? "Local model not running (start Ollama)." : !s.local.modelPulled ? `Local: model ${esc(s.local.model)} not pulled.` : `Local ready (${esc(s.local.model)}).`;
-  el.innerHTML = `<div class="banner ${s.jev.keyPresent && s.local.running && s.local.modelPulled ? "ok" : "warn"}">Live mode. ${jev} ${local} Live runs call the models through the local server; the key never reaches this page.</div>`;
+  const local = !s.local.running
+    ? "Local model not running (start Ollama)."
+    : s.local.versionOk === false
+      ? `Local: ${esc(s.local.model)} needs Ollama ${esc(s.local.minVersion ?? "")}+ (this one is ${esc(s.local.version ?? "unknown")}).`
+      : !s.local.modelPulled
+        ? `Local: model ${esc(s.local.model)} not pulled.`
+        : `Local ready (${esc(s.local.model)}).`;
+  el.innerHTML = `<div class="banner ${s.jev.keyPresent && (s.local.ready ?? (s.local.running && s.local.modelPulled)) ? "ok" : "warn"}">Live mode. ${jev} ${local} Live runs call the models through the local server; the key never reaches this page.</div>`;
 }
 
 function renderIncident() {
@@ -429,9 +437,9 @@ function rowHtml(r: RankedOption): string {
   const parts = s.criteria.map((c) => `<span title="${esc(c.name)}">${esc(c.name)} ${(r.parts[c.id] ?? 0).toFixed(2)}</span>`).join("");
   const gate = r.blocked ? `<div class="gate">Blocked: ${r.blockedBy.map(nameOf).map(esc).join(", ")}</div>` : "";
   return `
-    <div class="rank">${r.blocked ? "X" : r.rank}</div>
+    <div class="rank">${r.blocked ? "X" : rankLabel(r)}</div>
     <div class="body">
-      <div class="name-row"><span class="name">${esc(o.name)}${r.tied ? ` <span class="tag" title="Same weighted score as another option. Ties keep the scenario file order.">tied</span>` : ""}</span><span class="total">${r.total.toFixed(2)}</span></div>
+      <div class="name-row"><span class="name">${esc(o.name)}${r.nearTie ? ` <span class="tag" title="Totals in this group are within the near-tie margin (${nearTieMarginOf(state.scenario)}). The code makes no call between them; they are shown in scenario file order.">too close to call (margin ${r.tieSpread.toFixed(3)})</span>` : ""}</span><span class="total">${r.total.toFixed(2)}</span></div>
       <div class="bar"><span style="width:${pct}%"></span></div>
       ${gate}
       <div class="parts">${parts}</div>

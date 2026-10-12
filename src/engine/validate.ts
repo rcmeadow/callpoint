@@ -14,6 +14,7 @@ export function validateScenario(s: unknown, source = "scenario"): Scenario {
   if (!Array.isArray(x.criteria) || x.criteria.length < 1) fail("needs at least 1 criterion");
   if (!Array.isArray(x.constraints)) fail("constraints must be an array (can be empty)");
   if (!Array.isArray(x.updates)) fail("updates must be an array");
+  if (x.nearTieMargin !== undefined && (typeof x.nearTieMargin !== "number" || x.nearTieMargin < 0 || x.nearTieMargin > 1)) fail("nearTieMargin must be a number from 0 to 1");
   const ids = new Set<string>();
   for (const c of [...x.criteria, ...x.constraints]) {
     if (ids.has(c.id)) fail(`duplicate criterion/constraint id ${c.id}`);
