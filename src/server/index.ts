@@ -26,5 +26,5 @@ const app = createApp({
 
 serve({ fetch: app.fetch, port }, () => {
   // Only the source is printed, never the key.
-  console.log(`Reflex API on http://localhost:${port}  (TypeSafe key: ${key ? `loaded from ${source}` : "not found"}; Jev model ${jevModel}; local engine ${localCfg.kind} ${localCfg.model})`);
+  console.log(`Callpoint API on http://localhost:${port}  (TypeSafe key: ${key ? `loaded from ${source}` : "not found"}; Jev model ${jevModel}; local engine ${localCfg.kind} ${localCfg.model})`);
 });

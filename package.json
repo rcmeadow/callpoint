@@ -1,5 +1,5 @@
 {
-  "name": "reflex",
+  "name": "callpoint",
   "version": "0.1.0",
   "description": "Fast, auditable incident triage. The model judges, the code decides.",
   "private": true,

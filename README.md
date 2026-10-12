@@ -1,9 +1,9 @@
-# Reflex
+# Callpoint
 
 An incident co-pilot. **The model judges, the code decides.**
 
 Set the problem: what is happening, the options on the table, what a good outcome looks like,
-and the hard rules. Add facts as they come in. Reflex asks a decision model (TypeSafe Jev) to
+and the hard rules. Add facts as they come in. Callpoint asks a decision model (TypeSafe Jev) to
 judge every option against every goal as typed probabilities, and plain code ranks them. You
 watch the call move, see why it moved, find out when it is too close to call, and leave with a
 decision receipt for the postmortem.
@@ -44,7 +44,8 @@ so "Play demo" works on a static host. Live mode needs the local server and your
 
 Needs Node 20 or newer.
 
-1. `npm install`
+1. `git clone https://github.com/rcmeadow/callpoint && cd callpoint && npm install`
+   (the repo will live at github.com/rcmeadow/callpoint; it is not public yet)
 2. `cp .env.example .env` and add your TypeSafe key (optional; see BYOK below). For the local
    column, install [Ollama](https://ollama.com) 0.35.1 or newer, start it, and pull Clef
    (about 11 to 12 GB): `ollama pull clef-flash:9b`, or over HTTP:
@@ -55,7 +56,7 @@ Without a key, use Replay mode. The local comparison only needs Ollama when you 
 
 ## Keys, terms and licenses
 
-Bring your own keys. Reflex doesn't include or resell model access. Live mode calls TypeSafe's API with your own key, and your use is governed by TypeSafe's terms. The local comparison runs Cloudflare's Clef (Apache 2.0) through Ollama on your machine, under their licenses. Reflex is not affiliated with or endorsed by TypeSafe or Cloudflare. Provided as is under the MIT license.
+Bring your own keys. Callpoint doesn't include or resell model access. Live mode calls TypeSafe's API with your own key, and your use is governed by TypeSafe's terms. The local comparison runs Cloudflare's Clef (Apache 2.0) through Ollama on your machine, under their licenses. Callpoint is not affiliated with or endorsed by TypeSafe or Cloudflare. Provided as is under the MIT license.
 
 - TypeSafe terms: https://typesafe.ai/legal/mca and https://typesafe.ai/legal/acceptable-use-policy
 - Clef model card: https://huggingface.co/Cloudflare/clef-flash
@@ -63,7 +64,7 @@ Bring your own keys. Reflex doesn't include or resell model access. Live mode ca
 
 ## Bring your own key
 
-Reflex never ships a key. The server loads yours once at startup and keeps it in memory:
+Callpoint never ships a key. The server loads yours once at startup and keeps it in memory:
 
 1. `TYPESAFE_API_KEY` from the environment or `.env` (loaded with dotenv), or
 2. on macOS, a Keychain item with the service name `TYPESAFE_API_KEY`:
@@ -143,7 +144,7 @@ Tips:
 - Write levels worst first, best last, and describe situations rather than degrees. Each
   criterion becomes one Score question per option; each constraint becomes one yes/no (Noul)
   question per option. A constraint blocks an option when P(yes) is at or above its threshold.
-- Question ids are not sent to the model, so Reflex puts the option's name and description and
+- Question ids are not sent to the model, so Callpoint puts the option's name and description and
   the criterion name into each question's instructions.
 - `affects` matters. Each question only sees the updates that list its criterion or constraint,
   so an update re-asks just those questions and everything else comes from the cache.

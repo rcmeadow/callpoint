@@ -13,7 +13,7 @@ export let keychainError: string | undefined;
 export function loadKey(): { key: string | undefined; source: KeySource } {
   const fromEnv = process.env.TYPESAFE_API_KEY?.trim();
   if (fromEnv) return { key: fromEnv, source: "env" };
-  if (process.platform === "darwin" && process.env.REFLEX_NO_KEYCHAIN !== "1") {
+  if (process.platform === "darwin" && process.env.CALLPOINT_NO_KEYCHAIN !== "1") {
     try {
       const out = execFileSync("security", ["find-generic-password", "-s", "TYPESAFE_API_KEY", "-w"], {
         encoding: "utf8",

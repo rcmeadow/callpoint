@@ -21,6 +21,7 @@ import {
   type StepResult,
 } from "../engine/index";
 import { cloneScenario, renderEditor } from "./editor";
+import { gaugeLayout, type GaugeLabel } from "./gauge";
 
 // ---------- Data: scenarios and recordings are plain JSON files in scenarios/ ----------
 
@@ -407,9 +408,9 @@ function shell() {
         </button>
       </div>
       <div class="brand">
-        <h1>Reflex</h1>
+        <h1>Callpoint</h1>
         <p class="tagline">An incident co-pilot. The model judges, the code decides.</p>
-        <p class="pitch">Add facts as your incident unfolds. Reflex re-ranks your options in milliseconds, flags when it's too close to call, and writes the decision trail for your postmortem.</p>
+        <p class="pitch">Add facts as your incident unfolds. Callpoint re-ranks your options in milliseconds, flags when it's too close to call, and writes the decision trail for your postmortem.</p>
       </div>
       <div class="top-controls" id="top-controls"></div>
     </header>
@@ -429,7 +430,7 @@ function shell() {
     </section>
     <footer class="card caveats">
       <h2>Keys, terms and licenses</h2>
-      <p class="terms">Bring your own keys. Reflex doesn't include or resell model access. Live mode calls TypeSafe's API with your own key, and your use is governed by TypeSafe's terms. The local comparison runs Cloudflare's Clef (Apache 2.0) through Ollama on your machine, under their licenses. Reflex is not affiliated with or endorsed by TypeSafe or Cloudflare. Provided as is under the MIT license.</p>
+      <p class="terms">Bring your own keys. Callpoint doesn't include or resell model access. Live mode calls TypeSafe's API with your own key, and your use is governed by TypeSafe's terms. The local comparison runs Cloudflare's Clef (Apache 2.0) through Ollama on your machine, under their licenses. Callpoint is not affiliated with or endorsed by TypeSafe or Cloudflare. Provided as is under the MIT license.</p>
       <p class="terms-links small">
         <a href="https://typesafe.ai/legal/mca" target="_blank" rel="noopener noreferrer">TypeSafe terms</a>
         <a href="https://typesafe.ai/legal/acceptable-use-policy" target="_blank" rel="noopener noreferrer">TypeSafe acceptable use policy</a>
@@ -451,7 +452,7 @@ function shell() {
 // ---------- Theme ----------
 
 type Theme = "system" | "light" | "dark";
-const THEME_KEY = "reflex-theme";
+const THEME_KEY = "callpoint-theme";
 
 function currentTheme(): Theme {
   const t = document.documentElement.getAttribute("data-theme");
@@ -817,17 +818,35 @@ function rowHtml(r: RankedOption, judgments: Record<string, Judgment>): string {
 
 const f2 = (n: number) => n.toFixed(2);
 
-const numLabel = (label: string, v: number) => `<span>${esc(label)} <b>${f2(v)}</b></span>`;
+const numLabel = (cls: string, label: string, v: number, l: GaugeLabel) =>
+  `<span class="g-num ${cls}" data-row="${l.row}" style="left:${l.left.toFixed(1)}%;transform:translateX(-${l.shift.toFixed(1)}%)">${esc(label)} <b>${f2(v)}</b></span>`;
 
-/** A thin track with a dot at the current value and a tick at the point where the call flips. Labels sit on the side of their mark. */
+/**
+ * A thin track with a dot at the current value and a tick at the flip point. Each number sits
+ * under its own mark, anchored so it never runs past the track ends; close marks stack.
+ */
 function gauge(now: number, at: number, nowLabel: string, atLabel: string): string {
   const pct = (v: number) => `${(Math.min(1, Math.max(0, v)) * 100).toFixed(1)}%`;
   const lo = Math.min(now, at);
   const hi = Math.max(now, at);
-  return `<span class="gauge" role="img" aria-label="${esc(nowLabel)} ${f2(now)}, ${esc(atLabel)} ${f2(at)}">
+  const g = gaugeLayout(now, at);
+  return `<span class="gauge ${g.stacked ? "stacked" : ""}" role="img" aria-label="${esc(nowLabel)} ${f2(now)}, ${esc(atLabel)} ${f2(at)}">
     <span class="g-track"><span class="g-gap" style="left:${pct(lo)};width:calc(${pct(hi)} - ${pct(lo)})"></span><span class="g-tick" style="left:${pct(at)}"></span><span class="g-dot" style="left:${pct(now)}"></span></span>
-    <span class="g-nums">${now <= at ? `${numLabel(nowLabel, now)}${numLabel(atLabel, at)}` : `${numLabel(atLabel, at)}${numLabel(nowLabel, now)}`}</span>
+    <span class="g-nums">${numLabel("g-now", nowLabel, now, g.now)}${numLabel("g-at", atLabel, at, g.at)}</span>
   </span>`;
+}
+
+/** After render: if two labels still collide (narrow screens, long labels), stack them. */
+function unstickGaugeLabels(root: ParentNode) {
+  root.querySelectorAll<HTMLElement>(".gauge:not(.stacked)").forEach((gEl) => {
+    const a = gEl.querySelector<HTMLElement>(".g-now")?.getBoundingClientRect();
+    const b = gEl.querySelector<HTMLElement>(".g-at")?.getBoundingClientRect();
+    if (!a || !b) return;
+    if (a.right + 6 > b.left && b.right + 6 > a.left) {
+      gEl.classList.add("stacked");
+      gEl.querySelector<HTMLElement>(".g-at")!.dataset.row = "1";
+    }
+  });
 }
 
 /** The card body, drawn from whereWeAreGoing's structured fields (not from its sentence). */
@@ -916,6 +935,7 @@ function renderInsight() {
           : `<ol class="cmp">${compareList}</ol>`
       }
     </div>`;
+  unstickGaugeLabels($("#insight"));
   document.querySelectorAll<HTMLDetailsElement>("details[data-cmp]").forEach((el) =>
     el.addEventListener("toggle", () => {
       if (el.open) state.cmpOpen.add(el.dataset.cmp!);
@@ -950,7 +970,7 @@ function renderCall() {
     const group = open.filter((r) => r.nearTie && r.groupRank === top.groupRank).map((r) => nameOf(r.optionId));
     const names = group.length === 2 ? `${group[0]} vs ${group[1]}` : `${group.slice(0, -1).join(", ")} vs ${group[group.length - 1]}`;
     headline = `Too close to call: ${names} (gap ${top.tieSpread.toFixed(3)}). This is your decision.`;
-    sub = `Reflex won't pick between options within the ${nearTieMarginOf(s)} near-tie margin.`;
+    sub = `Callpoint won't pick between options within the ${nearTieMarginOf(s)} near-tie margin.`;
   } else {
     headline = `Current call: ${nameOf(top.optionId)} · ${top.total.toFixed(3)}`;
   }
@@ -1033,7 +1053,7 @@ function renderReceipt() {
   });
   $("#dl-receipt").addEventListener("click", () => {
     const stamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
-    download(`reflex-receipt-${scenario().id}-${stamp}.md`, receipt(), "text/markdown");
+    download(`callpoint-receipt-${scenario().id}-${stamp}.md`, receipt(), "text/markdown");
   });
 }
 

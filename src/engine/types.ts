@@ -1,4 +1,4 @@
-// Shared types for the Reflex engine. Pure data, safe for browser and server.
+// Shared types for the Callpoint engine. Pure data, safe for browser and server.
 
 export interface Option {
   id: string;
