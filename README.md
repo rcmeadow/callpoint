@@ -16,9 +16,12 @@ What it gives you:
 - **Live facts.** Type what you just learned. Each fact re-asks every question in one Jev
   request (around 200 ms to 1 s in testing here) and the ranking re-sorts. "Play demo" runs the
   scripted updates instead.
-- **The race.** Options ranked by weighted score, with a confidence bar from the model's own
-  probabilities. Amber means too close to call. Red and struck through means a hard constraint
-  blocks it.
+- **The call.** A banner above the ranking says what the code would do right now, or "Too
+  close to call" in amber when the top options are within the near-tie margin, with the
+  "where we are going" line under it.
+- **The race.** Options ranked by weighted score, one bar each. Details shows the model's
+  confidence (from its own probabilities) and the score per goal. Amber means too close to
+  call. Options blocked by a hard constraint fold into compact struck-through rows below.
 - **Where we were, where we are.** The starting ranking next to the current one, with the
   change in score and the facts that moved each option most.
 - **Where we are going.** Code works out the single judgment change that would flip the top
@@ -30,8 +33,8 @@ What it gives you:
   download it as `.md`.
 - **The code decides.** Weight sliders and constraint toggles re-rank the same judgments
   instantly, with 0 model calls.
-- **Optional local comparison.** Toggle "Compare with local open-weights model (Cloudflare Clef
-  via Ollama)" to run the same questions on your own machine, side by side. It is off by
+- **Optional local comparison.** Turn on "Compare local model" (Cloudflare Clef via
+  Ollama) to run the same questions on your own machine, side by side. It is off by
   default.
 
 Replay mode plays a real recorded run at its recorded speed with no key and no local model,
@@ -49,6 +52,14 @@ Needs Node 20 or newer.
 3. `npm run dev`, then open http://localhost:5173
 
 Without a key, use Replay mode. The local comparison only needs Ollama when you turn it on.
+
+## Keys, terms and licenses
+
+Bring your own keys. Reflex doesn't include or resell model access. Live mode calls TypeSafe's API with your own key, and your use is governed by TypeSafe's terms. The local comparison runs Cloudflare's Clef (Apache 2.0) through Ollama on your machine, under their licenses. Reflex is not affiliated with or endorsed by TypeSafe or Cloudflare. Provided as is under the MIT license.
+
+- TypeSafe terms: https://typesafe.ai/legal/mca and https://typesafe.ai/legal/acceptable-use-policy
+- Clef model card: https://huggingface.co/Cloudflare/clef-flash
+- Ollama license: https://github.com/ollama/ollama/blob/main/LICENSE
 
 ## Bring your own key
 

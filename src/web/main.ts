@@ -77,9 +77,12 @@ const state = {
   compareLocal: false,
   /** Phone-only UI state: expanded problem text and option cards with criteria showing. */
   problemOpen: false,
-  partsOpen: new Set<string>(),
+  /** Details toggles people have tapped. Untouched cards use the default (open only for #1 on desktop). */
+  partsToggled: new Map<string, boolean>(),
   /** The last weights/constraints re-rank (shared by both columns); cleared on the next step. */
   rerank: null as null | { ms: number; reason: string },
+  /** Compare rows with their extra reasons expanded. */
+  cmpOpen: new Set<string>(),
   /** Receipt preview open, kept across re-renders. */
   receiptOpen: false,
   playing: false,
@@ -400,7 +403,10 @@ function shell() {
     <section class="card problem" id="problem"></section>
     <main class="layout" id="layout">
       <section class="card timeline" id="timeline" aria-label="Timeline"></section>
-      <section class="race" id="race" aria-label="Ranking"></section>
+      <section class="center" id="center">
+        <div class="call" id="call" aria-live="polite"></div>
+        <section class="race" id="race" aria-label="Ranking"></section>
+      </section>
       <section class="insight" id="insight" aria-label="Where we are going"></section>
     </main>
     <section class="lower">
@@ -408,6 +414,14 @@ function shell() {
       <section class="card receipt" id="receipt"></section>
     </section>
     <footer class="card caveats">
+      <h2>Keys, terms and licenses</h2>
+      <p class="terms">Bring your own keys. Reflex doesn't include or resell model access. Live mode calls TypeSafe's API with your own key, and your use is governed by TypeSafe's terms. The local comparison runs Cloudflare's Clef (Apache 2.0) through Ollama on your machine, under their licenses. Reflex is not affiliated with or endorsed by TypeSafe or Cloudflare. Provided as is under the MIT license.</p>
+      <p class="terms-links small">
+        <a href="https://typesafe.ai/legal/mca" target="_blank" rel="noopener noreferrer">TypeSafe terms</a>
+        <a href="https://typesafe.ai/legal/acceptable-use-policy" target="_blank" rel="noopener noreferrer">TypeSafe acceptable use policy</a>
+        <a href="https://huggingface.co/Cloudflare/clef-flash" target="_blank" rel="noopener noreferrer">Clef model card</a>
+        <a href="https://github.com/ollama/ollama/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">Ollama license</a>
+      </p>
       <h2>Fine print</h2>
       <ul>
         <li>Jev answers are not bit-identical across runs; TypeSafe's docs show small noise on some questions. The ranking holds steady because the model is pinned (jev-1.13.0), judgments are cached by a hash of the state and question, and the ranking is plain code.</li>
@@ -431,10 +445,14 @@ function renderTop() {
         <button type="button" data-mode="live" aria-pressed="${state.mode === "live"}" ${liveAvailable() ? "" : `disabled title="${esc(state.statusError ?? "")}"`}>Live</button>
       </div>
     </div>
-    <label class="switch">
-      <input type="checkbox" id="compare-local" ${state.compareLocal ? "checked" : ""} />
-      <span>Compare with local open-weights model (Cloudflare Clef via Ollama)<small class="note">Runs on this machine; a full re-ask takes several seconds.</small></span>
-    </label>`;
+    <div class="switch-wrap">
+      <label class="switch">
+        <input type="checkbox" role="switch" id="compare-local" aria-describedby="compare-note" ${state.compareLocal ? "checked" : ""} />
+        <span class="track" aria-hidden="true"><span class="thumb"></span></span>
+        <span class="switch-label">Compare local model</span>
+      </label>
+      <small class="note" id="compare-note">Cloudflare Clef via Ollama, runs on this machine, several seconds per re-ask</small>
+    </div>`;
   $("#scenario").addEventListener("change", (e) => setScenario((e.target as HTMLSelectElement).value));
   document.querySelectorAll<HTMLButtonElement>("[data-mode]").forEach((b) => b.addEventListener("click", () => setMode(b.dataset.mode as Mode)));
   $<HTMLInputElement>("#compare-local").addEventListener("change", (e) => void setCompareLocal((e.target as HTMLInputElement).checked));
@@ -574,8 +592,8 @@ function renderTimeline() {
     </li>`);
   });
   const next = nextScripted();
-  $("#timeline").innerHTML = `
-    <h2>Timeline</h2>
+  const live = state.mode === "live";
+  const form = `
     <form id="fact-form" class="fact-form">
       <label for="fact-text" class="sr">Add a fact</label>
       <textarea id="fact-text" rows="2" placeholder="Add what you just learned, e.g. The flag service confirms smart-retries can be turned off in one minute." ${blocker ? "disabled" : ""}></textarea>
@@ -583,16 +601,26 @@ function renderTimeline() {
         <button type="submit" class="primary" ${blocker || busy() ? "disabled" : ""}>Add fact</button>
         <span class="muted small">${blocker ? esc(blocker) : "Re-asks every question in one request."}</span>
       </div>
-    </form>
-    ${items.length ? `<ol class="tl">${items.reverse().join("")}</ol>` : `<p class="muted">Press Play demo to watch the scripted incident unfold${state.mode === "live" ? ", or add a fact" : ""}.</p>`}
-    ${next && state.started ? `<p class="muted small">Next in the demo: ${esc(next.at)} ${esc(next.title)}</p>` : ""}`;
+    </form>`;
+  const list = items.length
+    ? `<ol class="tl">${items.reverse().join("")}</ol>`
+    : `<p class="muted">Press Play demo to watch the scripted incident unfold${live ? ", or add a fact" : ""}.</p>`;
+  const nextLine = next && state.started ? `<p class="muted small">Next in the demo: ${esc(next.at)} ${esc(next.title)}</p>` : "";
+  // Replay: the facts come first, and the input folds into one line.
+  const liveHint = liveAvailable()
+    ? `<p class="live-hint"><button type="button" class="linkish" id="go-live">Switch to Live</button> to add your own facts.</p>`
+    : `<p class="live-hint muted">Live facts need the local server (npm run dev). This page can only replay.</p>`;
+  $("#timeline").innerHTML = live
+    ? `<h2>Timeline</h2>${form}${list}${nextLine}`
+    : `<h2>Timeline</h2>${list}${nextLine}${liveHint}`;
+  document.querySelector("#go-live")?.addEventListener("click", () => setMode("live"));
   // Newest fact is on top; jump back to it whenever a fact lands.
   const tl = $("#timeline");
   if (Number(tl.dataset.count ?? -1) !== state.facts.length) {
     tl.scrollTop = 0;
     tl.dataset.count = String(state.facts.length);
   }
-  $<HTMLFormElement>("#fact-form").addEventListener("submit", (e) => {
+  document.querySelector<HTMLFormElement>("#fact-form")?.addEventListener("submit", (e) => {
     e.preventDefault();
     const ta = $<HTMLTextAreaElement>("#fact-text");
     const v = ta.value;
@@ -663,7 +691,7 @@ function flipRender(ul: HTMLUListElement, ranked: RankedOption[], judgments: Rec
       li = document.createElement("li");
       li.dataset.id = r.optionId;
     }
-    li.className = `${r.blocked ? "blocked" : r.nearTie ? "tie" : r.rank === 1 ? "lead" : ""}${state.partsOpen.has(r.optionId) ? " show-parts" : ""}`;
+    li.className = `${r.blocked ? "blocked" : r.nearTie ? "tie" : r.rank === 1 ? "lead" : ""}${detailsOpen(r) ? " show-parts" : ""}`;
     li.innerHTML = rowHtml(r, judgments);
     ul.appendChild(li);
   }
@@ -683,25 +711,50 @@ function flipRender(ul: HTMLUListElement, ranked: RankedOption[], judgments: Rec
   });
 }
 
+const isDesktop = () => window.matchMedia("(min-width: 821px)").matches;
+
+/** Details are closed by default, except the #1 card on desktop. A tap overrides the default. */
+function detailsOpen(r: RankedOption): boolean {
+  const t = state.partsToggled.get(r.optionId);
+  if (t !== undefined) return t;
+  return isDesktop() && r.rank === 1 && !r.blocked;
+}
+
 function rowHtml(r: RankedOption, judgments: Record<string, Judgment>): string {
   const s = scenario();
   const o = s.options.find((x) => x.id === r.optionId)!;
   const conf = confidenceOf(judgments, r.optionId);
-  const tag = r.blocked
-    ? `<span class="tag red" title="Blocked: ${r.blockedBy.map(nameOf).map(esc).join(", ")}">Blocked: ${r.blockedBy.map(nameOf).map(esc).join(", ")}</span>`
-    : r.nearTie
-      ? `<span class="tag amber" title="Within the near-tie margin (${nearTieMarginOf(s)}). The code makes no call between these.">too close to call (gap ${r.tieSpread.toFixed(3)})</span>`
-      : "";
+  const open = detailsOpen(r);
+  const toggle = `<button type="button" class="parts-toggle" data-parts="${esc(r.optionId)}" aria-expanded="${open}">${open ? "Hide details" : "Details"}</button>`;
   const parts = s.criteria.map((c) => `<span class="chip"><i style="width:${Math.round((r.parts[c.id] ?? 0) * 100)}%"></i><span>${esc(c.name)} ${(r.parts[c.id] ?? 0).toFixed(2)}</span></span>`).join("");
+  const details = `
+      <div class="details-body">
+        <div class="conf-line" title="Average confidence of this option's Score answers, from the model's own probabilities">
+          <span>Model confidence ${conf.toFixed(2)}</span>
+          <div class="conf"><span style="width:${Math.round(conf * 100)}%"></span></div>
+        </div>
+        <div class="parts">${parts}</div>
+      </div>`;
+  if (r.blocked) {
+    // Compact row: the option is out of the running, but its score and reasons stay one tap away.
+    return `
+    <div class="rank">X</div>
+    <div class="body">
+      <div class="name-row"><span class="name">${esc(o.name)}</span><span class="total">${r.total.toFixed(3)}</span></div>
+      <div class="meta-row"><span class="reason">Blocked: ${r.blockedBy.map(nameOf).map(esc).join(", ")}</span>${toggle}</div>
+      ${details}
+    </div>`;
+  }
+  const tag = r.nearTie
+    ? `<span class="tag amber" title="Within the near-tie margin (${nearTieMarginOf(s)}). The code makes no call between these.">too close to call (gap ${r.tieSpread.toFixed(3)})</span>`
+    : "";
   return `
-    <div class="rank">${r.blocked ? "X" : rankLabel(r)}</div>
+    <div class="rank">${rankLabel(r)}</div>
     <div class="body">
       <div class="name-row"><span class="name">${esc(o.name)}</span><span class="total">${r.total.toFixed(3)}</span></div>
       <div class="bar" aria-label="Score ${r.total.toFixed(2)}"><span style="width:${Math.round(r.total * 100)}%"></span></div>
-      <div class="conf" title="Average confidence of this option's Score answers"><span style="width:${Math.round(conf * 100)}%"></span></div>
-      <div class="conf-row"><em>confidence ${conf.toFixed(2)}</em>${tag.replace('class="tag ', 'class="tag in-row ')}<button type="button" class="parts-toggle" data-parts="${esc(r.optionId)}" aria-expanded="${state.partsOpen.has(r.optionId)}">${state.partsOpen.has(r.optionId) ? "Hide details" : "Details"}</button></div>
-      ${tag.replace('class="tag ', 'class="tag block ')}
-      <div class="parts">${parts}</div>
+      <div class="meta-row">${tag}${toggle}</div>
+      ${details}
     </div>`;
 }
 
@@ -720,9 +773,31 @@ function renderInsight() {
     const j = rankedNow("jev").find((r) => !r.blocked);
     if (l && j) localLine = `<p class="small muted">${l.optionId === j.optionId ? `Clef agrees: ${esc(nameOf(l.optionId))} first.` : `Clef puts ${esc(nameOf(l.optionId))} first instead.`}</p>`;
   }
-  const rows = compareToBaseline(s, jevSnaps, state.settings);
+  const rows = compareToBaseline(s, jevSnaps, state.settings, 4);
   const clean = (n: number) => (Math.abs(n) < 0.005 ? 0 : n);
   const delta = (n: number) => `${clean(n) >= 0 ? "+" : ""}${clean(n).toFixed(2)}`;
+  const driverText = (d: (typeof rows)[number]["drivers"][number]) => `${d.fact.at} ${d.fact.title}: ${d.text}`;
+  const compareList = rows
+    .map((r) => {
+      const d = clean(r.totalNow - r.totalThen);
+      const dir = d > 0 ? "up" : d < 0 ? "down" : "flat";
+      const arrow = d > 0 ? "▲" : d < 0 ? "▼" : "";
+      const [main, ...more] = r.drivers;
+      return `<li class="cmp-row ${dir} ${r.blockedNow ? "blocked" : ""}">
+        <div class="cmp-head">
+          <span class="name">${esc(r.name)}</span>
+          <span class="cmp-move">${esc(r.rankThen)} → <strong>${esc(r.rankNow)}</strong></span>
+          <span class="cmp-delta">${arrow} ${delta(r.totalNow - r.totalThen)}</span>
+        </div>
+        <div class="cmp-reason">${main ? esc(driverText(main)) : "No change from the facts so far."}</div>
+        ${
+          more.length
+            ? `<details class="cmp-more" data-cmp="${esc(r.optionId)}" ${state.cmpOpen.has(r.optionId) ? "open" : ""}><summary>${more.length} more ${more.length === 1 ? "reason" : "reasons"}</summary><ul>${more.map((x) => `<li>${esc(driverText(x))}</li>`).join("")}</ul></details>`
+            : ""
+        }
+      </li>`;
+    })
+    .join("");
   $("#insight").innerHTML = `
     <div class="card callout ${outlook.kind === "too-close" ? "amber" : outlook.kind === "all-blocked" ? "red" : ""}">
       <p class="eyebrow">Where we are going</p>
@@ -735,21 +810,57 @@ function renderInsight() {
       ${
         jevSnaps.length < 2
           ? `<p class="muted small">Add a fact or play the demo to compare against the starting point.</p>`
-          : `<table>
-        <thead><tr><th>Option</th><th>Then</th><th>Now</th><th>Change</th></tr></thead>
-        <tbody>${rows
-          .map(
-            (r) => `<tr class="${r.blockedNow ? "blocked" : ""}">
-            <td><span class="name">${esc(r.name)}</span>${r.drivers.length ? `<div class="drivers">${r.drivers.map((d) => `<span>${esc(d.fact.at)} ${esc(d.fact.title)}: ${esc(d.text)}</span>`).join("")}</div>` : ""}</td>
-            <td>${esc(r.rankThen)}<div class="small muted">${r.totalThen.toFixed(2)}</div></td>
-            <td><strong>${esc(r.rankNow)}</strong><div class="small muted">${r.totalNow.toFixed(2)}</div></td>
-            <td class="${clean(r.totalNow - r.totalThen) > 0 ? "up" : clean(r.totalNow - r.totalThen) < 0 ? "down" : ""}">${delta(r.totalNow - r.totalThen)}</td>
-          </tr>`,
-          )
-          .join("")}</tbody>
-      </table>`
+          : `<ol class="cmp">${compareList}</ol>`
       }
     </div>`;
+  document.querySelectorAll<HTMLDetailsElement>("details[data-cmp]").forEach((el) =>
+    el.addEventListener("toggle", () => {
+      if (el.open) state.cmpOpen.add(el.dataset.cmp!);
+      else state.cmpOpen.delete(el.dataset.cmp!);
+    }),
+  );
+}
+
+/** The hero: the current call, straight from the code, with the one-line outlook under it. */
+function renderCall() {
+  const el = $("#call");
+  const s = scenario();
+  const last = latest("jev");
+  if (!last) {
+    el.innerHTML = "";
+    el.className = "call";
+    return;
+  }
+  const ranked = rank(s, last.result.judgments, state.settings);
+  const open = ranked.filter((r) => !r.blocked);
+  const top = open[0];
+  const outlook = whereWeAreGoing(s, last.result.judgments, state.settings);
+  let tone = "teal";
+  let headline: string;
+  let sub = outlook.text;
+  if (!top) {
+    tone = "red";
+    headline = "No call: every option is blocked by a constraint. This is your decision.";
+    sub = "Change a constraint below, or add a fact that unblocks an option.";
+  } else if (top.nearTie) {
+    tone = "amber";
+    const group = open.filter((r) => r.nearTie && r.groupRank === top.groupRank).map((r) => nameOf(r.optionId));
+    const names = group.length === 2 ? `${group[0]} vs ${group[1]}` : `${group.slice(0, -1).join(", ")} vs ${group[group.length - 1]}`;
+    headline = `Too close to call: ${names} (gap ${top.tieSpread.toFixed(3)}). This is your decision.`;
+    sub = `Reflex won't pick between options within the ${nearTieMarginOf(s)} near-tie margin.`;
+  } else {
+    headline = `Current call: ${nameOf(top.optionId)} · ${top.total.toFixed(3)}`;
+  }
+  const key = `${tone}|${headline}`;
+  const changed = el.dataset.key !== key;
+  el.className = `call ${tone}`;
+  el.innerHTML = `<p class="call-head">${esc(headline)}</p><p class="call-sub">${esc(sub)}</p>`;
+  if (changed && el.dataset.key !== undefined && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    el.classList.remove("swap");
+    void el.offsetWidth;
+    el.classList.add("swap");
+  }
+  el.dataset.key = key;
 }
 
 function renderTuning() {
@@ -851,6 +962,7 @@ function renderAll(full = false) {
     else renderProblem();
   }
   renderTimeline();
+  renderCall();
   renderRace();
   renderInsight();
   renderReceipt();
@@ -885,9 +997,8 @@ document.addEventListener("click", (e) => {
   const b = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-parts]");
   if (!b) return;
   const id = b.dataset.parts!;
-  if (state.partsOpen.has(id)) state.partsOpen.delete(id);
-  else state.partsOpen.add(id);
-  const open = state.partsOpen.has(id);
+  const open = !(b.closest("li")?.classList.contains("show-parts") ?? false);
+  state.partsToggled.set(id, open);
   document.querySelectorAll<HTMLLIElement>(`.ranked li[data-id="${CSS.escape(id)}"]`).forEach((li) => li.classList.toggle("show-parts", open));
   document.querySelectorAll<HTMLButtonElement>(`[data-parts="${CSS.escape(id)}"]`).forEach((x) => {
     x.textContent = open ? "Hide details" : "Details";
