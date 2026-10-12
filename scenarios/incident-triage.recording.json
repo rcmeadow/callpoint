@@ -2,7 +2,7 @@
   "scenarioId": "incident-triage",
   "synthetic": false,
   "note": "Live run on darwin/arm64, Node v24.20.0. Latency is wall clock from this one machine.",
-  "recordedAt": "2026-10-12T16:29:18.682Z",
+  "recordedAt": "2026-10-12T16:56:02.922Z",
   "engines": {
     "jev": {
       "model": "jev-1.13.0",
@@ -14,25 +14,25 @@
           "judgments": {
             "rollback__impact": {
               "kind": "score",
-              "score": 2.92,
+              "score": 2.93,
               "probabilities": [
                 0,
                 0,
-                0.07,
-                0.93
+                0.06,
+                0.94
               ],
-              "confidence": 0.93
+              "confidence": 0.94
             },
             "rollback__speed": {
               "kind": "score",
-              "score": 2.25,
+              "score": 2.28,
               "probabilities": [
                 0,
                 0.01,
-                0.73,
-                0.26
+                0.69,
+                0.3
               ],
-              "confidence": 0.73
+              "confidence": 0.69
             },
             "rollback__safety": {
               "kind": "score",
@@ -47,18 +47,18 @@
             },
             "rollback__evidence": {
               "kind": "score",
-              "score": 2.8,
+              "score": 2.82,
               "probabilities": [
                 0,
                 0.01,
-                0.18,
-                0.81
+                0.16,
+                0.83
               ],
-              "confidence": 0.8
+              "confidence": 0.82
             },
             "rollback__data_loss": {
               "kind": "noul",
-              "p": 0.12
+              "p": 0.13
             },
             "rollback__ic_forbidden": {
               "kind": "noul",
@@ -66,14 +66,14 @@
             },
             "disable_flag__impact": {
               "kind": "score",
-              "score": 0.55,
+              "score": 0.63,
               "probabilities": [
-                0.57,
-                0.32,
-                0.09,
+                0.53,
+                0.34,
+                0.11,
                 0.02
               ],
-              "confidence": 0.44
+              "confidence": 0.38
             },
             "disable_flag__speed": {
               "kind": "score",
@@ -88,29 +88,29 @@
             },
             "disable_flag__safety": {
               "kind": "score",
-              "score": 2.03,
+              "score": 1.99,
               "probabilities": [
-                0.05,
-                0.28,
+                0.04,
+                0.31,
                 0.26,
-                0.41
+                0.39
               ],
-              "confidence": 0.03
+              "confidence": 0
             },
             "disable_flag__evidence": {
               "kind": "score",
-              "score": 0.69,
+              "score": 0.73,
               "probabilities": [
-                0.34,
+                0.32,
                 0.63,
-                0.03,
+                0.05,
                 0
               ],
               "confidence": 0.63
             },
             "disable_flag__data_loss": {
               "kind": "noul",
-              "p": 0.13
+              "p": 0.14
             },
             "disable_flag__ic_forbidden": {
               "kind": "noul",
@@ -118,18 +118,18 @@
             },
             "scale_db__impact": {
               "kind": "score",
-              "score": 1.53,
+              "score": 1.49,
               "probabilities": [
-                0.15,
-                0.32,
-                0.37,
+                0.17,
+                0.33,
+                0.34,
                 0.16
               ],
-              "confidence": 0.22
+              "confidence": 0.17
             },
             "scale_db__speed": {
               "kind": "score",
-              "score": 2.98,
+              "score": 2.97,
               "probabilities": [
                 0,
                 0,
@@ -140,77 +140,77 @@
             },
             "scale_db__safety": {
               "kind": "score",
-              "score": 0.7,
+              "score": 0.73,
               "probabilities": [
-                0.38,
-                0.55,
-                0.07,
+                0.36,
+                0.56,
+                0.08,
                 0
               ],
-              "confidence": 0.55
+              "confidence": 0.56
             },
             "scale_db__evidence": {
               "kind": "score",
-              "score": 0.92,
+              "score": 0.94,
               "probabilities": [
-                0.51,
-                0.08,
+                0.5,
+                0.09,
                 0.39,
                 0.02
               ],
-              "confidence": 0.08
+              "confidence": 0.07
             },
             "scale_db__data_loss": {
               "kind": "noul",
-              "p": 0.31
+              "p": 0.32
             },
             "scale_db__ic_forbidden": {
               "kind": "noul",
-              "p": 0.04
+              "p": 0.03
             },
             "region_failover__impact": {
               "kind": "score",
-              "score": 1.02,
+              "score": 1.04,
               "probabilities": [
-                0.57,
-                0.09,
+                0.55,
                 0.1,
-                0.24
+                0.1,
+                0.25
               ],
               "confidence": 0
             },
             "region_failover__speed": {
               "kind": "score",
-              "score": 2.27,
+              "score": 2.24,
               "probabilities": [
-                0.03,
                 0.04,
-                0.55,
-                0.38
+                0.05,
+                0.54,
+                0.37
               ],
-              "confidence": 0.52
+              "confidence": 0.5
             },
             "region_failover__safety": {
               "kind": "score",
-              "score": 0.63,
+              "score": 0.62,
               "probabilities": [
-                0.46,
-                0.46,
+                0.48,
+                0.44,
                 0.07,
                 0.01
               ],
-              "confidence": 0.37
+              "confidence": 0.39
             },
             "region_failover__evidence": {
               "kind": "score",
-              "score": 0.23,
+              "score": 0.2,
               "probabilities": [
-                0.8,
-                0.19,
+                0.81,
+                0.17,
                 0.01,
                 0
               ],
-              "confidence": 0.79
+              "confidence": 0.81
             },
             "region_failover__data_loss": {
               "kind": "noul",
@@ -222,18 +222,18 @@
             },
             "hotfix__impact": {
               "kind": "score",
-              "score": 1.95,
+              "score": 2,
               "probabilities": [
-                0.09,
-                0.19,
-                0.41,
-                0.31
+                0.08,
+                0.17,
+                0.42,
+                0.33
               ],
-              "confidence": 0.32
+              "confidence": 0.34
             },
             "hotfix__speed": {
               "kind": "score",
-              "score": 1.16,
+              "score": 1.17,
               "probabilities": [
                 0.2,
                 0.44,
@@ -244,29 +244,29 @@
             },
             "hotfix__safety": {
               "kind": "score",
-              "score": 0.67,
+              "score": 0.72,
               "probabilities": [
-                0.35,
-                0.63,
+                0.3,
+                0.68,
                 0.02,
                 0
               ],
-              "confidence": 0.63
+              "confidence": 0.68
             },
             "hotfix__evidence": {
               "kind": "score",
-              "score": 1.72,
+              "score": 1.77,
               "probabilities": [
-                0.05,
-                0.26,
+                0.04,
+                0.25,
                 0.61,
-                0.08
+                0.1
               ],
-              "confidence": 0.56
+              "confidence": 0.57
             },
             "hotfix__data_loss": {
               "kind": "noul",
-              "p": 0.25
+              "p": 0.29
             },
             "hotfix__ic_forbidden": {
               "kind": "noul",
@@ -276,7 +276,7 @@
           "asked": 30,
           "total": 30,
           "requests": 1,
-          "ms": 840,
+          "ms": 903,
           "usage": {
             "input_tokens": 5368,
             "output_tokens": 565
@@ -289,14 +289,14 @@
           "judgments": {
             "rollback__speed": {
               "kind": "score",
-              "score": 2.25,
+              "score": 2.28,
               "probabilities": [
                 0,
                 0.01,
-                0.73,
-                0.26
+                0.69,
+                0.3
               ],
-              "confidence": 0.73
+              "confidence": 0.69
             },
             "rollback__safety": {
               "kind": "score",
@@ -311,7 +311,7 @@
             },
             "rollback__data_loss": {
               "kind": "noul",
-              "p": 0.12
+              "p": 0.13
             },
             "rollback__ic_forbidden": {
               "kind": "noul",
@@ -330,18 +330,18 @@
             },
             "disable_flag__safety": {
               "kind": "score",
-              "score": 2.03,
+              "score": 1.99,
               "probabilities": [
-                0.05,
-                0.28,
+                0.04,
+                0.31,
                 0.26,
-                0.41
+                0.39
               ],
-              "confidence": 0.03
+              "confidence": 0
             },
             "disable_flag__data_loss": {
               "kind": "noul",
-              "p": 0.13
+              "p": 0.14
             },
             "disable_flag__ic_forbidden": {
               "kind": "noul",
@@ -349,7 +349,7 @@
             },
             "scale_db__speed": {
               "kind": "score",
-              "score": 2.98,
+              "score": 2.97,
               "probabilities": [
                 0,
                 0,
@@ -360,44 +360,44 @@
             },
             "scale_db__safety": {
               "kind": "score",
-              "score": 0.7,
+              "score": 0.73,
               "probabilities": [
-                0.38,
-                0.55,
-                0.07,
+                0.36,
+                0.56,
+                0.08,
                 0
               ],
-              "confidence": 0.55
+              "confidence": 0.56
             },
             "scale_db__data_loss": {
               "kind": "noul",
-              "p": 0.31
+              "p": 0.32
             },
             "scale_db__ic_forbidden": {
               "kind": "noul",
-              "p": 0.04
+              "p": 0.03
             },
             "region_failover__speed": {
               "kind": "score",
-              "score": 2.27,
+              "score": 2.24,
               "probabilities": [
-                0.03,
                 0.04,
-                0.55,
-                0.38
+                0.05,
+                0.54,
+                0.37
               ],
-              "confidence": 0.52
+              "confidence": 0.5
             },
             "region_failover__safety": {
               "kind": "score",
-              "score": 0.63,
+              "score": 0.62,
               "probabilities": [
-                0.46,
-                0.46,
+                0.48,
+                0.44,
                 0.07,
                 0.01
               ],
-              "confidence": 0.37
+              "confidence": 0.39
             },
             "region_failover__data_loss": {
               "kind": "noul",
@@ -409,7 +409,7 @@
             },
             "hotfix__speed": {
               "kind": "score",
-              "score": 1.16,
+              "score": 1.17,
               "probabilities": [
                 0.2,
                 0.44,
@@ -420,18 +420,18 @@
             },
             "hotfix__safety": {
               "kind": "score",
-              "score": 0.67,
+              "score": 0.72,
               "probabilities": [
-                0.35,
-                0.63,
+                0.3,
+                0.68,
                 0.02,
                 0
               ],
-              "confidence": 0.63
+              "confidence": 0.68
             },
             "hotfix__data_loss": {
               "kind": "noul",
-              "p": 0.25
+              "p": 0.29
             },
             "hotfix__ic_forbidden": {
               "kind": "noul",
@@ -439,25 +439,25 @@
             },
             "rollback__impact": {
               "kind": "score",
-              "score": 2.93,
+              "score": 2.94,
               "probabilities": [
                 0,
                 0,
-                0.06,
-                0.94
+                0.05,
+                0.95
               ],
-              "confidence": 0.94
+              "confidence": 0.95
             },
             "rollback__evidence": {
               "kind": "score",
-              "score": 2.96,
+              "score": 2.97,
               "probabilities": [
                 0,
                 0,
-                0.03,
-                0.97
+                0.02,
+                0.98
               ],
-              "confidence": 0.97
+              "confidence": 0.98
             },
             "disable_flag__impact": {
               "kind": "score",
@@ -483,36 +483,36 @@
             },
             "scale_db__impact": {
               "kind": "score",
-              "score": 1.43,
+              "score": 1.38,
               "probabilities": [
-                0.23,
-                0.3,
+                0.25,
                 0.29,
+                0.28,
                 0.18
               ],
-              "confidence": 0.12
+              "confidence": 0.11
             },
             "scale_db__evidence": {
               "kind": "score",
-              "score": 0.64,
+              "score": 0.68,
               "probabilities": [
-                0.68,
+                0.66,
                 0.03,
-                0.26,
-                0.03
+                0.27,
+                0.04
               ],
-              "confidence": 0.36
+              "confidence": 0.31
             },
             "region_failover__impact": {
               "kind": "score",
-              "score": 0.75,
+              "score": 0.8,
               "probabilities": [
-                0.64,
-                0.12,
-                0.1,
-                0.14
+                0.61,
+                0.13,
+                0.11,
+                0.15
               ],
-              "confidence": 0.26
+              "confidence": 0.2
             },
             "region_failover__evidence": {
               "kind": "score",
@@ -527,31 +527,31 @@
             },
             "hotfix__impact": {
               "kind": "score",
-              "score": 1.99,
+              "score": 2,
               "probabilities": [
                 0.08,
-                0.19,
-                0.4,
-                0.33
+                0.2,
+                0.36,
+                0.36
               ],
-              "confidence": 0.32
+              "confidence": 0.28
             },
             "hotfix__evidence": {
               "kind": "score",
-              "score": 1.83,
+              "score": 1.84,
               "probabilities": [
                 0.17,
                 0.05,
-                0.56,
-                0.22
+                0.54,
+                0.24
               ],
-              "confidence": 0.39
+              "confidence": 0.37
             }
           },
           "asked": 10,
           "total": 30,
           "requests": 1,
-          "ms": 151,
+          "ms": 185,
           "usage": {
             "input_tokens": 2334,
             "output_tokens": 176
@@ -564,36 +564,36 @@
           "judgments": {
             "rollback__impact": {
               "kind": "score",
-              "score": 2.93,
+              "score": 2.94,
               "probabilities": [
                 0,
                 0,
-                0.06,
-                0.94
+                0.05,
+                0.95
               ],
-              "confidence": 0.94
+              "confidence": 0.95
             },
             "rollback__speed": {
               "kind": "score",
-              "score": 2.25,
+              "score": 2.28,
               "probabilities": [
                 0,
                 0.01,
-                0.73,
-                0.26
+                0.69,
+                0.3
               ],
-              "confidence": 0.73
+              "confidence": 0.69
             },
             "rollback__evidence": {
               "kind": "score",
-              "score": 2.96,
+              "score": 2.97,
               "probabilities": [
                 0,
                 0,
-                0.03,
-                0.97
+                0.02,
+                0.98
               ],
-              "confidence": 0.97
+              "confidence": 0.98
             },
             "rollback__ic_forbidden": {
               "kind": "noul",
@@ -638,18 +638,18 @@
             },
             "scale_db__impact": {
               "kind": "score",
-              "score": 1.43,
+              "score": 1.38,
               "probabilities": [
-                0.23,
-                0.3,
+                0.25,
                 0.29,
+                0.28,
                 0.18
               ],
-              "confidence": 0.12
+              "confidence": 0.11
             },
             "scale_db__speed": {
               "kind": "score",
-              "score": 2.98,
+              "score": 2.97,
               "probabilities": [
                 0,
                 0,
@@ -660,40 +660,40 @@
             },
             "scale_db__evidence": {
               "kind": "score",
-              "score": 0.64,
+              "score": 0.68,
               "probabilities": [
-                0.68,
+                0.66,
                 0.03,
-                0.26,
-                0.03
+                0.27,
+                0.04
               ],
-              "confidence": 0.36
+              "confidence": 0.31
             },
             "scale_db__ic_forbidden": {
               "kind": "noul",
-              "p": 0.04
+              "p": 0.03
             },
             "region_failover__impact": {
               "kind": "score",
-              "score": 0.75,
+              "score": 0.8,
               "probabilities": [
-                0.64,
-                0.12,
-                0.1,
-                0.14
+                0.61,
+                0.13,
+                0.11,
+                0.15
               ],
-              "confidence": 0.26
+              "confidence": 0.2
             },
             "region_failover__speed": {
               "kind": "score",
-              "score": 2.27,
+              "score": 2.24,
               "probabilities": [
-                0.03,
                 0.04,
-                0.55,
-                0.38
+                0.05,
+                0.54,
+                0.37
               ],
-              "confidence": 0.52
+              "confidence": 0.5
             },
             "region_failover__evidence": {
               "kind": "score",
@@ -712,18 +712,18 @@
             },
             "hotfix__impact": {
               "kind": "score",
-              "score": 1.99,
+              "score": 2,
               "probabilities": [
                 0.08,
-                0.19,
-                0.4,
-                0.33
+                0.2,
+                0.36,
+                0.36
               ],
-              "confidence": 0.32
+              "confidence": 0.28
             },
             "hotfix__speed": {
               "kind": "score",
-              "score": 1.16,
+              "score": 1.17,
               "probabilities": [
                 0.2,
                 0.44,
@@ -734,14 +734,14 @@
             },
             "hotfix__evidence": {
               "kind": "score",
-              "score": 1.83,
+              "score": 1.84,
               "probabilities": [
                 0.17,
                 0.05,
-                0.56,
-                0.22
+                0.54,
+                0.24
               ],
-              "confidence": 0.39
+              "confidence": 0.37
             },
             "hotfix__ic_forbidden": {
               "kind": "noul",
@@ -749,33 +749,33 @@
             },
             "rollback__safety": {
               "kind": "score",
-              "score": 1.97,
+              "score": 1.98,
               "probabilities": [
-                0.04,
-                0.22,
-                0.47,
-                0.27
+                0.03,
+                0.21,
+                0.5,
+                0.26
               ],
-              "confidence": 0.43
+              "confidence": 0.47
             },
             "rollback__data_loss": {
               "kind": "noul",
-              "p": 0.22
+              "p": 0.19
             },
             "disable_flag__safety": {
               "kind": "score",
-              "score": 2.11,
+              "score": 2.14,
               "probabilities": [
-                0.05,
+                0.04,
                 0.23,
-                0.27,
-                0.45
+                0.26,
+                0.47000000000000003
               ],
-              "confidence": 0.12
+              "confidence": 0.16
             },
             "disable_flag__data_loss": {
               "kind": "noul",
-              "p": 0.13
+              "p": 0.12
             },
             "scale_db__safety": {
               "kind": "score",
@@ -790,18 +790,18 @@
             },
             "scale_db__data_loss": {
               "kind": "noul",
-              "p": 0.9
+              "p": 0.88
             },
             "region_failover__safety": {
               "kind": "score",
-              "score": 0.44,
+              "score": 0.41,
               "probabilities": [
-                0.69,
+                0.7,
                 0.21,
-                0.08,
+                0.07,
                 0.02
               ],
-              "confidence": 0.57
+              "confidence": 0.59
             },
             "region_failover__data_loss": {
               "kind": "noul",
@@ -809,24 +809,24 @@
             },
             "hotfix__safety": {
               "kind": "score",
-              "score": 0.69,
+              "score": 0.6,
               "probabilities": [
-                0.36,
-                0.6,
-                0.03,
-                0.01
+                0.43,
+                0.55,
+                0.02,
+                0
               ],
-              "confidence": 0.59
+              "confidence": 0.55
             },
             "hotfix__data_loss": {
               "kind": "noul",
-              "p": 0.2
+              "p": 0.26
             }
           },
           "asked": 10,
           "total": 30,
           "requests": 1,
-          "ms": 163,
+          "ms": 202,
           "usage": {
             "input_tokens": 2049,
             "output_tokens": 196
@@ -839,29 +839,29 @@
           "judgments": {
             "rollback__speed": {
               "kind": "score",
-              "score": 2.25,
+              "score": 2.28,
               "probabilities": [
                 0,
                 0.01,
-                0.73,
-                0.26
+                0.69,
+                0.3
               ],
-              "confidence": 0.73
+              "confidence": 0.69
             },
             "rollback__safety": {
               "kind": "score",
-              "score": 1.97,
+              "score": 1.98,
               "probabilities": [
-                0.04,
-                0.22,
-                0.47,
-                0.27
+                0.03,
+                0.21,
+                0.5,
+                0.26
               ],
-              "confidence": 0.43
+              "confidence": 0.47
             },
             "rollback__data_loss": {
               "kind": "noul",
-              "p": 0.22
+              "p": 0.19
             },
             "rollback__ic_forbidden": {
               "kind": "noul",
@@ -880,18 +880,18 @@
             },
             "disable_flag__safety": {
               "kind": "score",
-              "score": 2.11,
+              "score": 2.14,
               "probabilities": [
-                0.05,
+                0.04,
                 0.23,
-                0.27,
-                0.45
+                0.26,
+                0.47000000000000003
               ],
-              "confidence": 0.12
+              "confidence": 0.16
             },
             "disable_flag__data_loss": {
               "kind": "noul",
-              "p": 0.13
+              "p": 0.12
             },
             "disable_flag__ic_forbidden": {
               "kind": "noul",
@@ -899,7 +899,7 @@
             },
             "scale_db__speed": {
               "kind": "score",
-              "score": 2.98,
+              "score": 2.97,
               "probabilities": [
                 0,
                 0,
@@ -921,33 +921,33 @@
             },
             "scale_db__data_loss": {
               "kind": "noul",
-              "p": 0.9
+              "p": 0.88
             },
             "scale_db__ic_forbidden": {
               "kind": "noul",
-              "p": 0.04
+              "p": 0.03
             },
             "region_failover__speed": {
               "kind": "score",
-              "score": 2.27,
+              "score": 2.24,
               "probabilities": [
-                0.03,
                 0.04,
-                0.55,
-                0.38
+                0.05,
+                0.54,
+                0.37
               ],
-              "confidence": 0.52
+              "confidence": 0.5
             },
             "region_failover__safety": {
               "kind": "score",
-              "score": 0.44,
+              "score": 0.41,
               "probabilities": [
-                0.69,
+                0.7,
                 0.21,
-                0.08,
+                0.07,
                 0.02
               ],
-              "confidence": 0.57
+              "confidence": 0.59
             },
             "region_failover__data_loss": {
               "kind": "noul",
@@ -959,7 +959,7 @@
             },
             "hotfix__speed": {
               "kind": "score",
-              "score": 1.16,
+              "score": 1.17,
               "probabilities": [
                 0.2,
                 0.44,
@@ -970,18 +970,18 @@
             },
             "hotfix__safety": {
               "kind": "score",
-              "score": 0.69,
+              "score": 0.6,
               "probabilities": [
-                0.36,
-                0.6,
-                0.03,
-                0.01
+                0.43,
+                0.55,
+                0.02,
+                0
               ],
-              "confidence": 0.59
+              "confidence": 0.55
             },
             "hotfix__data_loss": {
               "kind": "noul",
-              "p": 0.2
+              "p": 0.26
             },
             "hotfix__ic_forbidden": {
               "kind": "noul",
@@ -989,7 +989,7 @@
             },
             "rollback__impact": {
               "kind": "score",
-              "score": 2.88,
+              "score": 2.89,
               "probabilities": [
                 0.01,
                 0.01,
@@ -1011,14 +1011,14 @@
             },
             "disable_flag__impact": {
               "kind": "score",
-              "score": 2.62,
+              "score": 2.64,
               "probabilities": [
                 0,
                 0.01,
-                0.35,
-                0.64
+                0.33,
+                0.66
               ],
-              "confidence": 0.63
+              "confidence": 0.65
             },
             "disable_flag__evidence": {
               "kind": "score",
@@ -1033,75 +1033,75 @@
             },
             "scale_db__impact": {
               "kind": "score",
-              "score": 1.29,
+              "score": 1.21,
               "probabilities": [
-                0.27,
-                0.32,
-                0.26,
-                0.15
+                0.31,
+                0.3,
+                0.25,
+                0.14
               ],
-              "confidence": 0.17
+              "confidence": 0
             },
             "scale_db__evidence": {
               "kind": "score",
-              "score": 0.48,
+              "score": 0.58,
               "probabilities": [
-                0.75,
-                0.04,
-                0.18,
-                0.03
+                0.72,
+                0.03,
+                0.21,
+                0.04
               ],
-              "confidence": 0.51
+              "confidence": 0.43
             },
             "region_failover__impact": {
               "kind": "score",
-              "score": 0.06,
+              "score": 0.05,
               "probabilities": [
-                0.95,
+                0.96,
                 0.03,
-                0.01,
+                0,
                 0.01
               ],
-              "confidence": 0.92
+              "confidence": 0.94
             },
             "region_failover__evidence": {
               "kind": "score",
-              "score": 0.1,
+              "score": 0.12,
               "probabilities": [
-                0.93,
+                0.92,
                 0.04,
                 0.03,
-                0
+                0.01
               ],
-              "confidence": 0.9
+              "confidence": 0.87
             },
             "hotfix__impact": {
               "kind": "score",
-              "score": 1.77,
+              "score": 1.82,
               "probabilities": [
                 0.11,
-                0.3,
-                0.3,
-                0.29
+                0.26,
+                0.33,
+                0.3
               ],
-              "confidence": 0.01
+              "confidence": 0.22
             },
             "hotfix__evidence": {
               "kind": "score",
-              "score": 1.96,
+              "score": 1.79,
               "probabilities": [
-                0.14,
-                0.06,
-                0.52,
-                0.28
+                0.18,
+                0.07,
+                0.53,
+                0.22
               ],
-              "confidence": 0.38
+              "confidence": 0.35
             }
           },
           "asked": 10,
           "total": 30,
           "requests": 1,
-          "ms": 225,
+          "ms": 175,
           "usage": {
             "input_tokens": 2399,
             "output_tokens": 176
@@ -1114,7 +1114,7 @@
           "judgments": {
             "rollback__impact": {
               "kind": "score",
-              "score": 2.88,
+              "score": 2.89,
               "probabilities": [
                 0.01,
                 0.01,
@@ -1125,14 +1125,14 @@
             },
             "rollback__safety": {
               "kind": "score",
-              "score": 1.97,
+              "score": 1.98,
               "probabilities": [
-                0.04,
-                0.22,
-                0.47,
-                0.27
+                0.03,
+                0.21,
+                0.5,
+                0.26
               ],
-              "confidence": 0.43
+              "confidence": 0.47
             },
             "rollback__evidence": {
               "kind": "score",
@@ -1147,29 +1147,29 @@
             },
             "rollback__data_loss": {
               "kind": "noul",
-              "p": 0.22
+              "p": 0.19
             },
             "disable_flag__impact": {
               "kind": "score",
-              "score": 2.62,
+              "score": 2.64,
               "probabilities": [
                 0,
                 0.01,
-                0.35,
-                0.64
+                0.33,
+                0.66
               ],
-              "confidence": 0.63
+              "confidence": 0.65
             },
             "disable_flag__safety": {
               "kind": "score",
-              "score": 2.11,
+              "score": 2.14,
               "probabilities": [
-                0.05,
+                0.04,
                 0.23,
-                0.27,
-                0.45
+                0.26,
+                0.47000000000000003
               ],
-              "confidence": 0.12
+              "confidence": 0.16
             },
             "disable_flag__evidence": {
               "kind": "score",
@@ -1184,18 +1184,18 @@
             },
             "disable_flag__data_loss": {
               "kind": "noul",
-              "p": 0.13
+              "p": 0.12
             },
             "scale_db__impact": {
               "kind": "score",
-              "score": 1.29,
+              "score": 1.21,
               "probabilities": [
-                0.27,
-                0.32,
-                0.26,
-                0.15
+                0.31,
+                0.3,
+                0.25,
+                0.14
               ],
-              "confidence": 0.17
+              "confidence": 0
             },
             "scale_db__safety": {
               "kind": "score",
@@ -1210,51 +1210,51 @@
             },
             "scale_db__evidence": {
               "kind": "score",
-              "score": 0.48,
+              "score": 0.58,
               "probabilities": [
-                0.75,
-                0.04,
-                0.18,
-                0.03
+                0.72,
+                0.03,
+                0.21,
+                0.04
               ],
-              "confidence": 0.51
+              "confidence": 0.43
             },
             "scale_db__data_loss": {
               "kind": "noul",
-              "p": 0.9
+              "p": 0.88
             },
             "region_failover__impact": {
               "kind": "score",
-              "score": 0.06,
+              "score": 0.05,
               "probabilities": [
-                0.95,
+                0.96,
                 0.03,
-                0.01,
+                0,
                 0.01
               ],
-              "confidence": 0.92
+              "confidence": 0.94
             },
             "region_failover__safety": {
               "kind": "score",
-              "score": 0.44,
+              "score": 0.41,
               "probabilities": [
-                0.69,
+                0.7,
                 0.21,
-                0.08,
+                0.07,
                 0.02
               ],
-              "confidence": 0.57
+              "confidence": 0.59
             },
             "region_failover__evidence": {
               "kind": "score",
-              "score": 0.1,
+              "score": 0.12,
               "probabilities": [
-                0.93,
+                0.92,
                 0.04,
                 0.03,
-                0
+                0.01
               ],
-              "confidence": 0.9
+              "confidence": 0.87
             },
             "region_failover__data_loss": {
               "kind": "noul",
@@ -1262,59 +1262,59 @@
             },
             "hotfix__impact": {
               "kind": "score",
-              "score": 1.77,
+              "score": 1.82,
               "probabilities": [
                 0.11,
-                0.3,
-                0.3,
-                0.29
+                0.26,
+                0.33,
+                0.3
               ],
-              "confidence": 0.01
+              "confidence": 0.22
             },
             "hotfix__safety": {
               "kind": "score",
-              "score": 0.69,
+              "score": 0.6,
               "probabilities": [
-                0.36,
-                0.6,
-                0.03,
-                0.01
+                0.43,
+                0.55,
+                0.02,
+                0
               ],
-              "confidence": 0.59
+              "confidence": 0.55
             },
             "hotfix__evidence": {
               "kind": "score",
-              "score": 1.96,
+              "score": 1.79,
               "probabilities": [
-                0.14,
-                0.06,
-                0.52,
-                0.28
+                0.18,
+                0.07,
+                0.53,
+                0.22
               ],
-              "confidence": 0.38
+              "confidence": 0.35
             },
             "hotfix__data_loss": {
               "kind": "noul",
-              "p": 0.2
+              "p": 0.26
             },
             "rollback__speed": {
               "kind": "score",
               "score": 2.12,
               "probabilities": [
                 0.02,
-                0.05,
-                0.72,
+                0.04,
+                0.73,
                 0.21
               ],
-              "confidence": 0.7
+              "confidence": 0.71
             },
             "rollback__ic_forbidden": {
               "kind": "noul",
-              "p": 0.83
+              "p": 0.8
             },
             "disable_flag__speed": {
               "kind": "score",
-              "score": 3,
+              "score": 2.99,
               "probabilities": [
                 0,
                 0,
@@ -1329,14 +1329,14 @@
             },
             "scale_db__speed": {
               "kind": "score",
-              "score": 2.97,
+              "score": 2.96,
               "probabilities": [
                 0,
                 0,
-                0.02,
-                0.98
+                0.03,
+                0.97
               ],
-              "confidence": 0.98
+              "confidence": 0.97
             },
             "scale_db__ic_forbidden": {
               "kind": "noul",
@@ -1348,10 +1348,10 @@
               "probabilities": [
                 0.03,
                 0.04,
-                0.52,
-                0.41
+                0.5,
+                0.43
               ],
-              "confidence": 0.49
+              "confidence": 0.47
             },
             "region_failover__ic_forbidden": {
               "kind": "noul",
@@ -1359,24 +1359,24 @@
             },
             "hotfix__speed": {
               "kind": "score",
-              "score": 0.51,
+              "score": 0.57,
               "probabilities": [
-                0.6,
-                0.3,
-                0.1,
+                0.55,
+                0.33,
+                0.12,
                 0
               ],
-              "confidence": 0.5
+              "confidence": 0.43
             },
             "hotfix__ic_forbidden": {
               "kind": "noul",
-              "p": 0.96
+              "p": 0.95
             }
           },
           "asked": 10,
           "total": 30,
           "requests": 1,
-          "ms": 273,
+          "ms": 168,
           "usage": {
             "input_tokens": 2015,
             "output_tokens": 201
@@ -1389,7 +1389,7 @@
           "judgments": {
             "rollback__impact": {
               "kind": "score",
-              "score": 2.88,
+              "score": 2.89,
               "probabilities": [
                 0.01,
                 0.01,
@@ -1411,22 +1411,22 @@
             },
             "rollback__data_loss": {
               "kind": "noul",
-              "p": 0.22
+              "p": 0.19
             },
             "rollback__ic_forbidden": {
               "kind": "noul",
-              "p": 0.83
+              "p": 0.8
             },
             "disable_flag__impact": {
               "kind": "score",
-              "score": 2.62,
+              "score": 2.64,
               "probabilities": [
                 0,
                 0.01,
-                0.35,
-                0.64
+                0.33,
+                0.66
               ],
-              "confidence": 0.63
+              "confidence": 0.65
             },
             "disable_flag__evidence": {
               "kind": "score",
@@ -1441,7 +1441,7 @@
             },
             "disable_flag__data_loss": {
               "kind": "noul",
-              "p": 0.13
+              "p": 0.12
             },
             "disable_flag__ic_forbidden": {
               "kind": "noul",
@@ -1449,29 +1449,29 @@
             },
             "scale_db__impact": {
               "kind": "score",
-              "score": 1.29,
+              "score": 1.21,
               "probabilities": [
-                0.27,
-                0.32,
-                0.26,
-                0.15
+                0.31,
+                0.3,
+                0.25,
+                0.14
               ],
-              "confidence": 0.17
+              "confidence": 0
             },
             "scale_db__evidence": {
               "kind": "score",
-              "score": 0.48,
+              "score": 0.58,
               "probabilities": [
-                0.75,
-                0.04,
-                0.18,
-                0.03
+                0.72,
+                0.03,
+                0.21,
+                0.04
               ],
-              "confidence": 0.51
+              "confidence": 0.43
             },
             "scale_db__data_loss": {
               "kind": "noul",
-              "p": 0.9
+              "p": 0.88
             },
             "scale_db__ic_forbidden": {
               "kind": "noul",
@@ -1479,25 +1479,25 @@
             },
             "region_failover__impact": {
               "kind": "score",
-              "score": 0.06,
+              "score": 0.05,
               "probabilities": [
-                0.95,
+                0.96,
                 0.03,
-                0.01,
+                0,
                 0.01
               ],
-              "confidence": 0.92
+              "confidence": 0.94
             },
             "region_failover__evidence": {
               "kind": "score",
-              "score": 0.1,
+              "score": 0.12,
               "probabilities": [
-                0.93,
+                0.92,
                 0.04,
                 0.03,
-                0
+                0.01
               ],
-              "confidence": 0.9
+              "confidence": 0.87
             },
             "region_failover__data_loss": {
               "kind": "noul",
@@ -1509,44 +1509,44 @@
             },
             "hotfix__impact": {
               "kind": "score",
-              "score": 1.77,
+              "score": 1.82,
               "probabilities": [
                 0.11,
-                0.3,
-                0.3,
-                0.29
+                0.26,
+                0.33,
+                0.3
               ],
-              "confidence": 0.01
+              "confidence": 0.22
             },
             "hotfix__evidence": {
               "kind": "score",
-              "score": 1.96,
+              "score": 1.79,
               "probabilities": [
-                0.14,
-                0.06,
-                0.52,
-                0.28
+                0.18,
+                0.07,
+                0.53,
+                0.22
               ],
-              "confidence": 0.38
+              "confidence": 0.35
             },
             "hotfix__data_loss": {
               "kind": "noul",
-              "p": 0.2
+              "p": 0.26
             },
             "hotfix__ic_forbidden": {
               "kind": "noul",
-              "p": 0.96
+              "p": 0.95
             },
             "rollback__speed": {
               "kind": "score",
-              "score": 1.72,
+              "score": 1.64,
               "probabilities": [
                 0.01,
-                0.27,
-                0.72,
+                0.34,
+                0.65,
                 0
               ],
-              "confidence": 0.71
+              "confidence": 0.64
             },
             "disable_flag__speed": {
               "kind": "score",
@@ -1572,47 +1572,47 @@
             },
             "region_failover__speed": {
               "kind": "score",
-              "score": 2.44,
+              "score": 2.42,
               "probabilities": [
                 0.01,
                 0.03,
-                0.48,
-                0.48
+                0.49,
+                0.47
               ],
-              "confidence": 0.47
+              "confidence": 0.48
             },
             "hotfix__speed": {
               "kind": "score",
-              "score": 0.71,
+              "score": 0.62,
               "probabilities": [
-                0.34,
-                0.61,
-                0.05,
+                0.42,
+                0.55,
+                0.03,
                 0
               ],
-              "confidence": 0.61
+              "confidence": 0.55
             },
             "rollback__safety": {
               "kind": "score",
-              "score": 1.13,
+              "score": 1.15,
               "probabilities": [
-                0.21,
+                0.2,
                 0.48,
-                0.28,
+                0.29,
                 0.03
               ],
               "confidence": 0.45
             },
             "disable_flag__safety": {
               "kind": "score",
-              "score": 2.08,
+              "score": 2.07,
               "probabilities": [
-                0.05,
+                0.06,
                 0.25,
                 0.25,
-                0.45
+                0.44
               ],
-              "confidence": 0.1
+              "confidence": 0.07
             },
             "scale_db__safety": {
               "kind": "score",
@@ -1627,31 +1627,31 @@
             },
             "region_failover__safety": {
               "kind": "score",
-              "score": 0.37,
+              "score": 0.44,
               "probabilities": [
-                0.71,
-                0.23,
-                0.05,
-                0.01
+                0.66,
+                0.26,
+                0.06,
+                0.02
               ],
-              "confidence": 0.64
+              "confidence": 0.56
             },
             "hotfix__safety": {
               "kind": "score",
-              "score": 0.44,
+              "score": 0.48,
               "probabilities": [
-                0.57,
-                0.42,
+                0.53,
+                0.46,
                 0.01,
                 0
               ],
-              "confidence": 0.56
+              "confidence": 0.52
             }
           },
           "asked": 10,
           "total": 30,
           "requests": 2,
-          "ms": 803,
+          "ms": 170,
           "usage": {
             "input_tokens": 2918,
             "output_tokens": 180
@@ -1660,1513 +1660,1657 @@
       ]
     },
     "local": {
-      "model": "llama3.2:3b",
+      "model": "clef-flash:9b",
       "steps": [
         {
           "engine": "local",
-          "model": "llama3.2:3b",
+          "model": "clef-flash:9b",
           "step": 0,
           "judgments": {
             "rollback__impact": {
               "kind": "score",
-              "score": 3,
+              "score": 2.633425649172354,
               "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ]
+                0.026688591744477897,
+                0.034537603901416324,
+                0.2174333677913799,
+                0.721340436562726
+              ],
+              "confidence": 0.4370999684102158
             },
             "rollback__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 2.6068285121977137,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.01726820803478004,
+                0.03771723399089934,
+                0.2659323957161476,
+                0.6790821622581731
+              ],
+              "confidence": 0.4166045260700303
             },
             "rollback__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 2.3454727189185993,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.0324169586183027,
+                0.08117850131732293,
+                0.3949194025918471,
+                0.4914851374725274
+              ],
+              "confidence": 0.25626868540745784
             },
             "rollback__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 1.7872129922613014,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.18099441734386038,
+                0.17853672322025718,
+                0.3127303092666034,
+                0.3277385501692791
+              ],
+              "confidence": 0.02898626073308852
             },
             "rollback__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.8791467675095294
             },
             "rollback__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.01098694263059318
             },
             "disable_flag__impact": {
               "kind": "score",
-              "score": 3,
+              "score": 1.4781379977574491,
               "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ]
+                0.21994659400540081,
+                0.2566418767339961,
+                0.34873846675835635,
+                0.17467306250224682
+              ],
+              "confidence": 0.023092381834227793
             },
             "disable_flag__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 2.6675522517142585,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.012996178939937734,
+                0.08881276472398274,
+                0.11583368201796326,
+                0.7823573743181164
+              ],
+              "confidence": 0.48553848576549674
             },
             "disable_flag__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 2.5972571318151636,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.028452166231976227,
+                0.06825319863373272,
+                0.18087997222144228,
+                0.7224146629128487
+              ],
+              "confidence": 0.4022249269024486
             },
             "disable_flag__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 1.034703647756409,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.38075052447491126,
+                0.2796532993260107,
+                0.26373818016683553,
+                0.07585799603224243
+              ],
+              "confidence": 0.08307221654366714
             },
             "disable_flag__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.6268097418521419
             },
             "disable_flag__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.012722708199923246
             },
             "scale_db__impact": {
               "kind": "score",
-              "score": 3,
+              "score": 1.9861071792709417,
               "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ]
+                0.12176204403640073,
+                0.13530580398262856,
+                0.37799508065459914,
+                0.3649370713263716
+              ],
+              "confidence": 0.08919556373829118
             },
             "scale_db__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 2.886291551244194,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.007624820478682172,
+                0.022063149612152517,
+                0.0467076880954548,
+                0.9236043418137105
+              ],
+              "confidence": 0.7563056218459039
             },
             "scale_db__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 1.2154576772651273,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.19977808544702427,
+                0.4944555101990894,
+                0.19629704599562137,
+                0.10946935835826505
+              ],
+              "confidence": 0.11147947755003884
             },
             "scale_db__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 2.037999287416781,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.16521258988985366,
+                0.08242761944319198,
+                0.30150770402727395,
+                0.4508520866396804
+              ],
+              "confidence": 0.11718157162487763
             },
             "scale_db__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.4363818365677061
             },
             "scale_db__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.020332353342658753
             },
             "region_failover__impact": {
               "kind": "score",
-              "score": 3,
+              "score": 1.0926469764806686,
               "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ]
+                0.41346611625476754,
+                0.23193347093833028,
+                0.20308773287836857,
+                0.15151267992853373
+              ],
+              "confidence": 0.052327198467604474
             },
             "region_failover__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 2.098373191110355,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.052698487475116546,
+                0.15918316247572656,
+                0.42516502151284224,
+                0.3629533285363146
+              ],
+              "confidence": 0.14945051911016916
             },
             "region_failover__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 1.6080839606388122,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.14700450236405294,
+                0.34313345894968117,
+                0.26463561436966604,
+                0.2452264243165997
+              ],
+              "confidence": 0.029521344840066965
             },
             "region_failover__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 0.6119062180058604,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.5675533313419971,
+                0.296752132863675,
+                0.09192952224079866,
+                0.04376501355352935
+              ],
+              "confidence": 0.25100028964348486
             },
             "region_failover__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.40544873575821444
             },
             "region_failover__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.02615561835382285
             },
             "hotfix__impact": {
               "kind": "score",
-              "score": 3,
+              "score": 1.1200156002545882,
               "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ]
+                0.392626942144384,
+                0.26359725904383907,
+                0.17490905522458164,
+                0.16886674358719533
+              ],
+              "confidence": 0.04505556079887285
             },
             "hotfix__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 0.9837571277837597,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.24387263758151717,
+                0.5593213852797045,
+                0.16598218891227964,
+                0.030823788226498595
+              ],
+              "confidence": 0.22494986456917265
             },
             "hotfix__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 0.8317854525155012,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.2711588142584352,
+                0.6568596050493869,
+                0.041018894610419715,
+                0.030962686081758256
+              ],
+              "confidence": 0.37347963962808584
             },
             "hotfix__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 0.8101158498783098,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.38286865748509813,
+                0.46727163566288943,
+                0.10673490634061712,
+                0.043124800511395354
+              ],
+              "confidence": 0.2083368082100987
             },
             "hotfix__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.39840644061182034
             },
             "hotfix__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.06584470058431105
             }
           },
           "asked": 30,
           "total": 30,
-          "requests": 30,
-          "ms": 8597
+          "requests": 1,
+          "ms": 8572,
+          "usage": {
+            "input_tokens": 6364,
+            "output_tokens": 0
+          }
         },
         {
           "engine": "local",
-          "model": "llama3.2:3b",
+          "model": "clef-flash:9b",
           "step": 1,
           "judgments": {
             "rollback__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 2.6068285121977137,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.01726820803478004,
+                0.03771723399089934,
+                0.2659323957161476,
+                0.6790821622581731
+              ],
+              "confidence": 0.4166045260700303
             },
             "rollback__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 2.3454727189185993,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.0324169586183027,
+                0.08117850131732293,
+                0.3949194025918471,
+                0.4914851374725274
+              ],
+              "confidence": 0.25626868540745784
             },
             "rollback__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.8791467675095294
             },
             "rollback__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.01098694263059318
             },
             "disable_flag__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 2.6675522517142585,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.012996178939937734,
+                0.08881276472398274,
+                0.11583368201796326,
+                0.7823573743181164
+              ],
+              "confidence": 0.48553848576549674
             },
             "disable_flag__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 2.5972571318151636,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.028452166231976227,
+                0.06825319863373272,
+                0.18087997222144228,
+                0.7224146629128487
+              ],
+              "confidence": 0.4022249269024486
             },
             "disable_flag__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.6268097418521419
             },
             "disable_flag__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.012722708199923246
             },
             "scale_db__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 2.886291551244194,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.007624820478682172,
+                0.022063149612152517,
+                0.0467076880954548,
+                0.9236043418137105
+              ],
+              "confidence": 0.7563056218459039
             },
             "scale_db__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 1.2154576772651273,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.19977808544702427,
+                0.4944555101990894,
+                0.19629704599562137,
+                0.10946935835826505
+              ],
+              "confidence": 0.11147947755003884
             },
             "scale_db__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.4363818365677061
             },
             "scale_db__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.020332353342658753
             },
             "region_failover__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 2.098373191110355,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.052698487475116546,
+                0.15918316247572656,
+                0.42516502151284224,
+                0.3629533285363146
+              ],
+              "confidence": 0.14945051911016916
             },
             "region_failover__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 1.6080839606388122,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.14700450236405294,
+                0.34313345894968117,
+                0.26463561436966604,
+                0.2452264243165997
+              ],
+              "confidence": 0.029521344840066965
             },
             "region_failover__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.40544873575821444
             },
             "region_failover__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.02615561835382285
             },
             "hotfix__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 0.9837571277837597,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.24387263758151717,
+                0.5593213852797045,
+                0.16598218891227964,
+                0.030823788226498595
+              ],
+              "confidence": 0.22494986456917265
             },
             "hotfix__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 0.8317854525155012,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.2711588142584352,
+                0.6568596050493869,
+                0.041018894610419715,
+                0.030962686081758256
+              ],
+              "confidence": 0.37347963962808584
             },
             "hotfix__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.39840644061182034
             },
             "hotfix__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.06584470058431105
             },
             "rollback__impact": {
               "kind": "score",
-              "score": 3,
+              "score": 2.828084299664808,
               "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ]
+                0.011139822945158216,
+                0.014082055689681851,
+                0.11033212012035366,
+                0.8644460012448063
+              ],
+              "confidence": 0.6542945250219576
             },
             "rollback__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 2.7429575559103436,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.04175062278945138,
+                0.032011312895192864,
+                0.06776794993091681,
+                0.858470114384439
+              ],
+              "confidence": 0.5987951086986938
             },
             "disable_flag__impact": {
               "kind": "score",
-              "score": 0,
+              "score": 2.57433161967365,
               "probabilities": [
-                1,
-                0,
-                0,
-                0
-              ]
+                0.032292410831358004,
+                0.04082143225435351,
+                0.24714828332356836,
+                0.67973787359072
+              ],
+              "confidence": 0.387364019722337
             },
             "disable_flag__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 2.8520034841117194,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.023289960783770217,
+                0.017307629226968,
+                0.0435113750830337,
+                0.915891034906228
+              ],
+              "confidence": 0.7297550299412057
             },
             "scale_db__impact": {
               "kind": "score",
-              "score": 3,
+              "score": 1.4828521289416898,
               "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ]
+                0.22029502043061208,
+                0.27096750338191145,
+                0.31432780300265123,
+                0.19440967318482533
+              ],
+              "confidence": 0.012290301104314838
             },
             "scale_db__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 1.264547881119099,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.3243998431235303,
+                0.17568552176721347,
+                0.410881545975883,
+                0.08903308913337321
+              ],
+              "confidence": 0.0972067344169889
             },
             "region_failover__impact": {
               "kind": "score",
-              "score": 3,
+              "score": 0.9478589800365167,
               "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ]
+                0.4489337338862625,
+                0.26911977503363566,
+                0.1671002682374244,
+                0.11484622284267741
+              ],
+              "confidence": 0.09088327662436269
             },
             "region_failover__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 0.5922447739340347,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.5549252538912117,
+                0.3313610038088636,
+                0.08025745677460314,
+                0.03345628552532164
+              ],
+              "confidence": 0.2722106292145271
             },
             "hotfix__impact": {
               "kind": "score",
-              "score": 2,
+              "score": 0.9691279643015299,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.47038624874317714,
+                0.23468440709368987,
+                0.15034447528155873,
+                0.14458486888157418
+              ],
+              "confidence": 0.09151203186335277
             },
             "hotfix__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 1.0920127135513114,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.27378950962437404,
+                0.4514025882122629,
+                0.18381358115104096,
+                0.09099432101232216
+              ],
+              "confidence": 0.10324345455733308
             }
           },
           "asked": 10,
           "total": 30,
-          "requests": 10,
-          "ms": 2604
+          "requests": 1,
+          "ms": 3118,
+          "usage": {
+            "input_tokens": 2443,
+            "output_tokens": 0
+          }
         },
         {
           "engine": "local",
-          "model": "llama3.2:3b",
+          "model": "clef-flash:9b",
           "step": 2,
           "judgments": {
             "rollback__impact": {
               "kind": "score",
-              "score": 3,
+              "score": 2.828084299664808,
               "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ]
+                0.011139822945158216,
+                0.014082055689681851,
+                0.11033212012035366,
+                0.8644460012448063
+              ],
+              "confidence": 0.6542945250219576
             },
             "rollback__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 2.6068285121977137,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.01726820803478004,
+                0.03771723399089934,
+                0.2659323957161476,
+                0.6790821622581731
+              ],
+              "confidence": 0.4166045260700303
             },
             "rollback__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 2.7429575559103436,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.04175062278945138,
+                0.032011312895192864,
+                0.06776794993091681,
+                0.858470114384439
+              ],
+              "confidence": 0.5987951086986938
             },
             "rollback__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.01098694263059318
             },
             "disable_flag__impact": {
               "kind": "score",
-              "score": 0,
+              "score": 2.57433161967365,
               "probabilities": [
-                1,
-                0,
-                0,
-                0
-              ]
+                0.032292410831358004,
+                0.04082143225435351,
+                0.24714828332356836,
+                0.67973787359072
+              ],
+              "confidence": 0.387364019722337
             },
             "disable_flag__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 2.6675522517142585,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.012996178939937734,
+                0.08881276472398274,
+                0.11583368201796326,
+                0.7823573743181164
+              ],
+              "confidence": 0.48553848576549674
             },
             "disable_flag__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 2.8520034841117194,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.023289960783770217,
+                0.017307629226968,
+                0.0435113750830337,
+                0.915891034906228
+              ],
+              "confidence": 0.7297550299412057
             },
             "disable_flag__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.012722708199923246
             },
             "scale_db__impact": {
               "kind": "score",
-              "score": 3,
+              "score": 1.4828521289416898,
               "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ]
+                0.22029502043061208,
+                0.27096750338191145,
+                0.31432780300265123,
+                0.19440967318482533
+              ],
+              "confidence": 0.012290301104314838
             },
             "scale_db__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 2.886291551244194,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.007624820478682172,
+                0.022063149612152517,
+                0.0467076880954548,
+                0.9236043418137105
+              ],
+              "confidence": 0.7563056218459039
             },
             "scale_db__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 1.264547881119099,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.3243998431235303,
+                0.17568552176721347,
+                0.410881545975883,
+                0.08903308913337321
+              ],
+              "confidence": 0.0972067344169889
             },
             "scale_db__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.020332353342658753
             },
             "region_failover__impact": {
               "kind": "score",
-              "score": 3,
+              "score": 0.9478589800365167,
               "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ]
+                0.4489337338862625,
+                0.26911977503363566,
+                0.1671002682374244,
+                0.11484622284267741
+              ],
+              "confidence": 0.09088327662436269
             },
             "region_failover__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 2.098373191110355,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.052698487475116546,
+                0.15918316247572656,
+                0.42516502151284224,
+                0.3629533285363146
+              ],
+              "confidence": 0.14945051911016916
             },
             "region_failover__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 0.5922447739340347,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.5549252538912117,
+                0.3313610038088636,
+                0.08025745677460314,
+                0.03345628552532164
+              ],
+              "confidence": 0.2722106292145271
             },
             "region_failover__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.02615561835382285
             },
             "hotfix__impact": {
               "kind": "score",
-              "score": 2,
+              "score": 0.9691279643015299,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.47038624874317714,
+                0.23468440709368987,
+                0.15034447528155873,
+                0.14458486888157418
+              ],
+              "confidence": 0.09151203186335277
             },
             "hotfix__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 0.9837571277837597,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.24387263758151717,
+                0.5593213852797045,
+                0.16598218891227964,
+                0.030823788226498595
+              ],
+              "confidence": 0.22494986456917265
             },
             "hotfix__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 1.0920127135513114,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.27378950962437404,
+                0.4514025882122629,
+                0.18381358115104096,
+                0.09099432101232216
+              ],
+              "confidence": 0.10324345455733308
             },
             "hotfix__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.06584470058431105
             },
             "rollback__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 1.5744134841651822,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.17264716760640852,
+                0.2721431305890134,
+                0.36335875183756505,
+                0.19185094996701288
+              ],
+              "confidence": 0.03192667866516141
             },
             "rollback__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.5841525674430875
             },
             "disable_flag__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 2.125027151101214,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.10180266529382087,
+                0.1843408123653767,
+                0.20088322828656968,
+                0.5129732940542326
+              ],
+              "confidence": 0.12777917020655305
             },
             "disable_flag__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.23792989161116973
             },
             "scale_db__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 0.5956901526594656,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.5646479058963972,
+                0.3217266788000496,
+                0.0669127720512433,
+                0.046712643252309796
+              ],
+              "confidence": 0.2702464462536699
             },
             "scale_db__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.47414417776649664
             },
             "region_failover__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 1.1970319591125107,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.29796784767484374,
+                0.37814088468077806,
+                0.1527827285014023,
+                0.17110853914297602
+              ],
+              "confidence": 0.049529665367366915
             },
             "region_failover__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.47268347662043286
             },
             "hotfix__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 0.292782200375966,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.7659825380884356,
+                0.19442872107162976,
+                0.020412743215467342,
+                0.019175997624467176
+              ],
+              "confidence": 0.5110103493019609
             },
             "hotfix__data_loss": {
               "kind": "noul",
-              "p": 1
+              "p": 0.29992474357634236
             }
           },
           "asked": 10,
           "total": 30,
-          "requests": 10,
-          "ms": 2667
+          "requests": 1,
+          "ms": 2811,
+          "usage": {
+            "input_tokens": 2232,
+            "output_tokens": 0
+          }
         },
         {
           "engine": "local",
-          "model": "llama3.2:3b",
+          "model": "clef-flash:9b",
           "step": 3,
           "judgments": {
             "rollback__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 2.6068285121977137,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.01726820803478004,
+                0.03771723399089934,
+                0.2659323957161476,
+                0.6790821622581731
+              ],
+              "confidence": 0.4166045260700303
             },
             "rollback__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 1.5744134841651822,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.17264716760640852,
+                0.2721431305890134,
+                0.36335875183756505,
+                0.19185094996701288
+              ],
+              "confidence": 0.03192667866516141
             },
             "rollback__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.5841525674430875
             },
             "rollback__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.01098694263059318
             },
             "disable_flag__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 2.6675522517142585,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.012996178939937734,
+                0.08881276472398274,
+                0.11583368201796326,
+                0.7823573743181164
+              ],
+              "confidence": 0.48553848576549674
             },
             "disable_flag__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 2.125027151101214,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.10180266529382087,
+                0.1843408123653767,
+                0.20088322828656968,
+                0.5129732940542326
+              ],
+              "confidence": 0.12777917020655305
             },
             "disable_flag__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.23792989161116973
             },
             "disable_flag__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.012722708199923246
             },
             "scale_db__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 2.886291551244194,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.007624820478682172,
+                0.022063149612152517,
+                0.0467076880954548,
+                0.9236043418137105
+              ],
+              "confidence": 0.7563056218459039
             },
             "scale_db__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 0.5956901526594656,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.5646479058963972,
+                0.3217266788000496,
+                0.0669127720512433,
+                0.046712643252309796
+              ],
+              "confidence": 0.2702464462536699
             },
             "scale_db__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.47414417776649664
             },
             "scale_db__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.020332353342658753
             },
             "region_failover__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 2.098373191110355,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.052698487475116546,
+                0.15918316247572656,
+                0.42516502151284224,
+                0.3629533285363146
+              ],
+              "confidence": 0.14945051911016916
             },
             "region_failover__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 1.1970319591125107,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.29796784767484374,
+                0.37814088468077806,
+                0.1527827285014023,
+                0.17110853914297602
+              ],
+              "confidence": 0.049529665367366915
             },
             "region_failover__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.47268347662043286
             },
             "region_failover__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.02615561835382285
             },
             "hotfix__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 0.9837571277837597,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.24387263758151717,
+                0.5593213852797045,
+                0.16598218891227964,
+                0.030823788226498595
+              ],
+              "confidence": 0.22494986456917265
             },
             "hotfix__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 0.292782200375966,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.7659825380884356,
+                0.19442872107162976,
+                0.020412743215467342,
+                0.019175997624467176
+              ],
+              "confidence": 0.5110103493019609
             },
             "hotfix__data_loss": {
               "kind": "noul",
-              "p": 1
+              "p": 0.29992474357634236
             },
             "hotfix__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.06584470058431105
             },
             "rollback__impact": {
               "kind": "score",
-              "score": 3,
+              "score": 2.7337666631675988,
               "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ]
+                0.026104249957405262,
+                0.026104249957405262,
+                0.13571208704537532,
+                0.8120794130398142
+              ],
+              "confidence": 0.5452471811470918
             },
             "rollback__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 2.682029787602983,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.05154832298238935,
+                0.037128864206231064,
+                0.089067515037387,
+                0.8222552977739926
+              ],
+              "confidence": 0.5300796224800568
             },
             "disable_flag__impact": {
               "kind": "score",
-              "score": 3,
+              "score": 2.5674217536468302,
               "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ]
+                0.03678563162664783,
+                0.042340002468280256,
+                0.2375413465366657,
+                0.6833330193684062
+              ],
+              "confidence": 0.381798003976364
             },
             "disable_flag__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 2.8421242527096857,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.025229868536604964,
+                0.017890655761389377,
+                0.04640483015772023,
+                0.9104746455442854
+              ],
+              "confidence": 0.7167315014482429
             },
             "scale_db__impact": {
               "kind": "score",
-              "score": 3,
+              "score": 1.5090897187461223,
               "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ]
+                0.20906471881147307,
+                0.26018524638534285,
+                0.34334563204877294,
+                0.1874044027544112
+              ],
+              "confidence": 0.02014920826424771
             },
             "scale_db__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 0.995599312080142,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.45566806865218507,
+                0.15870975992121394,
+                0.319976962120875,
+                0.065645209305726
+              ],
+              "confidence": 0.1389387879465258
             },
             "region_failover__impact": {
               "kind": "score",
-              "score": 3,
+              "score": 0.5819113962812682,
               "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ]
+                0.6114409470512908,
+                0.24801137940754167,
+                0.08774300374977606,
+                0.05280466979139147
+              ],
+              "confidence": 0.26754126036174597
             },
             "region_failover__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 0.8505503470040408,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.47544559280980836,
+                0.2929135324669671,
+                0.13728580963260015,
+                0.09435506509062445
+              ],
+              "confidence": 0.1282462085867535
             },
             "hotfix__impact": {
               "kind": "score",
-              "score": 2,
+              "score": 0.8412009685651616,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.5388471115221651,
+                0.2061273905897571,
+                0.13000291568882869,
+                0.12502258219924903
+              ],
+              "confidence": 0.14599882432783817
             },
             "hotfix__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 1.0854433132506396,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.2779283235543046,
+                0.44412819645218615,
+                0.19251532318207404,
+                0.08542815681143512
+              ],
+              "confidence": 0.10287835019814018
             }
           },
           "asked": 10,
           "total": 30,
-          "requests": 10,
-          "ms": 2793
+          "requests": 1,
+          "ms": 2987,
+          "usage": {
+            "input_tokens": 2493,
+            "output_tokens": 0
+          }
         },
         {
           "engine": "local",
-          "model": "llama3.2:3b",
+          "model": "clef-flash:9b",
           "step": 4,
           "judgments": {
             "rollback__impact": {
               "kind": "score",
-              "score": 3,
+              "score": 2.7337666631675988,
               "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ]
+                0.026104249957405262,
+                0.026104249957405262,
+                0.13571208704537532,
+                0.8120794130398142
+              ],
+              "confidence": 0.5452471811470918
             },
             "rollback__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 1.5744134841651822,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.17264716760640852,
+                0.2721431305890134,
+                0.36335875183756505,
+                0.19185094996701288
+              ],
+              "confidence": 0.03192667866516141
             },
             "rollback__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 2.682029787602983,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.05154832298238935,
+                0.037128864206231064,
+                0.089067515037387,
+                0.8222552977739926
+              ],
+              "confidence": 0.5300796224800568
             },
             "rollback__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.5841525674430875
             },
             "disable_flag__impact": {
               "kind": "score",
-              "score": 3,
+              "score": 2.5674217536468302,
               "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ]
+                0.03678563162664783,
+                0.042340002468280256,
+                0.2375413465366657,
+                0.6833330193684062
+              ],
+              "confidence": 0.381798003976364
             },
             "disable_flag__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 2.125027151101214,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.10180266529382087,
+                0.1843408123653767,
+                0.20088322828656968,
+                0.5129732940542326
+              ],
+              "confidence": 0.12777917020655305
             },
             "disable_flag__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 2.8421242527096857,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.025229868536604964,
+                0.017890655761389377,
+                0.04640483015772023,
+                0.9104746455442854
+              ],
+              "confidence": 0.7167315014482429
             },
             "disable_flag__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.23792989161116973
             },
             "scale_db__impact": {
               "kind": "score",
-              "score": 3,
+              "score": 1.5090897187461223,
               "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ]
+                0.20906471881147307,
+                0.26018524638534285,
+                0.34334563204877294,
+                0.1874044027544112
+              ],
+              "confidence": 0.02014920826424771
             },
             "scale_db__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 0.5956901526594656,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.5646479058963972,
+                0.3217266788000496,
+                0.0669127720512433,
+                0.046712643252309796
+              ],
+              "confidence": 0.2702464462536699
             },
             "scale_db__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 0.995599312080142,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.45566806865218507,
+                0.15870975992121394,
+                0.319976962120875,
+                0.065645209305726
+              ],
+              "confidence": 0.1389387879465258
             },
             "scale_db__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.47414417776649664
             },
             "region_failover__impact": {
               "kind": "score",
-              "score": 3,
+              "score": 0.5819113962812682,
               "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ]
+                0.6114409470512908,
+                0.24801137940754167,
+                0.08774300374977606,
+                0.05280466979139147
+              ],
+              "confidence": 0.26754126036174597
             },
             "region_failover__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 1.1970319591125107,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.29796784767484374,
+                0.37814088468077806,
+                0.1527827285014023,
+                0.17110853914297602
+              ],
+              "confidence": 0.049529665367366915
             },
             "region_failover__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 0.8505503470040408,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.47544559280980836,
+                0.2929135324669671,
+                0.13728580963260015,
+                0.09435506509062445
+              ],
+              "confidence": 0.1282462085867535
             },
             "region_failover__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.47268347662043286
             },
             "hotfix__impact": {
               "kind": "score",
-              "score": 2,
+              "score": 0.8412009685651616,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.5388471115221651,
+                0.2061273905897571,
+                0.13000291568882869,
+                0.12502258219924903
+              ],
+              "confidence": 0.14599882432783817
             },
             "hotfix__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 0.292782200375966,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.7659825380884356,
+                0.19442872107162976,
+                0.020412743215467342,
+                0.019175997624467176
+              ],
+              "confidence": 0.5110103493019609
             },
             "hotfix__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 1.0854433132506396,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.2779283235543046,
+                0.44412819645218615,
+                0.19251532318207404,
+                0.08542815681143512
+              ],
+              "confidence": 0.10287835019814018
             },
             "hotfix__data_loss": {
               "kind": "noul",
-              "p": 1
+              "p": 0.29992474357634236
             },
             "rollback__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 2.182918169484127,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.055629803301111495,
+                0.1011268165105657,
+                0.4479387875914071,
+                0.3953045925969158
+              ],
+              "confidence": 0.1927708617223005
             },
             "rollback__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.18802560974027355
             },
             "disable_flag__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 2.7456757102020113,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.016689355487363777,
+                0.050609844880957815,
+                0.10303653357398175,
+                0.8296642660576966
+              ],
+              "confidence": 0.5611291873947525
             },
             "disable_flag__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.027376488778351356
             },
             "scale_db__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 2.520033361855175,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.027015171203813252,
+                0.09728536868300805,
+                0.20435038716736928,
+                0.6713490729458095
+              ],
+              "confidence": 0.33906647656296474
             },
             "scale_db__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.030444348432624533
             },
             "region_failover__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 2.3037878775083342,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.026983838921561195,
+                0.14644418679174626,
+                0.32237223214348976,
+                0.5041997421432028
+              ],
+              "confidence": 0.21443569004190555
             },
             "region_failover__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.03846619201832428
             },
             "hotfix__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 1.125292877227548,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.27651912383500443,
+                0.38241206542797884,
+                0.2803256204114806,
+                0.06074319032553591
+              ],
+              "confidence": 0.09851652675030187
             },
             "hotfix__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.8062431344561782
             }
           },
           "asked": 10,
           "total": 30,
-          "requests": 10,
-          "ms": 2602
+          "requests": 1,
+          "ms": 2801,
+          "usage": {
+            "input_tokens": 2204,
+            "output_tokens": 0
+          }
         },
         {
           "engine": "local",
-          "model": "llama3.2:3b",
+          "model": "clef-flash:9b",
           "step": 5,
           "judgments": {
             "rollback__impact": {
               "kind": "score",
-              "score": 3,
+              "score": 2.7337666631675988,
               "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ]
+                0.026104249957405262,
+                0.026104249957405262,
+                0.13571208704537532,
+                0.8120794130398142
+              ],
+              "confidence": 0.5452471811470918
             },
             "rollback__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 2.682029787602983,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.05154832298238935,
+                0.037128864206231064,
+                0.089067515037387,
+                0.8222552977739926
+              ],
+              "confidence": 0.5300796224800568
             },
             "rollback__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.5841525674430875
             },
             "rollback__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.18802560974027355
             },
             "disable_flag__impact": {
               "kind": "score",
-              "score": 3,
+              "score": 2.5674217536468302,
               "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ]
+                0.03678563162664783,
+                0.042340002468280256,
+                0.2375413465366657,
+                0.6833330193684062
+              ],
+              "confidence": 0.381798003976364
             },
             "disable_flag__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 2.8421242527096857,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.025229868536604964,
+                0.017890655761389377,
+                0.04640483015772023,
+                0.9104746455442854
+              ],
+              "confidence": 0.7167315014482429
             },
             "disable_flag__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.23792989161116973
             },
             "disable_flag__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.027376488778351356
             },
             "scale_db__impact": {
               "kind": "score",
-              "score": 3,
+              "score": 1.5090897187461223,
               "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ]
+                0.20906471881147307,
+                0.26018524638534285,
+                0.34334563204877294,
+                0.1874044027544112
+              ],
+              "confidence": 0.02014920826424771
             },
             "scale_db__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 0.995599312080142,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.45566806865218507,
+                0.15870975992121394,
+                0.319976962120875,
+                0.065645209305726
+              ],
+              "confidence": 0.1389387879465258
             },
             "scale_db__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.47414417776649664
             },
             "scale_db__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.030444348432624533
             },
             "region_failover__impact": {
               "kind": "score",
-              "score": 3,
+              "score": 0.5819113962812682,
               "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ]
+                0.6114409470512908,
+                0.24801137940754167,
+                0.08774300374977606,
+                0.05280466979139147
+              ],
+              "confidence": 0.26754126036174597
             },
             "region_failover__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 0.8505503470040408,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.47544559280980836,
+                0.2929135324669671,
+                0.13728580963260015,
+                0.09435506509062445
+              ],
+              "confidence": 0.1282462085867535
             },
             "region_failover__data_loss": {
               "kind": "noul",
-              "p": 0
+              "p": 0.47268347662043286
             },
             "region_failover__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.03846619201832428
             },
             "hotfix__impact": {
               "kind": "score",
-              "score": 2,
+              "score": 0.8412009685651616,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.5388471115221651,
+                0.2061273905897571,
+                0.13000291568882869,
+                0.12502258219924903
+              ],
+              "confidence": 0.14599882432783817
             },
             "hotfix__evidence": {
               "kind": "score",
-              "score": 2,
+              "score": 1.0854433132506396,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.2779283235543046,
+                0.44412819645218615,
+                0.19251532318207404,
+                0.08542815681143512
+              ],
+              "confidence": 0.10287835019814018
             },
             "hotfix__data_loss": {
               "kind": "noul",
-              "p": 1
+              "p": 0.29992474357634236
             },
             "hotfix__ic_forbidden": {
               "kind": "noul",
-              "p": 0
+              "p": 0.8062431344561782
             },
             "rollback__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 1.4651242898354417,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.1691594356247634,
+                0.21383756318482833,
+                0.5997222769206113,
+                0.017280724269796877
+              ],
+              "confidence": 0.2734634161312386
             },
             "disable_flag__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 2.8270442458789242,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.009071159544353382,
+                0.04464981213789057,
+                0.05644265121223411,
+                0.8898363771055219
+              ],
+              "confidence": 0.6771419395585707
             },
             "scale_db__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 2.899123627321522,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.004820635237842787,
+                0.01709063600481525,
+                0.05223319495531917,
+                0.9258555338020229
+              ],
+              "confidence": 0.7686043226820714
             },
             "region_failover__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 2.5788537502560915,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.017118908885601976,
+                0.08693699278039232,
+                0.19591553752631766,
+                0.700028560807688
+              ],
+              "confidence": 0.3861385473941028
             },
             "hotfix__speed": {
               "kind": "score",
-              "score": 2,
+              "score": 0.749374223652032,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.48411872118857013,
+                0.3250219336965105,
+                0.14822574538923655,
+                0.042633599725682814
+              ],
+              "confidence": 0.18202694946466735
             },
             "rollback__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 1.170782988899009,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.24645311107033369,
+                0.40474834621491595,
+                0.28036098546015825,
+                0.06843755725459212
+              ],
+              "confidence": 0.09735207071430563
             },
             "disable_flag__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 2.227138639231691,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.06138028529492607,
+                0.188695682558947,
+                0.2113291397656367,
+                0.5385948923804903
+              ],
+              "confidence": 0.1720953526594441
             },
             "scale_db__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 0.6236107157421273,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.5593120693938816,
+                0.3094853343598827,
+                0.07948240735646225,
+                0.05172018888977339
+              ],
+              "confidence": 0.24805112443749489
             },
             "region_failover__safety": {
               "kind": "score",
-              "score": 2,
+              "score": 1.384077328700294,
               "probabilities": [
-                0,
-                0,
-                1,
-                0
-              ]
+                0.210566706347762,
+                0.3949300843881891,
+                0.19436238348004195,
+                0.20014082578400702
+              ],
+              "confidence": 0.03678006856925908
             },
             "hotfix__safety": {
               "kind": "score",
-              "score": 0,
+              "score": 0.2794079534832489,
               "probabilities": [
-                1,
-                0,
-                0,
-                0
-              ]
+                0.7698783335310498,
+                0.19656597369638162,
+                0.01782509853083844,
+                0.015730594241730147
+              ],
+              "confidence": 0.5252048139248497
             }
           },
           "asked": 10,
           "total": 30,
-          "requests": 10,
-          "ms": 3083
+          "requests": 2,
+          "ms": 3123,
+          "usage": {
+            "input_tokens": 2754,
+            "output_tokens": 0
+          }
         }
       ]
     }
