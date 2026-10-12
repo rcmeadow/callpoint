@@ -227,7 +227,7 @@ li.blocked .bar span { background: var(--red); }
 .drivers { display: grid; gap: 2px; margin-top: 4px; color: var(--muted); font-size: 12px; }
 
 /* Lower */
-.lower { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 16px; margin-top: 16px; }
+.lower { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 16px; margin-top: 16px; align-items: start; }
 .sliders { display: grid; gap: 12px; margin: 12px 0; }
 .slider { display: grid; gap: 4px; font-size: 14px; }
 .slider-head { display: flex; justify-content: space-between; }
@@ -301,6 +301,10 @@ input[type="range"] { width: 100%; accent-color: var(--accent); min-height: 28px
   .problem h2 { font-size: 18px; }
   .wide-only { display: none; }
   .narrow-only { display: inline; }
+  /* Keep the column metrics on one row. */
+  .metrics { flex-wrap: nowrap; gap: 4px; }
+  .metrics .pill { font-size: 11px; padding: 2px 7px; }
+  .metrics .pill.req { display: none; }
   /* Phones: status tag moves into the confidence row; the bar stays, the number goes. */
   .tag.block, .conf-row em { display: none; }
   .tag.in-row { display: inline-block; margin: 0; font-size: 11px; padding: 1px 7px; min-width: 0; flex: 0 1 auto; white-space: normal; line-height: 1.35; }

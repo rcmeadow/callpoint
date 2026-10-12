@@ -80,6 +80,8 @@ const state = {
   partsOpen: new Set<string>(),
   /** The last weights/constraints re-rank (shared by both columns); cleared on the next step. */
   rerank: null as null | { ms: number; reason: string },
+  /** Receipt preview open, kept across re-renders. */
+  receiptOpen: false,
   playing: false,
   cols: {} as Record<EngineId, Column>,
   status: null as Status | null,
@@ -98,8 +100,10 @@ function defaultModel(e: EngineId): string {
   return (e === "jev" ? state.status?.jev.model : state.status?.local.model) ?? "";
 }
 
-function resetSession() {
+/** Clear the session. `defaults` also puts weights and constraints back to the scenario's own. */
+function resetSession(opts: { defaults?: boolean } = {}) {
   state.runId++;
+  if (opts.defaults) state.settings = defaultSettings(scenario());
   state.facts = [];
   state.started = false;
   state.playing = false;
@@ -501,7 +505,8 @@ function renderProblem() {
   });
   $("#reset").addEventListener("click", () => {
     const again = state.mode === "replay" && state.facts.filter((f) => f.source === "scripted").length >= scenario().updates.length;
-    resetSession();
+    // Replay should reproduce the recording, so it also restores the scenario's weights.
+    resetSession({ defaults: state.mode === "replay" });
     renderAll(true);
     if (again) void playDemo();
   });
@@ -537,7 +542,7 @@ function renderTimeline() {
       .map((e) => {
         const r = state.cols[e].snapshots[i]?.result;
         if (!r) return "";
-        return `<span class="pill">${LABEL[e]} ${fmtMs(r.ms)} · ${i === firstIndex(e) ? `first pass, ${r.asked} asked` : `${r.asked}/${r.total} re-asked`}</span>`;
+        return `<span class="pill">${LABEL[e]} ${fmtMs(r.ms)} · ${i === firstIndex(e) ? (r.asked === 0 ? "first pass, cached" : `first pass, ${r.asked} asked`) : `${r.asked}/${r.total} re-asked`}</span>`;
       })
       .join("");
   if (state.started) {
@@ -632,7 +637,7 @@ function renderRace() {
     col.querySelector(".metrics")!.innerHTML = m
       ? m.kind === "rerank"
         ? `<span class="pill strong">0 model calls</span><span class="pill">re-ranked in ${fmtMs(m.ms)}</span>`
-        : `<span class="pill strong">${fmtMs(m.ms)}</span><span class="pill">${state.cols[e].snapshots.length - 1 === firstIndex(e) ? `first pass, ${m.asked} questions asked` : `${m.asked} of ${m.total} re-asked`}</span><span class="pill">${m.requests} ${m.requests === 1 ? "request" : "requests"}</span>`
+        : `<span class="pill strong">${fmtMs(m.ms)}</span><span class="pill">${state.cols[e].snapshots.length - 1 === firstIndex(e) ? (m.asked === 0 ? "first pass, cached" : `first pass, ${m.asked} questions asked`) : `${m.asked} of ${m.total} re-asked`}</span><span class="pill req">${m.requests} ${m.requests === 1 ? "request" : "requests"}</span>`
       : `<span class="pill muted">${c.loading ? "Running..." : "Not run yet"}</span>`;
     col.querySelector(".col-msg")!.innerHTML = c.error
       ? `<div class="error">${esc(c.error)}</div>`
@@ -804,7 +809,10 @@ function renderReceipt() {
       <button type="button" class="primary" id="copy-receipt" ${has ? "" : "disabled"}>Copy</button>
       <button type="button" id="dl-receipt" ${has ? "" : "disabled"}>Download .md</button>
     </div>
-    ${has ? `<details class="receipt-view"><summary>Preview</summary><pre>${esc(md)}</pre></details>` : ""}`;
+    ${has ? `<details class="receipt-view" id="receipt-view" ${state.receiptOpen ? "open" : ""}><summary>Preview</summary><pre>${esc(md)}</pre></details>` : ""}`;
+  document.querySelector<HTMLDetailsElement>("#receipt-view")?.addEventListener("toggle", (e) => {
+    state.receiptOpen = (e.target as HTMLDetailsElement).open;
+  });
   $("#copy-receipt").addEventListener("click", async () => {
     state.toast = (await copyText(receipt())) ? "Receipt copied." : "Could not copy. Use Download instead.";
     renderToast();

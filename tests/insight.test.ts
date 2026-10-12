@@ -179,6 +179,12 @@ describe("compare view and receipt", () => {
     expect(md).toContain("**Jev**: 200 ms, 30 of 30 questions re-asked");
   });
 
+  it("says cached when a first pass came entirely from the cache", () => {
+    const cached = { ...snaps[0]!, result: { ...snaps[0]!.result, asked: 0, requests: 0, ms: 0 } };
+    const md = buildReceipt({ scenario: s, settings, generatedAt: "x", mode: "Live", engines: [{ id: "jev", label: "Jev", model: "m", snapshots: [cached] }] });
+    expect(md).toContain("**Jev**: 0 ms, first pass, cached, 0 requests");
+  });
+
   it("flags near ties in the receipt", () => {
     const tie = distinct({ [questionKey("rollback", "impact")]: spread(2.97, [0, 0, 0.03, 0.97]), [questionKey("disable_flag", "impact")]: score(3) });
     const md = buildReceipt({

@@ -83,7 +83,7 @@ export function buildReceipt(input: ReceiptInput): string {
       const ranked = rank(scenario, snap.result.judgments, settings);
       const r = snap.result;
       const first = e.snapshots.findIndex(Boolean) === i;
-      out.push("", `**${e.label}**: ${r.ms} ms, ${first ? `first pass, ${r.asked} questions asked` : `${r.asked} of ${r.total} questions re-asked`}, ${r.requests} ${r.requests === 1 ? "request" : "requests"}`, "");
+      out.push("", `**${e.label}**: ${r.ms} ms, ${first ? (r.asked === 0 ? "first pass, cached" : `first pass, ${r.asked} questions asked`) : `${r.asked} of ${r.total} questions re-asked`}, ${r.requests} ${r.requests === 1 ? "request" : "requests"}`, "");
       rankingLines(scenario, ranked).forEach((l) => out.push(`- ${l}`));
       const prev = e.snapshots[i - 1];
       if (i > 0 && prev) {
