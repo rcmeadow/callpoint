@@ -92,6 +92,8 @@ code { font: 13px ui-monospace, SFMono-Regular, Menlo, monospace; background: va
 .theme-toggle button:hover { color: var(--ink); }
 .theme-toggle button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); }
 .brand { display: flex; flex-direction: column; gap: 2px; }
+.brand-link { color: inherit; text-decoration: none; }
+.brand-link:hover { color: var(--accent); }
 .tagline { margin: 0; color: var(--muted); font-size: 15px; }
 .pitch { margin: 6px 0 0; max-width: 62ch; font-size: 16px; line-height: 1.45; }
 .top-controls { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: flex-end; }
@@ -329,6 +331,44 @@ input[type="range"] { width: 100%; accent-color: var(--accent); min-height: 28px
   .layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); }
   .timeline { grid-row: span 2; }
 }
+/* Header switch for the simple / full view */
+.view-switch { display: flex; align-items: center; }
+
+/* First-visit guide */
+.guide:empty { display: none; }
+.guide { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; margin: 0 0 12px; padding: 12px 16px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.guide-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 14px; }
+.guide-steps li { display: flex; align-items: center; gap: 8px; }
+.step-n { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-weight: 700; font-size: 12px; flex: none; }
+
+/* Simple view: the problem, the call, the ranked options and Play demo. Everything else waits behind "Show the engine". */
+.view-simple .top-controls,
+.view-simple #banner,
+.view-simple .timeline,
+.view-simple .insight,
+.view-simple .lower,
+.view-simple .metrics,
+.view-simple .col-msg .loading,
+.view-simple .race-note,
+.view-simple .parts-toggle,
+.view-simple .details-body,
+.view-simple .editor,
+.view-simple .race [data-engine="local"],
+.view-simple .caveats .fine-print { display: none !important; }
+.view-simple .guide, .view-simple .problem, .view-simple .layout, .view-simple .caveats { max-width: 760px; margin-left: auto; margin-right: auto; }
+.view-simple .layout, .view-simple .layout.two { grid-template-columns: minmax(0, 1fr); }
+.view-simple .race.two { grid-template-columns: minmax(0, 1fr); }
+.view-simple .problem-text:not(.open) { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden; }
+.view-simple .problem-text:not(.open) p { display: inline; margin: 0; }
+.view-simple .problem-text:not(.open) .goal::after { content: " "; }
+.view-simple .more-toggle { display: inline-flex; min-height: 32px; padding: 2px 0; border: 0; background: none; color: var(--accent); font-size: 14px; }
+.view-simple .col-head h2 { font-size: 15px; color: var(--muted); font-weight: 600; }
+.view-simple .col-head { margin-bottom: 10px; }
+.view-simple .meta-row { min-height: 0; }
+.view-simple .top { max-width: 760px; margin-left: auto; margin-right: auto; }
+.view-simple .guide { flex-wrap: nowrap; }
+@media (max-width: 640px) { .view-simple .guide { flex-wrap: wrap; } }
+
 /* Phone-only toggles: hidden on desktop, where everything shows. */
 .more-toggle { display: none; }
 .narrow-only { display: none; }

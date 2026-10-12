@@ -2,6 +2,10 @@
 
 An inspectable incident decision-support demo. **The model judges, the code decides.**
 
+**Live site: https://callpoint.itsryanm.com** (the app is at [/demo/](https://callpoint.itsryanm.com/demo/)).
+The public site is replay only: it plays a real recorded run at its recorded speed. Adding your
+own facts (Live mode) needs the local server and your own TypeSafe key, so run it yourself for that.
+
 Set the problem: what is happening, the options on the table, what a good outcome looks like,
 and the hard rules. Add facts as they come in. Callpoint asks a decision model (TypeSafe Jev) to
 judge every option against every goal as typed probabilities, and plain code ranks them. You
@@ -41,6 +45,11 @@ What it gives you:
 Replay mode plays a real recorded run at its recorded speed with no key and no local model,
 so "Play demo" works on a static host. Live mode needs the local server and your key.
 
+The app opens in a simple view: the problem, the call, the ranked options and Play demo, with a
+short first-visit guide. "Show the engine" reveals everything above (timeline, timings, weights,
+the compare and what-would-change cards, the receipt, the Clef switch). The choice is remembered
+per browser, and `?view=full` opens the full view directly.
+
 ## Quickstart
 
 Needs Node 22.12+ (24 recommended; `.nvmrc` says 24).
@@ -50,7 +59,8 @@ Needs Node 22.12+ (24 recommended; `.nvmrc` says 24).
    column, install [Ollama](https://ollama.com) 0.35.1 or newer, start it, and pull Clef
    (about 11 to 12 GB): `ollama pull clef-flash:9b`, or over HTTP:
    `curl -X POST http://localhost:11434/api/pull -d '{"model":"clef-flash:9b"}'`.
-3. `npm run dev`, then open http://localhost:5173
+3. `npm run dev`, then open http://localhost:5173 (the landing page). The app is at
+   http://localhost:5173/demo/.
 
 Without a key, use Replay mode. The local comparison only needs Ollama when you turn it on.
 

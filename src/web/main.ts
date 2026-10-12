@@ -24,6 +24,10 @@ import {
 } from "../engine/index";
 import { cloneScenario, renderEditor } from "./editor";
 import { gaugeLayout, type GaugeLabel } from "./gauge";
+import { readPref, themeToggleHtml, wireThemeToggle, writePref } from "./theme";
+
+const VIEW_KEY = "callpoint-view";
+const GUIDE_KEY = "callpoint-guide";
 
 // ---------- Data: scenarios and recordings are plain JSON files in scenarios/ ----------
 
@@ -78,6 +82,9 @@ const state = {
   facts: [] as Fact[],
   started: false,
   compareLocal: false,
+  /** Simple view by default; "Show the engine" switches to the full instrument panel. */
+  view: initialView(),
+  guideDismissed: readPref(GUIDE_KEY) === "dismissed",
   /** Phone-only UI state: expanded problem text and option cards with criteria showing. */
   problemOpen: false,
   /** Details toggles people have tapped. Untouched cards use the default (open only for #1 on desktop). */
@@ -99,6 +106,27 @@ const state = {
   runId: 0,
   toast: "",
 };
+
+/** Link back to the landing page, keeping ?theme= when it was set. */
+function homeHref(): string {
+  try {
+    const t = new URLSearchParams(location.search).get("theme");
+    return t ? `../?theme=${encodeURIComponent(t)}` : "../";
+  } catch {
+    return "../";
+  }
+}
+
+function initialView(): "simple" | "full" {
+  try {
+    const q = new URLSearchParams(location.search).get("view");
+    if (q === "full" || q === "simple") return q;
+  } catch {
+    // no URL params available
+  }
+  return readPref(VIEW_KEY) === "full" ? "full" : "simple";
+}
+const isSimple = () => state.view === "simple";
 
 const scenario = (): Scenario => (state.mode === "live" && state.edited ? state.edited : state.base);
 const activeEngines = (): EngineId[] => (state.compareLocal ? ENGINES : ["jev"]);
@@ -429,25 +457,17 @@ const nameOf = (id: string) =>
 function shell() {
   $("#app").innerHTML = `
     <header class="top">
-      <div class="theme-toggle" role="group" aria-label="Theme" id="theme-toggle">
-        <button type="button" data-theme-choice="system" aria-label="Use system theme" title="System">
-          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
-        </button>
-        <button type="button" data-theme-choice="light" aria-label="Use light theme" title="Light">
-          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
-        </button>
-        <button type="button" data-theme-choice="dark" aria-label="Use dark theme" title="Dark">
-          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-        </button>
-      </div>
+${themeToggleHtml}
       <div class="brand">
-        <h1>Callpoint</h1>
+        <h1><a class="brand-link" href="${homeHref()}">Callpoint</a></h1>
         <p class="tagline">An incident co-pilot. The model judges, the code decides.</p>
         <p class="pitch">Add facts as your incident unfolds. Callpoint re-ranks your options in milliseconds, flags when it's too close to call, and writes the decision trail for your postmortem.</p>
       </div>
+      <div class="view-switch" id="view-switch"></div>
       <div class="top-controls" id="top-controls"></div>
     </header>
     <div id="banner"></div>
+    <section class="guide" id="guide" aria-label="How to read this page"></section>
     <section class="card problem" id="problem"></section>
     <main class="layout" id="layout">
       <section class="card timeline" id="timeline" aria-label="Timeline"></section>
@@ -471,6 +491,7 @@ function shell() {
         <a href="https://huggingface.co/Cloudflare/clef-flash" target="_blank" rel="noopener noreferrer">Clef model card</a>
         <a href="https://github.com/ollama/ollama/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">Ollama license</a>
       </p>
+      <div class="fine-print">
       <h2>Fine print</h2>
       <ul>
         <li>Jev answers are not bit-identical across runs; TypeSafe's docs show small noise on some questions. The ranking holds steady because the model is pinned (jev-1.13.0), judgments are cached by a hash of the state and question, and the ranking is plain code.</li>
@@ -480,40 +501,9 @@ function shell() {
         <li>Scores and certainty are model judgments, not validated outcome probabilities.</li>
         <li>This is a demo scenario, not incident advice. You set the goals, weights, and constraints.</li>
       </ul>
+      </div>
     </footer>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>`;
-}
-
-// ---------- Theme ----------
-
-type Theme = "system" | "light" | "dark";
-const THEME_KEY = "callpoint-theme";
-
-function currentTheme(): Theme {
-  const t = document.documentElement.getAttribute("data-theme");
-  return t === "dark" || t === "light" ? t : "system";
-}
-
-/** System = no attribute (prefers-color-scheme decides). The choice is saved when storage works. */
-function setTheme(t: Theme) {
-  if (t === "system") document.documentElement.removeAttribute("data-theme");
-  else document.documentElement.setAttribute("data-theme", t);
-  try {
-    localStorage.setItem(THEME_KEY, t);
-  } catch {
-    // Storage blocked (private mode, sandbox): the theme still applies for this page view.
-  }
-  syncThemeToggle();
-}
-
-function syncThemeToggle() {
-  const t = currentTheme();
-  document.querySelectorAll<HTMLButtonElement>("[data-theme-choice]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.themeChoice === t)));
-}
-
-function wireThemeToggle() {
-  document.querySelectorAll<HTMLButtonElement>("[data-theme-choice]").forEach((b) => b.addEventListener("click", () => setTheme(b.dataset.themeChoice as Theme)));
-  syncThemeToggle();
 }
 
 function renderTop() {
@@ -756,7 +746,9 @@ function renderRace() {
       else root.prepend(col);
     }
     const c = state.cols[e];
-    col.querySelector(".col-head")!.innerHTML = `<h2>${LONG_LABEL[e]}</h2><span class="model">${esc(c.model)}</span>`;
+    col.querySelector(".col-head")!.innerHTML = isSimple()
+      ? `<h2>Your options, best first</h2>`
+      : `<h2>${LONG_LABEL[e]}</h2><span class="model">${esc(c.model)}</span>`;
     const m = c.metric;
     col.querySelector(".metrics")!.innerHTML = m
       ? m.kind === "rerank"
@@ -1013,7 +1005,7 @@ function renderCall() {
   if (!top) {
     tone = "red";
     headline = "No call: every option is blocked by a constraint. This is your decision.";
-    sub = "Change a constraint below, or add a fact that unblocks an option.";
+    sub = isSimple() ? "Every option breaks a hard rule, so Callpoint won't pick one." : "Change a constraint below, or add a fact that unblocks an option.";
   } else if (top.nearTie) {
     tone = "amber";
     const group = open.filter((r) => r.nearTie && r.groupRank === top.groupRank).map((r) => nameOf(r.optionId));
@@ -1124,7 +1116,49 @@ function renderToast() {
 }
 
 /** Re-render everything except the editor and tuning, which keep focus while you type. */
+const PITCH_FULL = "Add facts as your incident unfolds. Callpoint re-ranks your options in milliseconds, flags when it's too close to call, and writes the decision trail for your postmortem.";
+const PITCH_SIMPLE = "Press Play demo to watch an incident unfold. Callpoint re-ranks the options as each new fact lands, and tells you when it's too close to call.";
+
+function renderViewSwitch() {
+  const pitch = document.querySelector<HTMLElement>(".pitch");
+  if (pitch) pitch.textContent = isSimple() ? PITCH_SIMPLE : PITCH_FULL;
+  $("#view-switch").innerHTML = `
+    <label class="switch">
+      <input type="checkbox" role="switch" id="show-engine" ${isSimple() ? "" : "checked"} />
+      <span class="track" aria-hidden="true"><span class="thumb"></span></span>
+      <span class="switch-label">Show the engine</span>
+    </label>`;
+  $<HTMLInputElement>("#show-engine").addEventListener("change", (e) => {
+    state.view = (e.target as HTMLInputElement).checked ? "full" : "simple";
+    writePref(VIEW_KEY, state.view);
+    renderAll(true);
+  });
+}
+
+function renderGuide() {
+  const el = $("#guide");
+  if (!isSimple() || state.guideDismissed) {
+    el.innerHTML = "";
+    return;
+  }
+  el.innerHTML = `
+    <ol class="guide-steps">
+      <li><span class="step-n">1</span> Here's the problem.</li>
+      <li><span class="step-n">2</span> Press play: new facts arrive.</li>
+      <li><span class="step-n">3</span> Watch the call change, and see when it hands the decision to you.</li>
+    </ol>
+    <button type="button" class="ghost small" id="guide-close">Got it</button>`;
+  $("#guide-close").addEventListener("click", () => {
+    state.guideDismissed = true;
+    writePref(GUIDE_KEY, "dismissed");
+    renderGuide();
+  });
+}
+
 function renderAll(full = false) {
+  document.body.classList.toggle("view-simple", isSimple());
+  renderViewSwitch();
+  renderGuide();
   renderTop();
   renderBanner();
   if (full) {

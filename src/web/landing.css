@@ -1,0 +1,37 @@
+/* Landing page. Uses the app's tokens and components from style.css. */
+.lp { max-width: 1040px; margin: 0 auto; padding: 20px 16px 56px; }
+.lp-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 40px; }
+.lp-top .theme-toggle { position: static; }
+.lp-brand { font-size: 20px; font-weight: 800; letter-spacing: -0.01em; }
+.lp-hero { max-width: 760px; }
+.lp-hero h1 { font-size: 44px; line-height: 1.1; letter-spacing: -0.02em; font-weight: 800; margin: 0 0 14px; }
+.lp-sub { font-size: 18px; line-height: 1.5; color: var(--ink); opacity: 0.85; margin: 0 0 20px; max-width: 64ch; }
+.lp-cta { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 18px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font-weight: 700; text-decoration: none; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.lp-video { margin: 32px 0 28px; }
+.lp-video video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: var(--radius); border: 1px solid var(--line); background: var(--surface-2); box-shadow: var(--shadow); }
+.lp-points { list-style: none; margin: 0 0 24px; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.lp-points li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; align-items: start; padding: 16px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.lp-points svg { color: var(--accent); margin-top: 1px; }
+.lp-points h2 { font-size: 16px; margin: 0 0 4px; }
+.lp-points p { margin: 0; font-size: 14px; color: var(--muted); }
+.lp-how { font-size: 15px; max-width: 75ch; margin: 0 0 24px; }
+.lp-run { margin-bottom: 28px; }
+.lp-run pre { margin: 10px 0; padding: 12px 14px; overflow-x: auto; white-space: pre-wrap; overflow-wrap: anywhere; background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; font: 13px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; }
+.lp-run pre code { background: none; padding: 0; }
+.lp-run a, .lp-foot a { color: var(--accent); }
+.lp-foot { border-top: 1px solid var(--line); padding-top: 16px; }
+.lp-foot p { max-width: 90ch; }
+.lp-links { display: flex; flex-wrap: wrap; gap: 8px 18px; font-weight: 600; }
+@media (max-width: 820px) {
+  .lp-points { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 520px) {
+  .lp-top { margin-bottom: 24px; }
+  .lp-hero h1 { font-size: 30px; }
+  .lp-sub { font-size: 16px; }
+  .lp-cta .btn { flex: 1 1 auto; }
+}

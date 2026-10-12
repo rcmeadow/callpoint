@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Callpoint: fast, auditable incident triage. The model judges, the code decides." />
+    <title>Callpoint demo</title>
+    <script>
+      // Apply the theme before first paint: ?theme= wins, then the saved choice, else the system setting.
+      (function () {
+        var t = null;
+        try {
+          var q = new URLSearchParams(location.search).get("theme");
+          if (q === "dark" || q === "light" || q === "system") t = q;
+        } catch (e) {}
+        if (!t) {
+          try {
+            t = localStorage.getItem("callpoint-theme");
+            // One-time migration from the app's earlier name.
+            var old = localStorage.getItem("reflex-theme");
+            if (!t && old) {
+              t = old;
+              localStorage.setItem("callpoint-theme", old);
+            }
+            if (old !== null) localStorage.removeItem("reflex-theme");
+          } catch (e) {}
+        }
+        if (t === "dark" || t === "light") document.documentElement.setAttribute("data-theme", t);
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/web/main.ts"></script>
+  </body>
+</html>
