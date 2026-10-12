@@ -75,6 +75,9 @@ const state = {
   facts: [] as Fact[],
   started: false,
   compareLocal: false,
+  /** Phone-only UI state: expanded problem text and option cards with criteria showing. */
+  problemOpen: false,
+  partsOpen: new Set<string>(),
   playing: false,
   cols: {} as Record<EngineId, Column>,
   status: null as Status | null,
@@ -424,7 +427,7 @@ function renderBanner() {
       ? `<div class="banner warn">No recording for this problem yet. Use Live, or run <code>npm run record</code>.</div>`
       : rec.synthetic
         ? `<div class="banner warn"><strong>Sample data, not a real run.</strong> Hand-written judgments and timings so Replay works out of the box. <code>npm run record</code> makes a real one.</div>`
-        : `<div class="banner calm">Replaying a real run from ${esc(new Date(rec.recordedAt).toLocaleString())}, at its recorded speed. Switch to Live to add your own facts.</div>`;
+        : `<div class="banner calm">Replaying a real recorded run<span class="wide-only"> from ${esc(new Date(rec.recordedAt).toLocaleString())}</span>, at its recorded speed.<span class="wide-only"> Switch to Live to add your own facts.</span></div>`;
     return;
   }
   const s = state.status;
@@ -455,19 +458,30 @@ function renderProblem() {
         <h2>${esc(s.title)}</h2>
       </div>
       <div class="actions">
-        <button type="button" class="primary" id="play" ${isBusy || state.playing || applied >= n ? "disabled" : ""}>${state.playing ? "Playing..." : applied ? "Continue demo" : "Play demo"}</button>
-        <button type="button" id="next" ${isBusy || state.playing || applied >= n ? "disabled" : ""}>Next update${state.started ? ` (${applied}/${n})` : ""}</button>
+        <button type="button" class="primary" id="play" ${isBusy || state.playing || applied >= n ? "disabled" : ""}>${state.playing ? "Playing..." : applied ? `Continue<span class="wide-only"> demo</span>` : "Play demo"}</button>
+        <button type="button" id="next" ${isBusy || state.playing || applied >= n ? "disabled" : ""}>Next<span class="wide-only"> update</span>${state.started ? ` (${applied}/${n})` : ""}</button>
         <button type="button" class="ghost" id="reset" ${state.started ? "" : "disabled"}>Start over</button>
       </div>
     </div>
-    <p class="goal"><strong>Goal:</strong> ${esc(s.goal)}</p>
-    <p class="summary">${esc(s.incident.summary ?? "")}</p>
-    <details class="editor" id="editor-details">
+    <div class="problem-text ${state.problemOpen ? "open" : ""}" id="problem-text">
+      <p class="goal"><strong>Goal:</strong> ${esc(s.goal)}</p>
+      <p class="summary">${esc(s.incident.summary ?? "")}</p>
+    </div>
+    <button type="button" class="more-toggle" id="problem-more" aria-expanded="${state.problemOpen}" aria-controls="problem-text">${state.problemOpen ? "Less" : "More"}</button>
+    <details class="editor ${state.problemOpen ? "open" : ""}" id="editor-details">
       <summary>Edit the problem${editable ? "" : " (runs in Live mode)"}</summary>
       <div id="editor"></div>
     </details>`;
   $("#play").addEventListener("click", () => void playDemo());
   $("#next").addEventListener("click", () => void nextUpdate());
+  $("#problem-more").addEventListener("click", () => {
+    state.problemOpen = !state.problemOpen;
+    $("#problem-text").classList.toggle("open", state.problemOpen);
+    $("#editor-details").classList.toggle("open", state.problemOpen);
+    const b = $("#problem-more");
+    b.textContent = state.problemOpen ? "Less" : "More";
+    b.setAttribute("aria-expanded", String(state.problemOpen));
+  });
   $("#reset").addEventListener("click", () => {
     resetSession();
     renderAll(true);
@@ -608,7 +622,7 @@ function flipRender(ul: HTMLUListElement, ranked: RankedOption[], judgments: Rec
       li = document.createElement("li");
       li.dataset.id = r.optionId;
     }
-    li.className = r.blocked ? "blocked" : r.nearTie ? "tie" : r.rank === 1 ? "lead" : "";
+    li.className = `${r.blocked ? "blocked" : r.nearTie ? "tie" : r.rank === 1 ? "lead" : ""}${state.partsOpen.has(r.optionId) ? " show-parts" : ""}`;
     li.innerHTML = rowHtml(r, judgments);
     ul.appendChild(li);
   }
@@ -633,7 +647,7 @@ function rowHtml(r: RankedOption, judgments: Record<string, Judgment>): string {
   const o = s.options.find((x) => x.id === r.optionId)!;
   const conf = confidenceOf(judgments, r.optionId);
   const tag = r.blocked
-    ? `<span class="tag red">Blocked: ${r.blockedBy.map(nameOf).map(esc).join(", ")}</span>`
+    ? `<span class="tag red" title="Blocked: ${r.blockedBy.map(nameOf).map(esc).join(", ")}">Blocked: ${r.blockedBy.map(nameOf).map(esc).join(", ")}</span>`
     : r.nearTie
       ? `<span class="tag amber" title="Within the near-tie margin (${nearTieMarginOf(s)}). The code makes no call between these.">too close to call (gap ${r.tieSpread.toFixed(3)})</span>`
       : "";
@@ -643,8 +657,9 @@ function rowHtml(r: RankedOption, judgments: Record<string, Judgment>): string {
     <div class="body">
       <div class="name-row"><span class="name">${esc(o.name)}</span><span class="total">${r.total.toFixed(3)}</span></div>
       <div class="bar" aria-label="Score ${r.total.toFixed(2)}"><span style="width:${Math.round(r.total * 100)}%"></span></div>
-      <div class="conf" title="Average confidence of this option's Score answers"><span style="width:${Math.round(conf * 100)}%"></span><em>confidence ${conf.toFixed(2)}</em></div>
-      ${tag}
+      <div class="conf" title="Average confidence of this option's Score answers"><span style="width:${Math.round(conf * 100)}%"></span></div>
+      <div class="conf-row"><em>confidence ${conf.toFixed(2)}</em>${tag.replace('class="tag ', 'class="tag in-row ')}<button type="button" class="parts-toggle" data-parts="${esc(r.optionId)}" aria-expanded="${state.partsOpen.has(r.optionId)}">${state.partsOpen.has(r.optionId) ? "Hide details" : "Details"}</button></div>
+      ${tag.replace('class="tag ', 'class="tag block ')}
       <div class="parts">${parts}</div>
     </div>`;
 }
@@ -805,6 +820,20 @@ function refreshProblemButtons() {
   $<HTMLButtonElement>("#next").disabled = off;
   $<HTMLButtonElement>("#reset").disabled = !state.started;
 }
+
+document.addEventListener("click", (e) => {
+  const b = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-parts]");
+  if (!b) return;
+  const id = b.dataset.parts!;
+  if (state.partsOpen.has(id)) state.partsOpen.delete(id);
+  else state.partsOpen.add(id);
+  const open = state.partsOpen.has(id);
+  document.querySelectorAll<HTMLLIElement>(`.ranked li[data-id="${CSS.escape(id)}"]`).forEach((li) => li.classList.toggle("show-parts", open));
+  document.querySelectorAll<HTMLButtonElement>(`[data-parts="${CSS.escape(id)}"]`).forEach((x) => {
+    x.textContent = open ? "Hide details" : "Details";
+    x.setAttribute("aria-expanded", String(open));
+  });
+});
 
 if (!scenarios.length) {
   document.body.textContent = "No scenarios found in scenarios/*.json.";
