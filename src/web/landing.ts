@@ -35,7 +35,7 @@ document.querySelector<HTMLElement>("#landing")!.innerHTML = `
       </div>
       <figure class="lp-video">
         <div class="lp-video-frame">
-          <video src="./media/callpoint-demo.mp4" poster="./media/callpoint-demo-poster.jpg" width="1280" height="720" autoplay muted loop playsinline preload="metadata" aria-label="A 20 second screen recording of the Callpoint demo: facts arrive, the ranking re-sorts, and the call banner changes."></video>
+          <video src="./media/callpoint-landing.mp4" poster="./media/callpoint-landing-poster.jpg" width="1280" height="720" autoplay muted loop playsinline preload="metadata" aria-label="An 18 second screen recording of the Callpoint demo: new facts land, the options re-sort, and the call changes."></video>
         </div>
         <figcaption>A real recorded run: facts land, the call changes.</figcaption>
       </figure>
