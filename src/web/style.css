@@ -85,7 +85,12 @@ code { font: 13px ui-monospace, SFMono-Regular, Menlo, monospace; background: va
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); min-width: 0; }
 
 /* Header */
-.top { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; justify-content: space-between; margin-bottom: 12px; }
+.top { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; justify-content: space-between; margin-bottom: 12px; position: relative; }
+.theme-toggle { position: absolute; top: 0; right: 0; display: inline-flex; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; background: var(--surface); }
+.theme-toggle button { min-height: 32px; width: 34px; padding: 0; border: 0; border-radius: 0; background: transparent; color: var(--muted); display: grid; place-items: center; }
+.theme-toggle button + button { border-left: 1px solid var(--line); }
+.theme-toggle button:hover { color: var(--ink); }
+.theme-toggle button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); }
 .brand { display: flex; flex-direction: column; gap: 2px; }
 .tagline { margin: 0; color: var(--muted); font-size: 15px; }
 .pitch { margin: 6px 0 0; max-width: 62ch; font-size: 16px; line-height: 1.45; }
@@ -194,8 +199,7 @@ textarea { resize: vertical; }
 .ranked li.tie { background: var(--amber-soft); border-color: var(--amber-line); }
 /* Blocked options fold into compact rows under the live ones. */
 .ranked li.blocked { background: transparent; border: 1px dashed var(--line); padding: 6px 10px; grid-template-columns: 24px minmax(0, 1fr); gap: 8px; }
-.ranked li:not(.blocked) + li.blocked { margin-top: 18px; }
-.ranked li:not(.blocked) + li.blocked::before { content: "Blocked by a constraint"; position: absolute; top: -18px; left: 2px; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+.ranked li.blocked-label { display: block; border: 0; border-radius: 0; background: none; padding: 8px 2px 0; font-size: 12px; font-weight: 600; color: var(--muted); }
 .ranked li.blocked .name { text-decoration: line-through; text-decoration-thickness: 1px; color: var(--muted); font-weight: 600; font-size: 14px; }
 .ranked li.blocked .total { color: var(--muted); font-weight: 600; font-size: 13px; }
 .reason { font-size: 12px; font-weight: 600; color: var(--red); }

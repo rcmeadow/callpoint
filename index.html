@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Reflex: fast, auditable incident triage. The model judges, the code decides." />
     <title>Reflex</title>
+    <script>
+      // Apply the theme before first paint: ?theme= wins, then the saved choice, else the system setting.
+      (function () {
+        var t = null;
+        try {
+          var q = new URLSearchParams(location.search).get("theme");
+          if (q === "dark" || q === "light" || q === "system") t = q;
+        } catch (e) {}
+        if (!t) {
+          try {
+            t = localStorage.getItem("reflex-theme");
+          } catch (e) {}
+        }
+        if (t === "dark" || t === "light") document.documentElement.setAttribute("data-theme", t);
+      })();
+    </script>
   </head>
   <body>
     <div id="app"></div>

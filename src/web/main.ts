@@ -112,6 +112,9 @@ function resetSession(opts: { defaults?: boolean } = {}) {
   state.playing = false;
   state.cols = Object.fromEntries(ENGINES.map((e) => [e, { snapshots: [], loading: false, error: null, model: defaultModel(e), metric: null }])) as unknown as Record<EngineId, Column>;
   state.rerank = null;
+  // A fresh session should not animate the call banner as if the call had changed.
+  const call = document.querySelector<HTMLElement>("#call");
+  if (call) delete call.dataset.key;
   if (state.mode === "replay") primeReplay();
 }
 
@@ -392,6 +395,17 @@ const nameOf = (id: string) =>
 function shell() {
   $("#app").innerHTML = `
     <header class="top">
+      <div class="theme-toggle" role="group" aria-label="Theme" id="theme-toggle">
+        <button type="button" data-theme-choice="system" aria-label="Use system theme" title="System">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
+        </button>
+        <button type="button" data-theme-choice="light" aria-label="Use light theme" title="Light">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <button type="button" data-theme-choice="dark" aria-label="Use dark theme" title="Dark">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+      </div>
       <div class="brand">
         <h1>Reflex</h1>
         <p class="tagline">An incident co-pilot. The model judges, the code decides.</p>
@@ -432,6 +446,38 @@ function shell() {
       </ul>
     </footer>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>`;
+}
+
+// ---------- Theme ----------
+
+type Theme = "system" | "light" | "dark";
+const THEME_KEY = "reflex-theme";
+
+function currentTheme(): Theme {
+  const t = document.documentElement.getAttribute("data-theme");
+  return t === "dark" || t === "light" ? t : "system";
+}
+
+/** System = no attribute (prefers-color-scheme decides). The choice is saved when storage works. */
+function setTheme(t: Theme) {
+  if (t === "system") document.documentElement.removeAttribute("data-theme");
+  else document.documentElement.setAttribute("data-theme", t);
+  try {
+    localStorage.setItem(THEME_KEY, t);
+  } catch {
+    // Storage blocked (private mode, sandbox): the theme still applies for this page view.
+  }
+  syncThemeToggle();
+}
+
+function syncThemeToggle() {
+  const t = currentTheme();
+  document.querySelectorAll<HTMLButtonElement>("[data-theme-choice]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.themeChoice === t)));
+}
+
+function wireThemeToggle() {
+  document.querySelectorAll<HTMLButtonElement>("[data-theme-choice]").forEach((b) => b.addEventListener("click", () => setTheme(b.dataset.themeChoice as Theme)));
+  syncThemeToggle();
 }
 
 function renderTop() {
@@ -695,6 +741,17 @@ function flipRender(ul: HTMLUListElement, ranked: RankedOption[], judgments: Rec
     li.innerHTML = rowHtml(r, judgments);
     ul.appendChild(li);
   }
+  // A real label row before the first blocked option (works even when every option is blocked).
+  let label = ul.querySelector<HTMLLIElement>("li.blocked-label");
+  const firstBlocked = ul.querySelector<HTMLLIElement>("li[data-id].blocked");
+  if (firstBlocked) {
+    if (!label) {
+      label = document.createElement("li");
+      label.className = "blocked-label";
+      label.textContent = "Blocked by a constraint";
+    }
+    ul.insertBefore(label, firstBlocked);
+  } else label?.remove();
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   ul.querySelectorAll<HTMLLIElement>("li[data-id]").forEach((li) => {
     const before = first.get(li.dataset.id!);
@@ -1056,6 +1113,7 @@ if (!scenarios.length) {
   document.body.textContent = "No scenarios found in scenarios/*.json.";
 } else {
   shell();
+  wireThemeToggle();
   renderAll(true);
   void loadStatus().then(() => {
     for (const e of ENGINES) if (!state.cols[e].model) state.cols[e].model = defaultModel(e);

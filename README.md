@@ -16,9 +16,9 @@ What it gives you:
 - **Live facts.** Type what you just learned. Each fact re-asks every question in one Jev
   request (around 200 ms to 1 s in testing here) and the ranking re-sorts. "Play demo" runs the
   scripted updates instead.
-- **The call.** A banner above the ranking says what the code would do right now, or "Too
-  close to call" in amber when the top options are within the near-tie margin, with the
-  "where we are going" line under it.
+- **The call.** A banner above the ranking says what the code would do right now, with the
+  "where we are going" line under it. When the top options are within the near-tie margin it
+  turns amber, says "Too close to call", and shows the near-tie note under it instead.
 - **The race.** Options ranked by weighted score, one bar each. Details shows the model's
   confidence (from its own probabilities) and the score per goal. Amber means too close to
   call. Options blocked by a hard constraint fold into compact struck-through rows below.
