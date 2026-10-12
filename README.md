@@ -229,9 +229,10 @@ The next update settles it.
   with the gap shown, gives it a shared rank like "1=", and lists it in scenario file order.
   The "why it moved" feed does not report a swap inside the group as a move, and the
   run-twice check collapses those swaps instead of failing. The real case behind this rule:
-  in the first live Jev recording, two uncached runs agreed at 5 of 6 steps, and the one
-  difference was the top two options at update 1, with totals of 0.883 and 0.879. That 0.004
-  gap is inside Jev's run-to-run noise, so calling it a ranking change would be false
+  in an earlier live Jev recording (since replaced), two uncached runs agreed at 5 of 6
+  steps, and the one difference was the top two options at update 1, with totals of 0.883
+  and 0.879. In the current recording the same pair sits at 0.883 and 0.880. Gaps that small
+  are inside Jev's run-to-run noise, so calling them a ranking change would be false
   precision. Blocked options always sort last.
 - The bundled scenario is a demo, not incident advice. Weights and constraints are yours.
 - TypeSafe and Jev are named here only to say what the app calls. This project is not

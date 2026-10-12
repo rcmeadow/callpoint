@@ -110,7 +110,13 @@ export function describe(optionName: string, from: number | string, to: number |
   if (r.levelBefore !== undefined && r.levelAfter !== undefined) {
     return `${optionName} ${motion}: ${r.targetName} ${dir}, level "${r.levelBefore}" to "${r.levelAfter}" (${f1(r.scoreBefore ?? 0)} to ${f1(r.scoreAfter ?? 0)} of ${r.topLevel}).`;
   }
-  return `${optionName} ${motion}: ${r.targetName} ${dir}, P(top level) ${f2(r.before)} to ${f2(r.after)} (score ${f1(r.scoreBefore ?? 0)} to ${f1(r.scoreAfter ?? 0)} of ${r.topLevel}).`;
+  const scoreText = `score ${f1(r.scoreBefore ?? 0)} to ${f1(r.scoreAfter ?? 0)} of ${r.topLevel}`;
+  // Show P(top level) only when it moves the same way as the expected score; otherwise it
+  // reads as a contradiction ("fell, P 0.16 to 0.18").
+  const sUp = (r.scoreAfter ?? 0) >= (r.scoreBefore ?? 0);
+  const pUp = r.after >= r.before;
+  if (sUp !== pUp || Math.abs(r.after - r.before) < 0.005) return `${optionName} ${motion}: ${r.targetName} ${dir}, ${scoreText}.`;
+  return `${optionName} ${motion}: ${r.targetName} ${dir}, P(top level) ${f2(r.before)} to ${f2(r.after)} (${scoreText}).`;
 }
 
 /** "Why it moved": one line per option whose rank or gate status changed. */
@@ -129,6 +135,8 @@ export function explain(
     const from = before?.groupRank ?? row.groupRank;
     const gateChanged = (before?.blocked ?? false) !== row.blocked;
     if (from === row.groupRank && !gateChanged) continue;
+    // Blocked before and after: its position among blocked options is not a decision.
+    if (before?.blocked && row.blocked) continue;
     const option = scenario.options.find((o) => o.id === row.optionId);
     const name = option?.name ?? row.optionId;
     const reason = reasonFor(scenario, row.optionId, prev.judgments, next.judgments, before, row, settings);

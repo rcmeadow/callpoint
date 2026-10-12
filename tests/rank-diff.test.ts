@@ -157,8 +157,10 @@ describe("near ties", () => {
   });
 
   it("validates nearTieMargin", () => {
-    expect(() => validateScenario({ ...s, nearTieMargin: -1 })).toThrow(/nearTieMargin/);
+    expect(() => validateScenario({ ...s, nearTieMargin: -1 })).toThrow(/Near-tie margin/);
     expect(validateScenario({ ...s, nearTieMargin: 0.05 }).nearTieMargin).toBe(0.05);
+    const oneLevel = { ...s, criteria: s.criteria.map((c, i) => (i === 0 ? { ...c, levels: ["only"] } : c)) };
+    expect(() => validateScenario(oneLevel)).toThrow('Goal "Error reduction" needs 2 to 10 levels');
   });
 });
 
@@ -203,6 +205,25 @@ describe("why it moved", () => {
     expect(m.text).toBe(
       'Ship a forward hotfix moved 5 to 3: Error reduction rose, level "Would not reduce the errors, or would make them worse" to "Large reduction" (0.0 to 2.0 of 3).',
     );
+  });
+
+  it("skips options that were blocked before and after", () => {
+    const settings = defaultSettings(s);
+    const blocked = { [questionKey("scale_db", "data_loss")]: { kind: "noul" as const, p: 0.9 }, [questionKey("hotfix", "data_loss")]: { kind: "noul" as const, p: 0.9 } };
+    const prevJ = distinct(blocked);
+    const nextJ = distinct({ ...blocked, [questionKey("hotfix", "impact")]: score(3) });
+    const moves = explain(s, { judgments: prevJ, ranked: rank(s, prevJ) }, { judgments: nextJ, ranked: rank(s, nextJ) }, settings);
+    expect(moves.filter((m) => m.optionId === "hotfix" || m.optionId === "scale_db")).toEqual([]);
+  });
+
+  it("drops P(top level) when it moves against the score", () => {
+    const settings = defaultSettings(s);
+    const prevJ = distinct({ [questionKey("rollback", "impact")]: spread(2.5, [0, 0.1, 0.3, 0.6]) });
+    // Expected score falls (2.5 to 1.9) while P(top level) rises (0.60 to 0.62).
+    const nextJ = distinct({ [questionKey("rollback", "impact")]: spread(1.9, [0.3, 0.08, 0, 0.62]), [questionKey("disable_flag", "impact")]: score(3) });
+    const moves = explain(s, { judgments: prevJ, ranked: rank(s, prevJ) }, { judgments: nextJ, ranked: rank(s, nextJ) }, settings);
+    const rb = moves.find((m) => m.optionId === "rollback")!;
+    expect(rb.text).toBe("Roll back to v2.30 moved 1 to 2: Error reduction fell, score 2.5 to 1.9 of 3.");
   });
 
   it("is empty when nothing moved", () => {

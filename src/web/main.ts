@@ -317,6 +317,11 @@ function latest(e: EngineId): Snapshot | undefined {
   return undefined;
 }
 
+/** Index of an engine's first snapshot (its first pass asks every question). */
+function firstIndex(e: EngineId): number {
+  return state.cols[e].snapshots.findIndex(Boolean);
+}
+
 function rankedNow(e: EngineId): RankedOption[] {
   const s = latest(e);
   return s ? rank(scenario(), s.result.judgments, state.settings) : [];
@@ -363,12 +368,13 @@ function shell() {
       <div class="brand">
         <h1>Reflex</h1>
         <p class="tagline">An incident co-pilot. The model judges, the code decides.</p>
+        <p class="pitch">Add facts as your incident unfolds. Reflex re-ranks your options in milliseconds, flags when it's too close to call, and writes the decision trail for your postmortem.</p>
       </div>
       <div class="top-controls" id="top-controls"></div>
     </header>
     <div id="banner"></div>
     <section class="card problem" id="problem"></section>
-    <main class="layout">
+    <main class="layout" id="layout">
       <section class="card timeline" id="timeline" aria-label="Timeline"></section>
       <section class="race" id="race" aria-label="Ranking"></section>
       <section class="insight" id="insight" aria-label="Where we are going"></section>
@@ -403,7 +409,7 @@ function renderTop() {
     </div>
     <label class="switch">
       <input type="checkbox" id="compare-local" ${state.compareLocal ? "checked" : ""} />
-      <span>Compare with local open-weights model (Cloudflare Clef via Ollama)</span>
+      <span>Compare with local open-weights model (Cloudflare Clef via Ollama)<small class="note">Runs on this machine; a full re-ask takes several seconds.</small></span>
     </label>`;
   $("#scenario").addEventListener("change", (e) => setScenario((e.target as HTMLSelectElement).value));
   document.querySelectorAll<HTMLButtonElement>("[data-mode]").forEach((b) => b.addEventListener("click", () => setMode(b.dataset.mode as Mode)));
@@ -498,7 +504,7 @@ function renderTimeline() {
       .map((e) => {
         const r = state.cols[e].snapshots[i]?.result;
         if (!r) return "";
-        return `<span class="pill">${LABEL[e]} ${fmtMs(r.ms)} · ${i === 0 ? `${r.asked} asked` : `${r.asked}/${r.total} re-asked`}</span>`;
+        return `<span class="pill">${LABEL[e]} ${fmtMs(r.ms)} · ${i === firstIndex(e) ? `first pass, ${r.asked} asked` : `${r.asked}/${r.total} re-asked`}</span>`;
       })
       .join("");
   if (state.started) {
@@ -555,6 +561,7 @@ function renderRace() {
   const root = $("#race");
   const engines = activeEngines();
   root.classList.toggle("two", engines.length === 2);
+  $("#layout").classList.toggle("two", engines.length === 2);
   for (const e of ENGINES) {
     let col = root.querySelector<HTMLElement>(`[data-engine="${e}"]`);
     if (!engines.includes(e)) {
@@ -575,7 +582,7 @@ function renderRace() {
     col.querySelector(".metrics")!.innerHTML = m
       ? m.kind === "rerank"
         ? `<span class="pill strong">0 model calls</span><span class="pill">re-ranked in ${fmtMs(m.ms)}</span>`
-        : `<span class="pill strong">${fmtMs(m.ms)}</span><span class="pill">${state.facts.length === 0 ? `${m.asked} questions asked` : `${m.asked} of ${m.total} re-asked`}</span><span class="pill">${m.requests} ${m.requests === 1 ? "request" : "requests"}</span>`
+        : `<span class="pill strong">${fmtMs(m.ms)}</span><span class="pill">${state.cols[e].snapshots.length - 1 === firstIndex(e) ? `first pass, ${m.asked} questions asked` : `${m.asked} of ${m.total} re-asked`}</span><span class="pill">${m.requests} ${m.requests === 1 ? "request" : "requests"}</span>`
       : `<span class="pill muted">${c.loading ? "Running..." : "Not run yet"}</span>`;
     col.querySelector(".col-msg")!.innerHTML = c.error
       ? `<div class="error">${esc(c.error)}</div>`
@@ -628,7 +635,7 @@ function rowHtml(r: RankedOption, judgments: Record<string, Judgment>): string {
   const tag = r.blocked
     ? `<span class="tag red">Blocked: ${r.blockedBy.map(nameOf).map(esc).join(", ")}</span>`
     : r.nearTie
-      ? `<span class="tag amber" title="Within the near-tie margin (${nearTieMarginOf(s)}). The code makes no call between these.">too close to call (margin ${r.tieSpread.toFixed(3)})</span>`
+      ? `<span class="tag amber" title="Within the near-tie margin (${nearTieMarginOf(s)}). The code makes no call between these.">too close to call (gap ${r.tieSpread.toFixed(3)})</span>`
       : "";
   const parts = s.criteria.map((c) => `<span class="chip"><i style="width:${Math.round((r.parts[c.id] ?? 0) * 100)}%"></i><span>${esc(c.name)} ${(r.parts[c.id] ?? 0).toFixed(2)}</span></span>`).join("");
   return `

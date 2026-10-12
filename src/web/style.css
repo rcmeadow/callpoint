@@ -88,6 +88,8 @@ code { font: 13px ui-monospace, SFMono-Regular, Menlo, monospace; background: va
 .top { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; justify-content: space-between; margin-bottom: 12px; }
 .brand { display: flex; flex-direction: column; gap: 2px; }
 .tagline { margin: 0; color: var(--muted); font-size: 15px; }
+.pitch { margin: 6px 0 0; max-width: 62ch; font-size: 16px; line-height: 1.45; }
+.switch .note { display: block; font-size: 12px; color: var(--muted); }
 .top-controls { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: flex-end; }
 .field { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); }
 .switch { display: flex; align-items: center; gap: 8px; font-size: 14px; min-height: 40px; max-width: 360px; cursor: pointer; }
@@ -141,6 +143,9 @@ textarea { resize: vertical; }
 }
 .race { display: grid; gap: 16px; min-width: 0; }
 .race.two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+/* With two engines the race needs the room: timeline | race, and the insight moves under the race. */
+.layout.two { grid-template-columns: minmax(250px, 0.8fr) minmax(0, 2.2fr); }
+.layout.two .timeline { grid-row: span 2; }
 .insight { display: grid; gap: 16px; min-width: 0; }
 
 /* Timeline */
@@ -246,10 +251,10 @@ input[type="range"] { width: 100%; accent-color: var(--accent); min-height: 28px
   .timeline { grid-row: span 2; }
 }
 @media (max-width: 820px) {
-  .layout, .lower { grid-template-columns: minmax(0, 1fr); }
-  .timeline { grid-row: auto; order: 2; }
+  .layout, .layout.two, .lower { grid-template-columns: minmax(0, 1fr); }
+  .timeline, .layout.two .timeline { grid-row: auto; order: 3; }
   .race { order: 1; }
-  .insight { order: 3; }
+  .insight { order: 2; }
   .race.two { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 520px) {

@@ -164,6 +164,21 @@ describe("compare view and receipt", () => {
     expect(md).not.toContain(String.fromCharCode(0x2014));
   });
 
+  it("labels an engine's first snapshot as a first pass even mid-session", () => {
+    const md = buildReceipt({
+      scenario: s,
+      settings,
+      generatedAt: "x",
+      mode: "Live",
+      engines: [
+        { id: "jev", label: "Jev", model: "m", snapshots: snaps },
+        { id: "local", label: "Clef", model: "c", snapshots: [undefined, undefined, { ...snaps[2]!, result: { ...snaps[2]!.result, engine: "local" } }] },
+      ],
+    });
+    expect(md).toContain("**Clef**: 200 ms, first pass, 30 questions asked");
+    expect(md).toContain("**Jev**: 200 ms, 30 of 30 questions re-asked");
+  });
+
   it("flags near ties in the receipt", () => {
     const tie = distinct({ [questionKey("rollback", "impact")]: spread(2.97, [0, 0, 0.03, 0.97]), [questionKey("disable_flag", "impact")]: score(3) });
     const md = buildReceipt({
