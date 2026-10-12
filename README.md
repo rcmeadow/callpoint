@@ -46,7 +46,6 @@ so "Play demo" works on a static host. Live mode needs the local server and your
 Needs Node 22.12+ (24 recommended; `.nvmrc` says 24).
 
 1. `git clone https://github.com/rcmeadow/callpoint && cd callpoint && npm install`
-   (the repo will live at github.com/rcmeadow/callpoint; it is not public yet)
 2. `cp .env.example .env` and add your TypeSafe key (optional; see BYOK below). For the local
    column, install [Ollama](https://ollama.com) 0.35.1 or newer, start it, and pull Clef
    (about 11 to 12 GB): `ollama pull clef-flash:9b`, or over HTTP:
