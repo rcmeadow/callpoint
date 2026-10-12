@@ -34,6 +34,18 @@ export interface Update {
   affects: string[];
 }
 
+/** A fact on the incident timeline: a scripted update or a free-text fact added live. */
+export interface Fact {
+  id: string;
+  /** Display time, e.g. "14:10" for scripted updates or the local clock time for live facts. */
+  at: string;
+  title: string;
+  text: string;
+  /** Scripted updates list the criteria/constraints they can change. Live facts have none. */
+  affects?: string[];
+  source: "scripted" | "live";
+}
+
 export interface Scenario {
   id: string;
   title: string;

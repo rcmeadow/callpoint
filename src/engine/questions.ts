@@ -1,4 +1,4 @@
-import type { Constraint, Criterion, Option, Scenario } from "./types";
+import type { Constraint, Criterion, Fact, Option, Scenario } from "./types";
 
 export type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
 
@@ -29,17 +29,32 @@ export function questionKey(optionId: string, targetId: string): string {
   return `${optionId}__${targetId}`;
 }
 
-/** The state for one target (criterion or constraint) after `step` updates have landed. */
-export function stateFor(scenario: Scenario, step: number, targetId: string): { [key: string]: JsonValue } {
-  const timeline = scenario.updates
-    .slice(0, step)
-    .filter((u) => u.affects.includes(targetId))
-    .map((u) => ({ at: u.at, title: u.title, text: u.text }));
+/** The first `step` scripted updates as facts. */
+export function scriptedFacts(scenario: Scenario, step: number): Fact[] {
+  return scenario.updates.slice(0, step).map((u) => ({ id: u.id, at: u.at, title: u.title, text: u.text, affects: [...u.affects], source: "scripted" }));
+}
+
+/**
+ * The state one target (criterion or constraint) is judged against, given the facts so far.
+ * While every fact is a scripted update with `affects` labels, each target only sees the
+ * updates that list it, so an update re-asks just those questions. A live fact has no labels,
+ * so from the first live fact on every question sees the full timeline (and is re-asked).
+ */
+export function stateForFacts(scenario: Scenario, facts: Fact[], targetId: string): { [key: string]: JsonValue } {
+  const anyLive = facts.some((f) => f.source === "live" || !f.affects);
+  const timeline = facts
+    .filter((f) => anyLive || (f.affects ?? []).includes(targetId))
+    .map((f) => ({ at: f.at, title: f.title, text: f.text }));
   return {
     goal: scenario.goal,
     incident: { ...scenario.incident },
     timeline,
   };
+}
+
+/** The state for one target after `step` scripted updates have landed. */
+export function stateFor(scenario: Scenario, step: number, targetId: string): { [key: string]: JsonValue } {
+  return stateForFacts(scenario, scriptedFacts(scenario, step), targetId);
 }
 
 function optionBlock(option: Option): { [key: string]: JsonValue } {
@@ -75,6 +90,11 @@ export function noulSpec(option: Option, constraint: Constraint): NoulSpec {
 
 /** Every question for a step: one Score per option x criterion, one Noul per option x constraint. */
 export function buildQuestions(scenario: Scenario, step: number): BuiltQuestion[] {
+  return buildQuestionsFor(scenario, scriptedFacts(scenario, step));
+}
+
+/** Every question given a list of facts (scripted and/or live). */
+export function buildQuestionsFor(scenario: Scenario, facts: Fact[]): BuiltQuestion[] {
   const out: BuiltQuestion[] = [];
   for (const option of scenario.options) {
     for (const criterion of scenario.criteria) {
@@ -83,7 +103,7 @@ export function buildQuestions(scenario: Scenario, step: number): BuiltQuestion[
         kind: "score",
         optionId: option.id,
         targetId: criterion.id,
-        state: stateFor(scenario, step, criterion.id),
+        state: stateForFacts(scenario, facts, criterion.id),
         spec: scoreSpec(option, criterion),
       });
     }
@@ -93,7 +113,7 @@ export function buildQuestions(scenario: Scenario, step: number): BuiltQuestion[
         kind: "noul",
         optionId: option.id,
         targetId: constraint.id,
-        state: stateFor(scenario, step, constraint.id),
+        state: stateForFacts(scenario, facts, constraint.id),
         spec: noulSpec(option, constraint),
       });
     }

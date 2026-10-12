@@ -132,8 +132,9 @@ export function explain(
     const option = scenario.options.find((o) => o.id === row.optionId);
     const name = option?.name ?? row.optionId;
     const reason = reasonFor(scenario, row.optionId, prev.judgments, next.judgments, before, row, settings);
-    const fromLabel = before ? rankLabel(before) : rankLabel(row);
-    moves.push({ optionId: row.optionId, optionName: name, from, to: row.groupRank, reason, text: describe(name, fromLabel, rankLabel(row), reason) });
+    const label = (r: RankedOption) => (r.blocked ? "blocked" : rankLabel(r));
+    const fromLabel = label(before ?? row);
+    moves.push({ optionId: row.optionId, optionName: name, from, to: row.groupRank, reason, text: describe(name, fromLabel, label(row), reason) });
   }
   moves.sort((a, b) => a.to - b.to);
   return moves;

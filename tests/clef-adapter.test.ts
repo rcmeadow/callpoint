@@ -38,6 +38,22 @@ describe("Clef adapter (System One via Ollama, mocked)", () => {
     expect(r.usage).toBeUndefined();
   });
 
+  it("parses the live Clef response shape (same as Jev, plus prompt_eval_cached_count)", async () => {
+    const f = vi.fn(async (_url: string, init?: RequestInit) => {
+      const body = JSON.parse(String(init?.body));
+      const answers: Record<string, unknown> = {};
+      for (const [id, q] of Object.entries<any>(body.questions))
+        answers[id] = q.type === "noul"
+          ? { type: "noul", noul: 0.91 }
+          : { type: "score", score: 2.1, confidence: 0.55, legend: { "0": "a", "1": "b", "2": "c", "3": "d" }, probabilities: { "0": 0, "1": 0.1, "2": 0.7, "3": 0.2 } };
+      return new Response(JSON.stringify({ model: "clef-flash:9b", answers, usage: { input_tokens: 900, output_tokens: 40 }, prompt_eval_cached_count: 512 }), { status: 200 });
+    });
+    const r = await runStep(s, 0, createClefAdapter({ fetch: f as any }), new JudgmentCache());
+    expect(r.judgments["hotfix__ic_forbidden"]).toEqual({ kind: "noul", p: 0.91 });
+    expect(r.judgments["hotfix__speed"]).toEqual({ kind: "score", score: 2.1, probabilities: [0, 0.1, 0.7, 0.2], confidence: 0.55 });
+    expect(r.usage).toEqual({ input_tokens: 900, output_tokens: 40 });
+  });
+
   it("maps a refused connection to 'local model not running'", async () => {
     const f = vi.fn(async () => {
       throw new TypeError("fetch failed");

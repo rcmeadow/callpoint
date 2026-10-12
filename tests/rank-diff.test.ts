@@ -191,7 +191,7 @@ describe("why it moved", () => {
     const moves = explain(s, { judgments: prevJ, ranked: rank(s, prevJ) }, { judgments: nextJ, ranked: rank(s, nextJ) }, settings);
     const rb = moves.find((m) => m.optionId === "rollback")!;
     expect(rb.to).toBe(5);
-    expect(rb.text).toBe('Roll back to v2.30 moved 1 to 5: now blocked by "No payment data loss", P(yes) 0.05 to 0.82.');
+    expect(rb.text).toBe('Roll back to v2.30 moved 1 to blocked: now blocked by "No payment data loss", P(yes) 0.05 to 0.82.');
   });
 
   it("shows the level change, not P(top level), when both judgments are one-hot", () => {

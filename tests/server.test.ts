@@ -41,3 +41,25 @@ describe("server API", () => {
     expect((await a.request("/api/local/step", { method: "POST", body: JSON.stringify({ scenarioId: s.id, step: 99 }) })).status).toBe(400);
   });
 });
+
+describe("facts endpoint", () => {
+  it("runs a live fact against an edited scenario", async () => {
+    const a = app();
+    const edited = { ...s, title: "Edited", options: s.options.slice(0, 3) };
+    const body = { scenario: edited, facts: [{ id: "l1", at: "16:40", title: "Live fact", text: "New info.", source: "live" }] };
+    const res = await a.request("/api/local/facts", { method: "POST", body: JSON.stringify(body) });
+    expect(res.status).toBe(200);
+    const r = await res.json();
+    expect(r.total).toBe(3 * 4 + 3 * 2);
+    expect(r.asked).toBe(18);
+    expect(r.step).toBe(1);
+  });
+
+  it("rejects an invalid scenario or fact", async () => {
+    const a = app();
+    const bad1 = await a.request("/api/local/facts", { method: "POST", body: JSON.stringify({ scenario: { ...s, options: [] }, facts: [] }) });
+    expect(bad1.status).toBe(400);
+    const bad2 = await a.request("/api/local/facts", { method: "POST", body: JSON.stringify({ scenario: s, facts: [{ id: "x", at: "1", title: "t", text: "", source: "live" }] }) });
+    expect(bad2.status).toBe(400);
+  });
+});

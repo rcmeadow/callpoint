@@ -1,7 +1,8 @@
 import { Hono } from "hono";
 import { JudgmentCache } from "../engine/cache";
-import { runStep, type Adapter } from "../engine/runner";
-import type { EngineId, Scenario } from "../engine/types";
+import { runFacts, runStep, type Adapter } from "../engine/runner";
+import { validateScenario } from "../engine/validate";
+import type { EngineId, Fact, Scenario } from "../engine/types";
 import { NoKeyError } from "./jev";
 import { LocalNotRunningError } from "./local";
 
@@ -33,10 +34,28 @@ export function createApp(deps: AppDeps) {
     try {
       return c.json(await runStep(scenario, step, adapter, caches[engine]));
     } catch (err) {
-      if (err instanceof NoKeyError) return c.json({ error: err.message, code: "no_key" }, 503);
-      if (err instanceof LocalNotRunningError) return c.json({ error: err.message, code: "local_not_running" }, 503);
-      const message = err instanceof Error ? err.message : String(err);
-      return c.json({ error: message, code: "engine_error" }, 502);
+      return errorResponse(c, err);
+    }
+  });
+
+  // Any scenario (edited in the UI) plus any list of facts (scripted and/or live).
+  app.post("/api/:engine/facts", async (c) => {
+    const engine = c.req.param("engine") as EngineId;
+    const adapter = deps.adapters[engine];
+    if (!adapter) return c.json({ error: `Unknown engine ${engine}` }, 404);
+    const body = (await c.req.json().catch(() => ({}))) as { scenario?: unknown; facts?: unknown };
+    let scenario: Scenario;
+    let facts: Fact[];
+    try {
+      scenario = validateScenario(body.scenario, "scenario");
+      facts = parseFacts(body.facts);
+    } catch (err) {
+      return c.json({ error: err instanceof Error ? err.message : String(err), code: "bad_request" }, 400);
+    }
+    try {
+      return c.json(await runFacts(scenario, facts, adapter, caches[engine]));
+    } catch (err) {
+      return errorResponse(c, err);
     }
   });
 
@@ -47,4 +66,33 @@ export function createApp(deps: AppDeps) {
   });
 
   return app;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function errorResponse(c: any, err: unknown) {
+  if (err instanceof NoKeyError) return c.json({ error: err.message, code: "no_key" }, 503);
+  if (err instanceof LocalNotRunningError) return c.json({ error: err.message, code: "local_not_running" }, 503);
+  const message = err instanceof Error ? err.message : String(err);
+  return c.json({ error: message, code: "engine_error" }, 502);
+}
+
+/** Validate a fact list from the browser. */
+export function parseFacts(raw: unknown): Fact[] {
+  if (!Array.isArray(raw)) throw new Error("facts must be an array");
+  if (raw.length > 60) throw new Error("too many facts (max 60)");
+  return raw.map((f, i) => {
+    const x = f as Partial<Fact>;
+    const str = (v: unknown, max: number, name: string) => {
+      if (typeof v !== "string" || !v.trim() || v.length > max) throw new Error(`fact ${i + 1}: ${name} must be text up to ${max} characters`);
+      return v;
+    };
+    const source = x.source === "scripted" ? "scripted" : x.source === "live" ? "live" : null;
+    if (!source) throw new Error(`fact ${i + 1}: source must be scripted or live`);
+    const out: Fact = { id: str(x.id, 80, "id"), at: str(x.at, 40, "at"), title: str(x.title, 200, "title"), text: str(x.text, 2000, "text"), source };
+    if (x.affects !== undefined) {
+      if (!Array.isArray(x.affects) || x.affects.some((a) => typeof a !== "string")) throw new Error(`fact ${i + 1}: affects must be a list of ids`);
+      out.affects = [...x.affects];
+    }
+    return out;
+  });
 }

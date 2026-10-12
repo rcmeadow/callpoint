@@ -1,8 +1,8 @@
 import { performance } from "node:perf_hooks";
 import { cacheKey, JudgmentCache } from "./cache";
-import { buildQuestions, type BuiltQuestion, type JsonValue } from "./questions";
+import { buildQuestionsFor, scriptedFacts, type BuiltQuestion, type JsonValue } from "./questions";
 import { stableStringify } from "./stable";
-import type { EngineId, Judgment, Scenario, StepResult } from "./types";
+import type { EngineId, Fact, Judgment, Scenario, StepResult } from "./types";
 
 export interface AdapterResult {
   answers: Record<string, Judgment>;
@@ -27,7 +27,18 @@ export async function runStep(
   adapter: Adapter,
   cache: JudgmentCache,
 ): Promise<StepResult> {
-  const questions = buildQuestions(scenario, step);
+  return runFacts(scenario, scriptedFacts(scenario, step), adapter, cache);
+}
+
+/** Run with an explicit fact list (scripted updates and/or live facts). `step` = facts.length. */
+export async function runFacts(
+  scenario: Scenario,
+  facts: Fact[],
+  adapter: Adapter,
+  cache: JudgmentCache,
+): Promise<StepResult> {
+  const step = facts.length;
+  const questions = buildQuestionsFor(scenario, facts);
   const judgments: Record<string, Judgment> = {};
   const groups = new Map<string, { state: BuiltQuestion["state"]; qs: BuiltQuestion[]; keys: string[] }>();
   for (const q of questions) {

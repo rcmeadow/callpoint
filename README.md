@@ -1,29 +1,41 @@
 # Reflex
 
-Fast, auditable incident triage. **The model judges, the code decides.**
+An incident co-pilot. **The model judges, the code decides.**
 
-You give Reflex an incident, a few candidate responses, and a goal. A System One model
-(TypeSafe Jev) scores every response against every goal criterion and returns typed
-probabilities. Plain code ranks the responses: first a hard-constraint gate, then a weighted
-sum. When a new incident update lands, only the judgments that update can affect are re-asked,
-the ranking re-sorts on screen, and a "why it moved" feed names the judgment that moved each
-option with its probability before and after.
+Set the problem: what is happening, the options on the table, what a good outcome looks like,
+and the hard rules. Add facts as they come in. Reflex asks a decision model (TypeSafe Jev) to
+judge every option against every goal as typed probabilities, and plain code ranks them. You
+watch the call move, see why it moved, find out when it is too close to call, and leave with a
+decision receipt for the postmortem.
 
-The same questions also run through Cloudflare Clef (`clef-flash:9b`), an open-weight decision
-model that follows the same System One API, served locally by Ollama. It sits in a second
-column so you can compare speed and agreement side by side, with real probabilities on both
-sides.
+What it gives you:
 
-What you see on screen:
+- **The problem card.** Start from the bundled checkout incident, or edit the incident, the
+  options, the goals (with weights and levels), and the constraints right in the page. Export
+  your version as JSON.
+- **Live facts.** Type what you just learned. Each fact re-asks every question in one Jev
+  request (around 200 ms to 1 s in testing here) and the ranking re-sorts. "Play demo" runs the
+  scripted updates instead.
+- **The race.** Options ranked by weighted score, with a confidence bar from the model's own
+  probabilities. Amber means too close to call. Red and struck through means a hard constraint
+  blocks it.
+- **Where we were, where we are.** The starting ranking next to the current one, with the
+  change in score and the facts that moved each option most.
+- **Where we are going.** Code works out the single judgment change that would flip the top
+  two, for example "Disable the smart-retries flag stays first unless its "Error reduction"
+  falls below 0.80". When the top two are within the near-tie margin it says "Too close to
+  call: this is a human decision."
+- **Decision receipt.** A timestamped markdown log of every fact, the ranking after it, what
+  moved and why, near-tie flags, the final call, and the engine and model versions. Copy it or
+  download it as `.md`.
+- **The code decides.** Weight sliders and constraint toggles re-rank the same judgments
+  instantly, with 0 model calls.
+- **Optional local comparison.** Toggle "Compare with local open-weights model (Cloudflare Clef
+  via Ollama)" to run the same questions on your own machine, side by side. It is off by
+  default.
 
-- Two ranked columns (Jev and Local) that animate when the order changes.
-- Per engine, per update: wall-clock latency in ms, how many questions were re-asked, and how
-  many model requests that took.
-- A "why it moved" feed.
-- Weight sliders and constraint toggles. Changing them re-ranks the same judgments instantly
-  and shows "0 model calls".
-- Live and Replay modes. Replay plays a recorded run with its recorded timings, with no key
-  and no local model needed.
+Replay mode plays a real recorded run at its recorded speed with no key and no local model,
+so "Play demo" works on a static host. Live mode needs the local server and your key.
 
 ## Quickstart
 
@@ -36,7 +48,7 @@ Needs Node 20 or newer.
    `curl -X POST http://localhost:11434/api/pull -d '{"model":"clef-flash:9b"}'`.
 3. `npm run dev`, then open http://localhost:5173
 
-Without a key or Ollama, use Replay mode. Each column tells you what it is missing.
+Without a key, use Replay mode. The local comparison only needs Ollama when you turn it on.
 
 ## Bring your own key
 
@@ -84,8 +96,10 @@ and the same order check.
 
 ## Write your own scenario
 
-Add a JSON file to `scenarios/`. It shows up in the scenario picker with no code change
-(in dev, reload the page; for a static build, rebuild). The shape:
+The quickest way: open "Edit the problem" in the app, change the incident, options, goals,
+and constraints, press "Use this problem" to run it live, and "Export scenario JSON" to keep
+it. Drop the exported file into `scenarios/` and it shows up in the starter picker with no
+code change (in dev, reload the page; for a static build, rebuild). The shape:
 
 ```json
 {
@@ -123,13 +137,72 @@ Tips:
 - `affects` matters. Each question only sees the updates that list its criterion or constraint,
   so an update re-asks just those questions and everything else comes from the cache.
 
+## A sample receipt
+
+From the real recording in `scenarios/incident-triage.recording.json` (Jev and Clef, replayed),
+showing the first update and the final call. `npx tsx scripts/insight-demo.ts --receipt` prints
+the whole thing.
+
+```markdown
+## Fact 1: Deploy diff reviewed
+
+- Applied: 2026-10-12T16:56:02.922Z
+- Timeline time: 14:10
+- Source: scripted update
+
+> The v2.31 diff turns on the new smart-retries feature flag by default. Since 14:02, retry traffic from payments-service to the primary database has tripled.
+
+**Jev (TypeSafe)**: 185 ms, 10 of 30 questions re-asked, 1 request
+
+- 1=. Roll back to v2.30, 0.883 (too close to call, gap 0.003)
+- 1=. Disable the smart-retries flag, 0.880 (too close to call, gap 0.003)
+- 3=. Fail over to a larger database, 0.514 (too close to call, gap 0.010)
+- 3=. Ship a forward hotfix, 0.504 (too close to call, gap 0.010)
+- X. Fail over checkout to us-west-2, 0.339 (blocked: No payment data loss)
+
+Moves:
+- Disable the smart-retries flag moved 3= to 1=: Error reduction rose, P(top level) 0.02 to 0.64 (score 0.6 to 2.6 of 3).
+- Fail over to a larger database moved 2 to 3=: Error reduction fell, P(top level) 0.16 to 0.18 (score 1.5 to 1.4 of 3).
+
+**Clef (Cloudflare, local via Ollama)**: 3118 ms, 10 of 30 questions re-asked, 1 request
+
+- 1. Fail over to a larger database, 0.582
+- 2. Fail over checkout to us-west-2, 0.438
+- 3. Ship a forward hotfix, 0.321
+- X. Roll back to v2.30, 0.888 (blocked: No payment data loss)
+- X. Disable the smart-retries flag, 0.881 (blocked: No payment data loss)
+
+Moves:
+- No change in order.
+
+...
+
+## Final call
+
+- Jev (TypeSafe): **Disable the smart-retries flag** (0.889)
+  - Where we are going: Disable the smart-retries flag is the only option not blocked by a constraint.
+- Clef (Cloudflare, local via Ollama): **Disable the smart-retries flag** (0.868)
+  - Where we are going: Disable the smart-retries flag stays first unless the chance it breaks "No payment data loss" reaches 0.5 (now 0.24). Then Fail over to a larger database takes the lead.
+
+_Judgments come from the models. The ranking, constraint gates, near ties, and this receipt are plain code. Rankings above use the weights listed at the top._
+```
+
+At update 1 the top two are 0.003 apart, so they share "1=" and the race shows them in amber.
+The next update settles it.
+
 ## How it works
 
 - `src/engine/`: pure TypeScript. Question builder, judgment cache (keyed by a SHA-256 of
-  engine, model, the question's state, and the question), runner, ranker, and the "why it
-  moved" diff. Unit tested with Vitest (`npm test`).
+  engine, model, the question's state, and the question), runner, ranker with near ties, the
+  "why it moved" diff, the then-vs-now compare, "where we are going", and the receipt. Unit
+  tested with Vitest (`npm test`).
+- Facts: scripted updates list the goals and constraints they can affect, so each one re-asks
+  only those questions. A free-text fact has no such labels, so from the first live fact on
+  every question sees the full timeline and is re-asked, in one request per engine.
 - `src/server/`: Hono on Node. `/api/jev/step` sends each step's cache misses as one batched
-  `systemOne` request per distinct state, through `@typesafe-ai/sdk` 0.6.0. `/api/local/step`
+  `systemOne` request per distinct state, through `@typesafe-ai/sdk` 0.6.0.
+  `/api/:engine/facts` takes the (possibly edited) scenario plus the fact list, validates both,
+  and runs the same runner and cache. `/api/local/step`
   does the same against Ollama's `/v1/systemone` with the Clef model (or, with
   `LOCAL_ENGINE=llm`, asks a chat model one question at a time).
 - `src/web/`: Vite and TypeScript, no framework.
