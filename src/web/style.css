@@ -365,6 +365,8 @@ input[type="range"] { width: 100%; accent-color: var(--accent); min-height: 28px
 .view-simple .col-head h2 { font-size: 15px; color: var(--muted); font-weight: 600; }
 .view-simple .col-head { margin-bottom: 10px; }
 .view-simple .meta-row { min-height: 0; }
+/* Ruled-out options keep their name and reason; the score number stays with the live options. */
+.view-simple .ranked li.blocked .total { display: none; }
 .view-simple .top { max-width: 760px; margin-left: auto; margin-right: auto; }
 .view-simple .guide { flex-wrap: nowrap; }
 @media (max-width: 640px) { .view-simple .guide { flex-wrap: wrap; } }

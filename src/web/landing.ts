@@ -25,17 +25,21 @@ document.querySelector<HTMLElement>("#landing")!.innerHTML = `
     </header>
 
     <section class="lp-hero">
+      <div class="lp-hero-text">
       <h1>Your incident just changed. Does your plan?</h1>
       <p class="lp-sub">Callpoint re-ranks your options every time a new fact lands, in about 200 ms. It tells you when two options are too close to call, and writes the decision trail for your postmortem.</p>
       <div class="lp-cta">
         <a class="btn primary" href="${withTheme("./demo/")}">Try the demo</a>
         <a class="btn" href="${REPO}" target="_blank" rel="noopener noreferrer">View on GitHub</a>
       </div>
+      </div>
+      <figure class="lp-video">
+        <div class="lp-video-frame">
+          <video src="./media/callpoint-demo.mp4" poster="./media/callpoint-demo-poster.jpg" width="1280" height="720" autoplay muted loop playsinline preload="metadata" aria-label="A 20 second screen recording of the Callpoint demo: facts arrive, the ranking re-sorts, and the call banner changes."></video>
+        </div>
+        <figcaption>A real recorded run: facts land, the call changes.</figcaption>
+      </figure>
     </section>
-
-    <figure class="lp-video">
-      <video src="./media/callpoint-demo.mp4" poster="./media/callpoint-demo-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="A 20 second screen recording of the Callpoint demo: facts arrive, the ranking re-sorts, and the call banner changes."></video>
-    </figure>
 
     <ul class="lp-points">
       <li>${icon('<path d="M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.5 6.2L3 16M3 21v-5h5"/>')}<div><h2>Re-ranks as facts arrive</h2><p>Add what you just learned. Every option is judged again against your goals, and the list re-sorts.</p></div></li>

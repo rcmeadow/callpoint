@@ -24,6 +24,7 @@ import {
 } from "../engine/index";
 import { cloneScenario, renderEditor } from "./editor";
 import { gaugeLayout, type GaugeLabel } from "./gauge";
+import { plainHeadline, plainOutlook } from "./plain";
 import { readPref, themeToggleHtml, wireThemeToggle, writePref } from "./theme";
 
 const VIEW_KEY = "callpoint-view";
@@ -790,8 +791,8 @@ function flipRender(ul: HTMLUListElement, ranked: RankedOption[], judgments: Rec
     if (!label) {
       label = document.createElement("li");
       label.className = "blocked-label";
-      label.textContent = "Blocked by a constraint";
     }
+    label.textContent = isSimple() ? "Ruled out: breaks a hard rule" : "Blocked by a constraint";
     ul.insertBefore(label, firstBlocked);
   } else label?.remove();
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -845,7 +846,9 @@ function rowHtml(r: RankedOption, judgments: Record<string, Judgment>): string {
     </div>`;
   }
   const tag = r.nearTie
-    ? `<span class="tag amber" title="Within the near-tie margin (${nearTieMarginOf(s)}). The code makes no call between these.">too close to call (gap ${r.tieSpread.toFixed(3)})</span>`
+    ? isSimple()
+      ? `<span class="tag amber">too close to call</span>`
+      : `<span class="tag amber" title="Within the near-tie margin (${nearTieMarginOf(s)}). The code makes no call between these.">too close to call (gap ${r.tieSpread.toFixed(3)})</span>`
     : "";
   return `
     <div class="rank">${rankLabel(r)}</div>
@@ -1001,19 +1004,20 @@ function renderCall() {
   const outlook = whereWeAreGoing(s, last.result.judgments, state.settings);
   let tone = "teal";
   let headline: string;
-  let sub = outlook.text;
+  // Simple view: plain words. Full view: the detailed sentence.
+  let sub = isSimple() ? plainOutlook(outlook, nameOf) : outlook.text;
   if (!top) {
     tone = "red";
-    headline = "No call: every option is blocked by a constraint. This is your decision.";
-    sub = isSimple() ? "Every option breaks a hard rule, so Callpoint won't pick one." : "Change a constraint below, or add a fact that unblocks an option.";
+    headline = isSimple() ? plainHeadline("none", []) : "No call: every option is blocked by a constraint. This is your decision.";
+    sub = isSimple() ? plainOutlook(outlook, nameOf) : "Change a constraint below, or add a fact that unblocks an option.";
   } else if (top.nearTie) {
     tone = "amber";
     const group = open.filter((r) => r.nearTie && r.groupRank === top.groupRank).map((r) => nameOf(r.optionId));
     const names = group.length === 2 ? `${group[0]} vs ${group[1]}` : `${group.slice(0, -1).join(", ")} vs ${group[group.length - 1]}`;
-    headline = `Too close to call: ${names} (gap ${top.tieSpread.toFixed(3)}). This is your decision.`;
-    sub = `Callpoint won't pick between options within the ${nearTieMarginOf(s)} near-tie margin.`;
+    headline = isSimple() ? plainHeadline("tie", group) : `Too close to call: ${names} (gap ${top.tieSpread.toFixed(3)}). This is your decision.`;
+    sub = isSimple() ? plainOutlook(outlook, nameOf) : `Callpoint won't pick between options within the ${nearTieMarginOf(s)} near-tie margin.`;
   } else {
-    headline = `Current call: ${nameOf(top.optionId)} · ${top.total.toFixed(3)}`;
+    headline = isSimple() ? plainHeadline("call", [nameOf(top.optionId)]) : `Current call: ${nameOf(top.optionId)} · ${top.total.toFixed(3)}`;
   }
   const key = `${tone}|${headline}`;
   const changed = el.dataset.key !== key;
