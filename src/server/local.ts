@@ -89,7 +89,8 @@ export function createLocalAdapter(opts: LocalOptions = {}): Adapter {
           format,
           options: { temperature: 0, seed: 7 },
           messages: [
-            { role: "system", content: "You are a careful incident-response judge. Use only the facts in STATE. Reply only with the JSON asked for." },
+            // Incident scenarios keep their original prompt; other scenarios get a neutral one.
+            { role: "system", content: "incident" in state ? "You are a careful incident-response judge. Use only the facts in STATE. Reply only with the JSON asked for." : "You are a careful judge of options. Use only the facts in STATE. Reply only with the JSON asked for." },
             { role: "user", content: prompt },
           ],
         }),

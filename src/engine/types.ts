@@ -50,7 +50,13 @@ export interface Scenario {
   id: string;
   title: string;
   goal: string;
+  /** The situation. `summary` is required (the UI and the receipt show it). */
   incident: Record<string, string>;
+  /**
+   * What kind of situation this is, in one plain word: "incident" (the default) or, say,
+   * "decision". Used in copy and in the question wording, so a non-incident scenario reads right.
+   */
+  noun?: string;
   options: Option[];
   criteria: Criterion[];
   constraints: Constraint[];

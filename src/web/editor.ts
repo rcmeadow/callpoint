@@ -80,7 +80,7 @@ export function renderEditor(root: HTMLElement, draft: Scenario, hooks: EditorHo
   root.innerHTML = `
     <div class="ed-grid">
       <section class="ed-block">
-        <h3>The incident</h3>
+        <h3>The ${esc(draft.noun?.trim() || "incident")}</h3>
         ${field("Title", "title", draft.title)}
         ${field("Goal", "goal", draft.goal, "textarea")}
         ${field("What is happening", "incident.summary", draft.incident.summary ?? "", "textarea", "4")}

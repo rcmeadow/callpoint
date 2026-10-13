@@ -40,14 +40,22 @@ export function scriptedFacts(scenario: Scenario, step: number): Fact[] {
  * updates that list it, so an update re-asks just those questions. A live fact has no labels,
  * so from the first live fact on every question sees the full timeline (and is re-asked).
  */
+/** The scenario's noun, "incident" unless it sets another. */
+export function nounOf(scenario: Pick<Scenario, "noun">): string {
+  const n = scenario.noun?.trim();
+  return n ? n : "incident";
+}
+
 export function stateForFacts(scenario: Scenario, facts: Fact[], targetId: string): { [key: string]: JsonValue } {
   const anyLive = facts.some((f) => f.source === "live" || !f.affects);
   const timeline = facts
     .filter((f) => anyLive || (f.affects ?? []).includes(targetId))
     .map((f) => ({ at: f.at, title: f.title, text: f.text }));
+  // The situation is filed under the scenario's noun, so incident-triage keeps the "incident" key
+  // (and its questions stay byte-identical to the recording and cache).
   return {
     goal: scenario.goal,
-    incident: { ...scenario.incident },
+    [nounOf(scenario)]: { ...scenario.incident },
     timeline,
   };
 }
@@ -65,25 +73,25 @@ function optionBlock(option: Option): { [key: string]: JsonValue } {
  * Score question. Question ids are not sent to the model, so the instructions name the
  * option and the criterion explicitly.
  */
-export function scoreSpec(option: Option, criterion: Criterion): ScoreSpec {
+export function scoreSpec(option: Option, criterion: Criterion, noun = "incident"): ScoreSpec {
   return {
     type: "score",
     instructions: {
       option_under_evaluation: optionBlock(option),
       criterion: criterion.name,
-      question: `${criterion.question} The option is \`option_under_evaluation\` ("${option.name}"). Judge it against the goal, incident, and timeline in the state.`,
+      question: `${criterion.question} The option is \`option_under_evaluation\` ("${option.name}"). Judge it against the goal, ${noun}, and timeline in the state.`,
     },
     criteria: [...criterion.levels],
   };
 }
 
-export function noulSpec(option: Option, constraint: Constraint): NoulSpec {
+export function noulSpec(option: Option, constraint: Constraint, noun = "incident"): NoulSpec {
   return {
     type: "noul",
     instructions: {
       option_under_evaluation: optionBlock(option),
       rule: constraint.name,
-      question: `${constraint.question} The option is \`option_under_evaluation\` ("${option.name}"). Answer from the goal, incident, and timeline in the state.`,
+      question: `${constraint.question} The option is \`option_under_evaluation\` ("${option.name}"). Answer from the goal, ${noun}, and timeline in the state.`,
     },
   };
 }
@@ -104,7 +112,7 @@ export function buildQuestionsFor(scenario: Scenario, facts: Fact[]): BuiltQuest
         optionId: option.id,
         targetId: criterion.id,
         state: stateForFacts(scenario, facts, criterion.id),
-        spec: scoreSpec(option, criterion),
+        spec: scoreSpec(option, criterion, nounOf(scenario)),
       });
     }
     for (const constraint of scenario.constraints) {
@@ -114,7 +122,7 @@ export function buildQuestionsFor(scenario: Scenario, facts: Fact[]): BuiltQuest
         optionId: option.id,
         targetId: constraint.id,
         state: stateForFacts(scenario, facts, constraint.id),
-        spec: noulSpec(option, constraint),
+        spec: noulSpec(option, constraint, nounOf(scenario)),
       });
     }
   }

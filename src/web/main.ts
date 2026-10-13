@@ -8,6 +8,7 @@ import {
   nearTieMarginOf,
   rank,
   rankLabel,
+  nounOf,
   scriptedFacts,
   validateScenario,
   whereWeAreGoing,
@@ -500,7 +501,7 @@ ${themeToggleHtml}
         <li>Free-text facts have no labels saying what they affect, so each one re-asks every question in one request per engine. Scripted demo updates only re-ask what they touch.</li>
         <li>The local comparison runs Cloudflare Clef (clef-flash:9b, Apache 2.0 open weights) through Ollama with the same questions. It is a different model and can disagree. Latency is wall clock: Jev includes the network from one machine, Clef is this one Mac.</li>
         <li>Scores and certainty are model judgments, not validated outcome probabilities.</li>
-        <li>This is a demo scenario, not incident advice. You set the goals, weights, and constraints.</li>
+        <li id="advice-note">This is a demo scenario, not incident advice. You set the goals, weights, and constraints.</li>
       </ul>
       </div>
     </footer>
@@ -691,7 +692,7 @@ function renderTimeline() {
     </form>`;
   const list = items.length
     ? `<ol class="tl">${items.reverse().join("")}</ol>`
-    : `<p class="muted">Press Play demo to watch the scripted incident unfold${live ? ", or add a fact" : ""}.</p>`;
+    : `<p class="muted">Press Play demo to watch the scripted ${esc(nounNow())} unfold${live ? ", or add a fact" : ""}.</p>`;
   const nextLine = next && state.started ? `<p class="muted small">Next in the demo: ${esc(next.at)} ${esc(next.title)}</p>` : "";
   // Replay: the facts come first, and the input folds into one line.
   const liveHint = liveAvailable()
@@ -1120,12 +1121,20 @@ function renderToast() {
 }
 
 /** Re-render everything except the editor and tuning, which keep focus while you type. */
-const PITCH_FULL = "Add facts as your incident unfolds. Callpoint re-ranks your options in milliseconds, flags when it's too close to call, and writes the decision trail for your postmortem.";
-const PITCH_SIMPLE = "Press Play demo to watch an incident unfold. Callpoint re-ranks the options as each new fact lands, and tells you when it's too close to call.";
+/** "an incident", "a decision". */
+const withArticle = (noun: string) => `${/^[aeiou]/i.test(noun) ? "an" : "a"} ${noun}`;
+const nounNow = () => nounOf(scenario());
+const pitchFull = (n: string) => `Add facts as your ${n} unfolds. Callpoint re-ranks your options in milliseconds, flags when it's too close to call, and writes the decision trail for your postmortem.`;
+const pitchSimple = (n: string) => `Press Play demo to watch ${withArticle(n)} unfold. Callpoint re-ranks the options as each new fact lands, and tells you when it's too close to call.`;
 
 function renderViewSwitch() {
+  const n = nounNow();
   const pitch = document.querySelector<HTMLElement>(".pitch");
-  if (pitch) pitch.textContent = isSimple() ? PITCH_SIMPLE : PITCH_FULL;
+  if (pitch) pitch.textContent = isSimple() ? pitchSimple(n) : pitchFull(n);
+  const tagline = document.querySelector<HTMLElement>(".tagline");
+  if (tagline) tagline.textContent = `${withArticle(n).replace(/^a/, "A")} co-pilot. The model judges, the code decides.`;
+  const advice = document.querySelector<HTMLElement>("#advice-note");
+  if (advice) advice.textContent = `This is a demo scenario, not ${n} advice. You set the goals, weights, and constraints.`;
   $("#view-switch").innerHTML = `
     <label class="switch">
       <input type="checkbox" role="switch" id="show-engine" ${isSimple() ? "" : "checked"} />

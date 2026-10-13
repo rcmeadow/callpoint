@@ -10,6 +10,10 @@ export function validateScenario(s: unknown, source = "scenario"): Scenario {
   if (typeof x.id !== "string" || !x.id) fail("missing id");
   if (typeof x.title !== "string") fail("missing title");
   if (typeof x.goal !== "string") fail("missing goal");
+  if (!x.incident || typeof x.incident !== "object" || typeof x.incident.summary !== "string" || !x.incident.summary.trim())
+    fail("needs incident.summary: one or two sentences on what is happening");
+  if (x.noun !== undefined && (typeof x.noun !== "string" || !/^[a-z][a-z ]{0,29}$/.test(x.noun)))
+    fail("noun must be one or two plain lowercase words, e.g. \"decision\"");
   if (!Array.isArray(x.options) || x.options.length < 2) fail("needs at least 2 options");
   if (!Array.isArray(x.criteria) || x.criteria.length < 1) fail("needs at least 1 criterion");
   if (!Array.isArray(x.constraints)) fail("constraints must be an array (can be empty)");
