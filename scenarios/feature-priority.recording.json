@@ -2,7 +2,7 @@
   "scenarioId": "feature-priority",
   "synthetic": false,
   "note": "Live run on darwin/arm64, Node v24.20.0. Latency is wall clock from this one machine.",
-  "recordedAt": "2026-10-13T14:47:09.440Z",
+  "recordedAt": "2026-10-13T15:04:30.669Z",
   "engines": {
     "jev": {
       "model": "jev-1.13.0",
@@ -14,95 +14,95 @@
           "judgments": {
             "sso__customer_value": {
               "kind": "score",
-              "score": 1.84,
+              "score": 1.86,
               "probabilities": [
                 0,
-                0.19,
-                0.77,
+                0.18,
+                0.78,
                 0.04
               ],
-              "confidence": 0.77
+              "confidence": 0.78
             },
             "sso__revenue": {
               "kind": "score",
               "score": 2.38,
               "probabilities": [
-                0,
-                0.04,
-                0.53,
-                0.43
+                0.01,
+                0.05,
+                0.5,
+                0.44
               ],
-              "confidence": 0.53
+              "confidence": 0.49
             },
             "sso__effort": {
               "kind": "score",
-              "score": 2.51,
+              "score": 2.54,
               "probabilities": [
                 0,
                 0.03,
-                0.42,
-                0.55
+                0.39,
+                0.58
               ],
-              "confidence": 0.52
+              "confidence": 0.55
             },
             "sso__evidence": {
               "kind": "score",
-              "score": 2.66,
+              "score": 2.67,
               "probabilities": [
                 0,
                 0,
-                0.34,
-                0.66
+                0.32,
+                0.68
               ],
-              "confidence": 0.66
+              "confidence": 0.68
             },
             "sso__cannot_ship": {
               "kind": "noul",
-              "p": 0.04
+              "p": 0.05
             },
             "onboarding__customer_value": {
               "kind": "score",
-              "score": 0.78,
+              "score": 0.8,
               "probabilities": [
-                0.3,
-                0.62,
+                0.29,
+                0.63,
                 0.08,
                 0
               ],
-              "confidence": 0.62
+              "confidence": 0.63
             },
             "onboarding__revenue": {
               "kind": "score",
-              "score": 1.61,
+              "score": 1.64,
               "probabilities": [
                 0.01,
-                0.39,
-                0.59,
-                0.01
+                0.37,
+                0.6,
+                0.02
               ],
-              "confidence": 0.58
+              "confidence": 0.59
             },
             "onboarding__effort": {
               "kind": "score",
-              "score": 2.23,
+              "score": 2.25,
               "probabilities": [
                 0,
                 0.03,
-                0.71,
-                0.26
+                0.68,
+                0.29
               ],
-              "confidence": 0.71
+              "confidence": 0.68
             },
             "onboarding__evidence": {
               "kind": "score",
               "score": 0.99,
               "probabilities": [
                 0.02,
-                0.98,
-                0,
+                0.97,
+                0.01,
                 0
               ],
-              "confidence": 0.98
+              "confidence": 0.97
             },
             "onboarding__cannot_ship": {
               "kind": "noul",
@@ -110,25 +110,25 @@
             },
             "bulk_export__customer_value": {
               "kind": "score",
-              "score": 1,
+              "score": 0.99,
               "probabilities": [
+                0.16,
+                0.7,
                 0.13,
-                0.75,
-                0.12,
-                0
+                0.01
               ],
-              "confidence": 0.75
+              "confidence": 0.69
             },
             "bulk_export__revenue": {
               "kind": "score",
-              "score": 1.2,
+              "score": 1.19,
               "probabilities": [
-                0.08,
+                0.09,
                 0.67,
                 0.2,
                 0.04
               ],
-              "confidence": 0.64
+              "confidence": 0.63
             },
             "bulk_export__effort": {
               "kind": "score",
@@ -158,95 +158,95 @@
             },
             "mobile_app__customer_value": {
               "kind": "score",
-              "score": 0.8,
+              "score": 0.82,
               "probabilities": [
-                0.22,
-                0.76,
+                0.21,
+                0.77,
                 0.02,
                 0
               ],
-              "confidence": 0.76
+              "confidence": 0.77
             },
             "mobile_app__revenue": {
               "kind": "score",
-              "score": 0.89,
+              "score": 0.86,
               "probabilities": [
-                0.15,
-                0.82,
-                0.03,
+                0.17,
+                0.81,
+                0.02,
                 0
               ],
-              "confidence": 0.82
+              "confidence": 0.81
             },
             "mobile_app__effort": {
               "kind": "score",
               "score": 1.3,
               "probabilities": [
-                0.04,
-                0.64,
+                0.03,
+                0.65,
                 0.31,
                 0.01
               ],
-              "confidence": 0.63
+              "confidence": 0.64
             },
             "mobile_app__evidence": {
               "kind": "score",
-              "score": 0.97,
+              "score": 0.96,
               "probabilities": [
-                0.03,
-                0.97,
+                0.04,
+                0.96,
                 0,
                 0
               ],
-              "confidence": 0.97
+              "confidence": 0.96
             },
             "mobile_app__cannot_ship": {
               "kind": "noul",
-              "p": 0.06
+              "p": 0.07
             },
             "ai_summaries__customer_value": {
               "kind": "score",
-              "score": 0.93,
+              "score": 0.9,
               "probabilities": [
-                0.12,
-                0.83,
-                0.05,
+                0.15,
+                0.81,
+                0.04,
                 0
               ],
-              "confidence": 0.83
+              "confidence": 0.81
             },
             "ai_summaries__revenue": {
               "kind": "score",
-              "score": 1.05,
+              "score": 1.09,
               "probabilities": [
                 0.05,
-                0.86,
-                0.09,
+                0.82,
+                0.13,
                 0
               ],
-              "confidence": 0.86
+              "confidence": 0.82
             },
             "ai_summaries__effort": {
               "kind": "score",
               "score": 2.89,
               "probabilities": [
                 0.01,
-                0.01,
+                0.02,
                 0.05,
-                0.93
+                0.92
               ],
-              "confidence": 0.9
+              "confidence": 0.88
             },
             "ai_summaries__evidence": {
               "kind": "score",
-              "score": 0.97,
+              "score": 0.98,
               "probabilities": [
-                0.03,
-                0.97,
+                0.02,
+                0.98,
                 0,
                 0
               ],
-              "confidence": 0.97
+              "confidence": 0.98
             },
             "ai_summaries__cannot_ship": {
               "kind": "noul",
@@ -256,7 +256,7 @@
           "asked": 25,
           "total": 25,
           "requests": 1,
-          "ms": 232,
+          "ms": 260,
           "usage": {
             "input_tokens": 4485,
             "output_tokens": 469
@@ -271,49 +271,49 @@
               "kind": "score",
               "score": 2.38,
               "probabilities": [
-                0,
-                0.04,
-                0.53,
-                0.43
+                0.01,
+                0.05,
+                0.5,
+                0.44
               ],
-              "confidence": 0.53
+              "confidence": 0.49
             },
             "sso__effort": {
               "kind": "score",
-              "score": 2.51,
+              "score": 2.54,
               "probabilities": [
                 0,
                 0.03,
-                0.42,
-                0.55
+                0.39,
+                0.58
               ],
-              "confidence": 0.52
+              "confidence": 0.55
             },
             "sso__cannot_ship": {
               "kind": "noul",
-              "p": 0.04
+              "p": 0.05
             },
             "onboarding__revenue": {
               "kind": "score",
-              "score": 1.61,
+              "score": 1.64,
               "probabilities": [
                 0.01,
-                0.39,
-                0.59,
-                0.01
+                0.37,
+                0.6,
+                0.02
               ],
-              "confidence": 0.58
+              "confidence": 0.59
             },
             "onboarding__effort": {
               "kind": "score",
-              "score": 2.23,
+              "score": 2.25,
               "probabilities": [
                 0,
                 0.03,
-                0.71,
-                0.26
+                0.68,
+                0.29
               ],
-              "confidence": 0.71
+              "confidence": 0.68
             },
             "onboarding__cannot_ship": {
               "kind": "noul",
@@ -321,14 +321,14 @@
             },
             "bulk_export__revenue": {
               "kind": "score",
-              "score": 1.2,
+              "score": 1.19,
               "probabilities": [
-                0.08,
+                0.09,
                 0.67,
                 0.2,
                 0.04
               ],
-              "confidence": 0.64
+              "confidence": 0.63
             },
             "bulk_export__effort": {
               "kind": "score",
@@ -347,51 +347,51 @@
             },
             "mobile_app__revenue": {
               "kind": "score",
-              "score": 0.89,
+              "score": 0.86,
               "probabilities": [
-                0.15,
-                0.82,
+                0.17,
+                0.81,
+                0.02,
+                0
+              ],
+              "confidence": 0.81
+            },
+            "mobile_app__effort": {
+              "kind": "score",
+              "score": 1.3,
+              "probabilities": [
                 0.03,
+                0.65,
+                0.31,
+                0.01
+              ],
+              "confidence": 0.64
+            },
+            "mobile_app__cannot_ship": {
+              "kind": "noul",
+              "p": 0.07
+            },
+            "ai_summaries__revenue": {
+              "kind": "score",
+              "score": 1.09,
+              "probabilities": [
+                0.05,
+                0.82,
+                0.13,
                 0
               ],
               "confidence": 0.82
             },
-            "mobile_app__effort": {
-              "kind": "score",
-              "score": 1.3,
-              "probabilities": [
-                0.04,
-                0.64,
-                0.31,
-                0.01
-              ],
-              "confidence": 0.63
-            },
-            "mobile_app__cannot_ship": {
-              "kind": "noul",
-              "p": 0.06
-            },
-            "ai_summaries__revenue": {
-              "kind": "score",
-              "score": 1.05,
-              "probabilities": [
-                0.05,
-                0.86,
-                0.09,
-                0
-              ],
-              "confidence": 0.86
-            },
             "ai_summaries__effort": {
               "kind": "score",
               "score": 2.89,
               "probabilities": [
                 0.01,
-                0.01,
+                0.02,
                 0.05,
-                0.93
+                0.92
               ],
-              "confidence": 0.9
+              "confidence": 0.88
             },
             "ai_summaries__cannot_ship": {
               "kind": "noul",
@@ -399,1111 +399,80 @@
             },
             "sso__customer_value": {
               "kind": "score",
-              "score": 1.25,
+              "score": 1.26,
               "probabilities": [
                 0.02,
-                0.72,
-                0.24,
-                0.02
-              ],
-              "confidence": 0.7
-            },
-            "sso__evidence": {
-              "kind": "score",
-              "score": 2.01,
-              "probabilities": [
-                0.06,
-                0.09,
-                0.64,
-                0.21
-              ],
-              "confidence": 0.58
-            },
-            "onboarding__customer_value": {
-              "kind": "score",
-              "score": 2.47,
-              "probabilities": [
-                0.02,
-                0.02,
-                0.44,
-                0.52
-              ],
-              "confidence": 0.46
-            },
-            "onboarding__evidence": {
-              "kind": "score",
-              "score": 2.81,
-              "probabilities": [
-                0.01,
-                0,
-                0.16,
-                0.83
-              ],
-              "confidence": 0.81
-            },
-            "bulk_export__customer_value": {
-              "kind": "score",
-              "score": 0.61,
-              "probabilities": [
-                0.41,
-                0.57,
-                0.02,
-                0
-              ],
-              "confidence": 0.57
-            },
-            "bulk_export__evidence": {
-              "kind": "score",
-              "score": 0.92,
-              "probabilities": [
-                0.08,
-                0.92,
-                0,
-                0
-              ],
-              "confidence": 0.92
-            },
-            "mobile_app__customer_value": {
-              "kind": "score",
-              "score": 0.57,
-              "probabilities": [
-                0.44,
-                0.56,
-                0,
-                0
-              ],
-              "confidence": 0.56
-            },
-            "mobile_app__evidence": {
-              "kind": "score",
-              "score": 0.9,
-              "probabilities": [
-                0.1,
-                0.9,
-                0,
-                0
-              ],
-              "confidence": 0.9
-            },
-            "ai_summaries__customer_value": {
-              "kind": "score",
-              "score": 0.73,
-              "probabilities": [
-                0.29,
-                0.6900000000000001,
-                0.02,
-                0
-              ],
-              "confidence": 0.69
-            },
-            "ai_summaries__evidence": {
-              "kind": "score",
-              "score": 0.86,
-              "probabilities": [
-                0.14,
-                0.86,
-                0,
-                0
-              ],
-              "confidence": 0.86
-            }
-          },
-          "asked": 10,
-          "total": 25,
-          "requests": 1,
-          "ms": 144,
-          "usage": {
-            "input_tokens": 2140,
-            "output_tokens": 187
-          }
-        },
-        {
-          "engine": "jev",
-          "model": "jev-1.13.0",
-          "step": 2,
-          "judgments": {
-            "sso__customer_value": {
-              "kind": "score",
-              "score": 1.25,
-              "probabilities": [
-                0.02,
-                0.72,
-                0.24,
-                0.02
-              ],
-              "confidence": 0.7
-            },
-            "sso__effort": {
-              "kind": "score",
-              "score": 2.51,
-              "probabilities": [
-                0,
-                0.03,
-                0.42,
-                0.55
-              ],
-              "confidence": 0.52
-            },
-            "sso__cannot_ship": {
-              "kind": "noul",
-              "p": 0.04
-            },
-            "onboarding__customer_value": {
-              "kind": "score",
-              "score": 2.47,
-              "probabilities": [
-                0.02,
-                0.02,
-                0.44,
-                0.52
-              ],
-              "confidence": 0.46
-            },
-            "onboarding__effort": {
-              "kind": "score",
-              "score": 2.23,
-              "probabilities": [
-                0,
-                0.03,
                 0.71,
-                0.26
-              ],
-              "confidence": 0.71
-            },
-            "onboarding__cannot_ship": {
-              "kind": "noul",
-              "p": 0.05
-            },
-            "bulk_export__customer_value": {
-              "kind": "score",
-              "score": 0.61,
-              "probabilities": [
-                0.41,
-                0.57,
-                0.02,
-                0
-              ],
-              "confidence": 0.57
-            },
-            "bulk_export__effort": {
-              "kind": "score",
-              "score": 2.98,
-              "probabilities": [
-                0,
-                0,
-                0.01,
-                0.99
-              ],
-              "confidence": 0.99
-            },
-            "bulk_export__cannot_ship": {
-              "kind": "noul",
-              "p": 0.04
-            },
-            "mobile_app__customer_value": {
-              "kind": "score",
-              "score": 0.57,
-              "probabilities": [
-                0.44,
-                0.56,
-                0,
-                0
-              ],
-              "confidence": 0.56
-            },
-            "mobile_app__effort": {
-              "kind": "score",
-              "score": 1.3,
-              "probabilities": [
-                0.04,
-                0.64,
-                0.31,
-                0.01
-              ],
-              "confidence": 0.63
-            },
-            "mobile_app__cannot_ship": {
-              "kind": "noul",
-              "p": 0.06
-            },
-            "ai_summaries__customer_value": {
-              "kind": "score",
-              "score": 0.73,
-              "probabilities": [
-                0.29,
-                0.6900000000000001,
-                0.02,
-                0
-              ],
-              "confidence": 0.69
-            },
-            "ai_summaries__effort": {
-              "kind": "score",
-              "score": 2.89,
-              "probabilities": [
-                0.01,
-                0.01,
-                0.05,
-                0.93
-              ],
-              "confidence": 0.9
-            },
-            "ai_summaries__cannot_ship": {
-              "kind": "noul",
-              "p": 0.04
-            },
-            "sso__revenue": {
-              "kind": "score",
-              "score": 2.96,
-              "probabilities": [
-                0,
-                0,
-                0.04,
-                0.96
-              ],
-              "confidence": 0.96
-            },
-            "onboarding__revenue": {
-              "kind": "score",
-              "score": 1.13,
-              "probabilities": [
-                0.08,
-                0.74,
-                0.16,
-                0.02
-              ],
-              "confidence": 0.72
-            },
-            "bulk_export__revenue": {
-              "kind": "score",
-              "score": 0.76,
-              "probabilities": [
-                0.29,
-                0.66,
-                0.04,
-                0.01
-              ],
-              "confidence": 0.65
-            },
-            "mobile_app__revenue": {
-              "kind": "score",
-              "score": 0.59,
-              "probabilities": [
-                0.43,
-                0.55,
-                0.01,
-                0.01
-              ],
-              "confidence": 0.54
-            },
-            "ai_summaries__revenue": {
-              "kind": "score",
-              "score": 0.9,
-              "probabilities": [
-                0.17,
-                0.76,
-                0.06,
-                0.01
-              ],
-              "confidence": 0.75
-            },
-            "sso__evidence": {
-              "kind": "score",
-              "score": 2.99,
-              "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ],
-              "confidence": 1
-            },
-            "onboarding__evidence": {
-              "kind": "score",
-              "score": 2.78,
-              "probabilities": [
-                0.01,
-                0,
-                0.2,
-                0.79
-              ],
-              "confidence": 0.77
-            },
-            "bulk_export__evidence": {
-              "kind": "score",
-              "score": 0.95,
-              "probabilities": [
-                0.05,
-                0.95,
-                0,
-                0
-              ],
-              "confidence": 0.95
-            },
-            "mobile_app__evidence": {
-              "kind": "score",
-              "score": 0.92,
-              "probabilities": [
-                0.08,
-                0.92,
-                0,
-                0
-              ],
-              "confidence": 0.92
-            },
-            "ai_summaries__evidence": {
-              "kind": "score",
-              "score": 0.94,
-              "probabilities": [
-                0.06,
-                0.94,
-                0,
-                0
-              ],
-              "confidence": 0.94
-            }
-          },
-          "asked": 10,
-          "total": 25,
-          "requests": 2,
-          "ms": 303,
-          "usage": {
-            "input_tokens": 2671,
-            "output_tokens": 191
-          }
-        },
-        {
-          "engine": "jev",
-          "model": "jev-1.13.0",
-          "step": 3,
-          "judgments": {
-            "sso__customer_value": {
-              "kind": "score",
-              "score": 1.25,
-              "probabilities": [
-                0.02,
-                0.72,
-                0.24,
-                0.02
-              ],
-              "confidence": 0.7
-            },
-            "sso__revenue": {
-              "kind": "score",
-              "score": 2.96,
-              "probabilities": [
-                0,
-                0,
-                0.04,
-                0.96
-              ],
-              "confidence": 0.96
-            },
-            "sso__evidence": {
-              "kind": "score",
-              "score": 2.99,
-              "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ],
-              "confidence": 1
-            },
-            "sso__cannot_ship": {
-              "kind": "noul",
-              "p": 0.04
-            },
-            "onboarding__customer_value": {
-              "kind": "score",
-              "score": 2.47,
-              "probabilities": [
-                0.02,
-                0.02,
-                0.44,
-                0.52
-              ],
-              "confidence": 0.46
-            },
-            "onboarding__revenue": {
-              "kind": "score",
-              "score": 1.13,
-              "probabilities": [
-                0.08,
-                0.74,
-                0.16,
-                0.02
-              ],
-              "confidence": 0.72
-            },
-            "onboarding__evidence": {
-              "kind": "score",
-              "score": 2.78,
-              "probabilities": [
-                0.01,
-                0,
-                0.2,
-                0.79
-              ],
-              "confidence": 0.77
-            },
-            "onboarding__cannot_ship": {
-              "kind": "noul",
-              "p": 0.05
-            },
-            "bulk_export__customer_value": {
-              "kind": "score",
-              "score": 0.61,
-              "probabilities": [
-                0.41,
-                0.57,
-                0.02,
-                0
-              ],
-              "confidence": 0.57
-            },
-            "bulk_export__revenue": {
-              "kind": "score",
-              "score": 0.76,
-              "probabilities": [
-                0.29,
-                0.66,
-                0.04,
-                0.01
-              ],
-              "confidence": 0.65
-            },
-            "bulk_export__evidence": {
-              "kind": "score",
-              "score": 0.95,
-              "probabilities": [
-                0.05,
-                0.95,
-                0,
-                0
-              ],
-              "confidence": 0.95
-            },
-            "bulk_export__cannot_ship": {
-              "kind": "noul",
-              "p": 0.04
-            },
-            "mobile_app__customer_value": {
-              "kind": "score",
-              "score": 0.57,
-              "probabilities": [
-                0.44,
-                0.56,
-                0,
-                0
-              ],
-              "confidence": 0.56
-            },
-            "mobile_app__revenue": {
-              "kind": "score",
-              "score": 0.59,
-              "probabilities": [
-                0.43,
-                0.55,
-                0.01,
-                0.01
-              ],
-              "confidence": 0.54
-            },
-            "mobile_app__evidence": {
-              "kind": "score",
-              "score": 0.92,
-              "probabilities": [
-                0.08,
-                0.92,
-                0,
-                0
-              ],
-              "confidence": 0.92
-            },
-            "mobile_app__cannot_ship": {
-              "kind": "noul",
-              "p": 0.06
-            },
-            "ai_summaries__customer_value": {
-              "kind": "score",
-              "score": 0.73,
-              "probabilities": [
-                0.29,
-                0.6900000000000001,
-                0.02,
-                0
-              ],
-              "confidence": 0.69
-            },
-            "ai_summaries__revenue": {
-              "kind": "score",
-              "score": 0.9,
-              "probabilities": [
-                0.17,
-                0.76,
-                0.06,
-                0.01
-              ],
-              "confidence": 0.75
-            },
-            "ai_summaries__evidence": {
-              "kind": "score",
-              "score": 0.94,
-              "probabilities": [
-                0.06,
-                0.94,
-                0,
-                0
-              ],
-              "confidence": 0.94
-            },
-            "ai_summaries__cannot_ship": {
-              "kind": "noul",
-              "p": 0.04
-            },
-            "sso__effort": {
-              "kind": "score",
-              "score": 1.6,
-              "probabilities": [
-                0.07,
-                0.37,
-                0.45,
-                0.11
-              ],
-              "confidence": 0.38
-            },
-            "onboarding__effort": {
-              "kind": "score",
-              "score": 1.85,
-              "probabilities": [
-                0.01,
-                0.2,
-                0.72,
-                0.07
-              ],
-              "confidence": 0.71
-            },
-            "bulk_export__effort": {
-              "kind": "score",
-              "score": 2.99,
-              "probabilities": [
-                0,
-                0,
-                0.01,
-                0.99
-              ],
-              "confidence": 0.99
-            },
-            "mobile_app__effort": {
-              "kind": "score",
-              "score": 1.15,
-              "probabilities": [
-                0.08,
-                0.7,
-                0.21,
-                0.01
-              ],
-              "confidence": 0.69
-            },
-            "ai_summaries__effort": {
-              "kind": "score",
-              "score": 2.98,
-              "probabilities": [
-                0,
-                0,
-                0.01,
-                0.99
-              ],
-              "confidence": 0.99
-            }
-          },
-          "asked": 5,
-          "total": 25,
-          "requests": 1,
-          "ms": 131,
-          "usage": {
-            "input_tokens": 1289,
-            "output_tokens": 93
-          }
-        },
-        {
-          "engine": "jev",
-          "model": "jev-1.13.0",
-          "step": 4,
-          "judgments": {
-            "sso__customer_value": {
-              "kind": "score",
-              "score": 1.25,
-              "probabilities": [
-                0.02,
-                0.72,
-                0.24,
-                0.02
-              ],
-              "confidence": 0.7
-            },
-            "sso__revenue": {
-              "kind": "score",
-              "score": 2.96,
-              "probabilities": [
-                0,
-                0,
-                0.04,
-                0.96
-              ],
-              "confidence": 0.96
-            },
-            "sso__effort": {
-              "kind": "score",
-              "score": 1.6,
-              "probabilities": [
-                0.07,
-                0.37,
-                0.45,
-                0.11
-              ],
-              "confidence": 0.38
-            },
-            "sso__evidence": {
-              "kind": "score",
-              "score": 2.99,
-              "probabilities": [
-                0,
-                0,
-                0,
-                1
-              ],
-              "confidence": 1
-            },
-            "onboarding__customer_value": {
-              "kind": "score",
-              "score": 2.47,
-              "probabilities": [
-                0.02,
-                0.02,
-                0.44,
-                0.52
-              ],
-              "confidence": 0.46
-            },
-            "onboarding__revenue": {
-              "kind": "score",
-              "score": 1.13,
-              "probabilities": [
-                0.08,
-                0.74,
-                0.16,
-                0.02
-              ],
-              "confidence": 0.72
-            },
-            "onboarding__effort": {
-              "kind": "score",
-              "score": 1.85,
-              "probabilities": [
-                0.01,
-                0.2,
-                0.72,
-                0.07
-              ],
-              "confidence": 0.71
-            },
-            "onboarding__evidence": {
-              "kind": "score",
-              "score": 2.78,
-              "probabilities": [
-                0.01,
-                0,
-                0.2,
-                0.79
-              ],
-              "confidence": 0.77
-            },
-            "bulk_export__customer_value": {
-              "kind": "score",
-              "score": 0.61,
-              "probabilities": [
-                0.41,
-                0.57,
-                0.02,
-                0
-              ],
-              "confidence": 0.57
-            },
-            "bulk_export__revenue": {
-              "kind": "score",
-              "score": 0.76,
-              "probabilities": [
-                0.29,
-                0.66,
-                0.04,
-                0.01
-              ],
-              "confidence": 0.65
-            },
-            "bulk_export__effort": {
-              "kind": "score",
-              "score": 2.99,
-              "probabilities": [
-                0,
-                0,
-                0.01,
-                0.99
-              ],
-              "confidence": 0.99
-            },
-            "bulk_export__evidence": {
-              "kind": "score",
-              "score": 0.95,
-              "probabilities": [
-                0.05,
-                0.95,
-                0,
-                0
-              ],
-              "confidence": 0.95
-            },
-            "mobile_app__customer_value": {
-              "kind": "score",
-              "score": 0.57,
-              "probabilities": [
-                0.44,
-                0.56,
-                0,
-                0
-              ],
-              "confidence": 0.56
-            },
-            "mobile_app__revenue": {
-              "kind": "score",
-              "score": 0.59,
-              "probabilities": [
-                0.43,
-                0.55,
-                0.01,
-                0.01
-              ],
-              "confidence": 0.54
-            },
-            "mobile_app__effort": {
-              "kind": "score",
-              "score": 1.15,
-              "probabilities": [
-                0.08,
-                0.7,
-                0.21,
-                0.01
-              ],
-              "confidence": 0.69
-            },
-            "mobile_app__evidence": {
-              "kind": "score",
-              "score": 0.92,
-              "probabilities": [
-                0.08,
-                0.92,
-                0,
-                0
-              ],
-              "confidence": 0.92
-            },
-            "ai_summaries__customer_value": {
-              "kind": "score",
-              "score": 0.73,
-              "probabilities": [
-                0.29,
-                0.6900000000000001,
-                0.02,
-                0
-              ],
-              "confidence": 0.69
-            },
-            "ai_summaries__revenue": {
-              "kind": "score",
-              "score": 0.9,
-              "probabilities": [
-                0.17,
-                0.76,
-                0.06,
-                0.01
-              ],
-              "confidence": 0.75
-            },
-            "ai_summaries__effort": {
-              "kind": "score",
-              "score": 2.98,
-              "probabilities": [
-                0,
-                0,
-                0.01,
-                0.99
-              ],
-              "confidence": 0.99
-            },
-            "ai_summaries__evidence": {
-              "kind": "score",
-              "score": 0.94,
-              "probabilities": [
-                0.06,
-                0.94,
-                0,
-                0
-              ],
-              "confidence": 0.94
-            },
-            "sso__cannot_ship": {
-              "kind": "noul",
-              "p": 0.08
-            },
-            "onboarding__cannot_ship": {
-              "kind": "noul",
-              "p": 0.06
-            },
-            "bulk_export__cannot_ship": {
-              "kind": "noul",
-              "p": 0.07
-            },
-            "mobile_app__cannot_ship": {
-              "kind": "noul",
-              "p": 0.07
-            },
-            "ai_summaries__cannot_ship": {
-              "kind": "noul",
-              "p": 0.86
-            }
-          },
-          "asked": 5,
-          "total": 25,
-          "requests": 1,
-          "ms": 128,
-          "usage": {
-            "input_tokens": 1096,
-            "output_tokens": 108
-          }
-        },
-        {
-          "engine": "jev",
-          "model": "jev-1.13.0",
-          "step": 5,
-          "judgments": {
-            "sso__revenue": {
-              "kind": "score",
-              "score": 2.96,
-              "probabilities": [
-                0,
-                0,
-                0.04,
-                0.96
-              ],
-              "confidence": 0.96
-            },
-            "sso__effort": {
-              "kind": "score",
-              "score": 1.6,
-              "probabilities": [
-                0.07,
-                0.37,
-                0.45,
-                0.11
-              ],
-              "confidence": 0.38
-            },
-            "sso__cannot_ship": {
-              "kind": "noul",
-              "p": 0.08
-            },
-            "onboarding__revenue": {
-              "kind": "score",
-              "score": 1.13,
-              "probabilities": [
-                0.08,
-                0.74,
-                0.16,
-                0.02
-              ],
-              "confidence": 0.72
-            },
-            "onboarding__effort": {
-              "kind": "score",
-              "score": 1.85,
-              "probabilities": [
-                0.01,
-                0.2,
-                0.72,
-                0.07
-              ],
-              "confidence": 0.71
-            },
-            "onboarding__cannot_ship": {
-              "kind": "noul",
-              "p": 0.06
-            },
-            "bulk_export__revenue": {
-              "kind": "score",
-              "score": 0.76,
-              "probabilities": [
-                0.29,
-                0.66,
-                0.04,
-                0.01
-              ],
-              "confidence": 0.65
-            },
-            "bulk_export__effort": {
-              "kind": "score",
-              "score": 2.99,
-              "probabilities": [
-                0,
-                0,
-                0.01,
-                0.99
-              ],
-              "confidence": 0.99
-            },
-            "bulk_export__cannot_ship": {
-              "kind": "noul",
-              "p": 0.07
-            },
-            "mobile_app__revenue": {
-              "kind": "score",
-              "score": 0.59,
-              "probabilities": [
-                0.43,
-                0.55,
-                0.01,
-                0.01
-              ],
-              "confidence": 0.54
-            },
-            "mobile_app__effort": {
-              "kind": "score",
-              "score": 1.15,
-              "probabilities": [
-                0.08,
-                0.7,
-                0.21,
-                0.01
-              ],
-              "confidence": 0.69
-            },
-            "mobile_app__cannot_ship": {
-              "kind": "noul",
-              "p": 0.07
-            },
-            "ai_summaries__revenue": {
-              "kind": "score",
-              "score": 0.9,
-              "probabilities": [
-                0.17,
-                0.76,
-                0.06,
-                0.01
-              ],
-              "confidence": 0.75
-            },
-            "ai_summaries__effort": {
-              "kind": "score",
-              "score": 2.98,
-              "probabilities": [
-                0,
-                0,
-                0.01,
-                0.99
-              ],
-              "confidence": 0.99
-            },
-            "ai_summaries__cannot_ship": {
-              "kind": "noul",
-              "p": 0.86
-            },
-            "sso__customer_value": {
-              "kind": "score",
-              "score": 1.44,
-              "probabilities": [
-                0.01,
-                0.59,
-                0.34,
-                0.06
-              ],
-              "confidence": 0.53
-            },
-            "onboarding__customer_value": {
-              "kind": "score",
-              "score": 2.08,
-              "probabilities": [
-                0.05,
-                0.08,
-                0.61,
-                0.26
-              ],
-              "confidence": 0.56
-            },
-            "bulk_export__customer_value": {
-              "kind": "score",
-              "score": 2.73,
-              "probabilities": [
-                0,
-                0.01,
                 0.25,
-                0.74
+                0.02
               ],
-              "confidence": 0.73
-            },
-            "mobile_app__customer_value": {
-              "kind": "score",
-              "score": 0.5,
-              "probabilities": [
-                0.51,
-                0.48,
-                0.01,
-                0
-              ],
-              "confidence": 0.5
-            },
-            "ai_summaries__customer_value": {
-              "kind": "score",
-              "score": 0.67,
-              "probabilities": [
-                0.35,
-                0.63,
-                0.02,
-                0
-              ],
-              "confidence": 0.63
+              "confidence": 0.69
             },
             "sso__evidence": {
               "kind": "score",
-              "score": 2.99,
+              "score": 2.03,
               "probabilities": [
-                0,
-                0,
-                0.01,
-                0.99
+                0.06,
+                0.08,
+                0.63,
+                0.23
               ],
-              "confidence": 0.99
+              "confidence": 0.57
+            },
+            "onboarding__customer_value": {
+              "kind": "score",
+              "score": 2.55,
+              "probabilities": [
+                0.01,
+                0.01,
+                0.39,
+                0.59
+              ],
+              "confidence": 0.56
             },
             "onboarding__evidence": {
               "kind": "score",
-              "score": 2.81,
+              "score": 2.76,
               "probabilities": [
                 0.01,
-                0,
-                0.16,
-                0.83
+                0.01,
+                0.19,
+                0.79
               ],
-              "confidence": 0.81
+              "confidence": 0.76
+            },
+            "bulk_export__customer_value": {
+              "kind": "score",
+              "score": 0.62,
+              "probabilities": [
+                0.4,
+                0.59,
+                0.01,
+                0
+              ],
+              "confidence": 0.59
             },
             "bulk_export__evidence": {
               "kind": "score",
-              "score": 2.97,
+              "score": 0.93,
               "probabilities": [
+                0.07,
+                0.93,
                 0,
-                0,
-                0.03,
-                0.97
+                0
               ],
-              "confidence": 0.97
+              "confidence": 0.93
+            },
+            "mobile_app__customer_value": {
+              "kind": "score",
+              "score": 0.56,
+              "probabilities": [
+                0.45,
+                0.54,
+                0.01,
+                0
+              ],
+              "confidence": 0.54
             },
             "mobile_app__evidence": {
               "kind": "score",
@@ -1516,22 +485,1053 @@
               ],
               "confidence": 0.89
             },
+            "ai_summaries__customer_value": {
+              "kind": "score",
+              "score": 0.73,
+              "probabilities": [
+                0.29,
+                0.69,
+                0.02,
+                0
+              ],
+              "confidence": 0.69
+            },
             "ai_summaries__evidence": {
               "kind": "score",
-              "score": 0.94,
+              "score": 0.89,
               "probabilities": [
-                0.06,
-                0.94,
+                0.11,
+                0.89,
                 0,
                 0
               ],
-              "confidence": 0.94
+              "confidence": 0.89
+            }
+          },
+          "asked": 10,
+          "total": 25,
+          "requests": 1,
+          "ms": 126,
+          "usage": {
+            "input_tokens": 2140,
+            "output_tokens": 187
+          }
+        },
+        {
+          "engine": "jev",
+          "model": "jev-1.13.0",
+          "step": 2,
+          "judgments": {
+            "sso__customer_value": {
+              "kind": "score",
+              "score": 1.26,
+              "probabilities": [
+                0.02,
+                0.71,
+                0.25,
+                0.02
+              ],
+              "confidence": 0.69
+            },
+            "sso__effort": {
+              "kind": "score",
+              "score": 2.54,
+              "probabilities": [
+                0,
+                0.03,
+                0.39,
+                0.58
+              ],
+              "confidence": 0.55
+            },
+            "sso__cannot_ship": {
+              "kind": "noul",
+              "p": 0.05
+            },
+            "onboarding__customer_value": {
+              "kind": "score",
+              "score": 2.55,
+              "probabilities": [
+                0.01,
+                0.01,
+                0.39,
+                0.59
+              ],
+              "confidence": 0.56
+            },
+            "onboarding__effort": {
+              "kind": "score",
+              "score": 2.25,
+              "probabilities": [
+                0,
+                0.03,
+                0.68,
+                0.29
+              ],
+              "confidence": 0.68
+            },
+            "onboarding__cannot_ship": {
+              "kind": "noul",
+              "p": 0.05
+            },
+            "bulk_export__customer_value": {
+              "kind": "score",
+              "score": 0.62,
+              "probabilities": [
+                0.4,
+                0.59,
+                0.01,
+                0
+              ],
+              "confidence": 0.59
+            },
+            "bulk_export__effort": {
+              "kind": "score",
+              "score": 2.98,
+              "probabilities": [
+                0,
+                0,
+                0.01,
+                0.99
+              ],
+              "confidence": 0.99
+            },
+            "bulk_export__cannot_ship": {
+              "kind": "noul",
+              "p": 0.04
+            },
+            "mobile_app__customer_value": {
+              "kind": "score",
+              "score": 0.56,
+              "probabilities": [
+                0.45,
+                0.54,
+                0.01,
+                0
+              ],
+              "confidence": 0.54
+            },
+            "mobile_app__effort": {
+              "kind": "score",
+              "score": 1.3,
+              "probabilities": [
+                0.03,
+                0.65,
+                0.31,
+                0.01
+              ],
+              "confidence": 0.64
+            },
+            "mobile_app__cannot_ship": {
+              "kind": "noul",
+              "p": 0.07
+            },
+            "ai_summaries__customer_value": {
+              "kind": "score",
+              "score": 0.73,
+              "probabilities": [
+                0.29,
+                0.69,
+                0.02,
+                0
+              ],
+              "confidence": 0.69
+            },
+            "ai_summaries__effort": {
+              "kind": "score",
+              "score": 2.89,
+              "probabilities": [
+                0.01,
+                0.02,
+                0.05,
+                0.92
+              ],
+              "confidence": 0.88
+            },
+            "ai_summaries__cannot_ship": {
+              "kind": "noul",
+              "p": 0.04
+            },
+            "sso__revenue": {
+              "kind": "score",
+              "score": 2.97,
+              "probabilities": [
+                0,
+                0,
+                0.03,
+                0.97
+              ],
+              "confidence": 0.97
+            },
+            "onboarding__revenue": {
+              "kind": "score",
+              "score": 1.17,
+              "probabilities": [
+                0.06,
+                0.73,
+                0.19,
+                0.02
+              ],
+              "confidence": 0.71
+            },
+            "bulk_export__revenue": {
+              "kind": "score",
+              "score": 0.76,
+              "probabilities": [
+                0.3,
+                0.66,
+                0.03,
+                0.01
+              ],
+              "confidence": 0.65
+            },
+            "mobile_app__revenue": {
+              "kind": "score",
+              "score": 0.61,
+              "probabilities": [
+                0.41,
+                0.58,
+                0.01,
+                0
+              ],
+              "confidence": 0.58
+            },
+            "ai_summaries__revenue": {
+              "kind": "score",
+              "score": 0.91,
+              "probabilities": [
+                0.16,
+                0.78,
+                0.05,
+                0.01
+              ],
+              "confidence": 0.77
+            },
+            "sso__evidence": {
+              "kind": "score",
+              "score": 2.99,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "confidence": 1
+            },
+            "onboarding__evidence": {
+              "kind": "score",
+              "score": 2.79,
+              "probabilities": [
+                0.01,
+                0,
+                0.19,
+                0.8
+              ],
+              "confidence": 0.78
+            },
+            "bulk_export__evidence": {
+              "kind": "score",
+              "score": 0.96,
+              "probabilities": [
+                0.04,
+                0.96,
+                0,
+                0
+              ],
+              "confidence": 0.96
+            },
+            "mobile_app__evidence": {
+              "kind": "score",
+              "score": 0.91,
+              "probabilities": [
+                0.09,
+                0.91,
+                0,
+                0
+              ],
+              "confidence": 0.91
+            },
+            "ai_summaries__evidence": {
+              "kind": "score",
+              "score": 0.91,
+              "probabilities": [
+                0.09,
+                0.91,
+                0,
+                0
+              ],
+              "confidence": 0.91
             }
           },
           "asked": 10,
           "total": 25,
           "requests": 2,
-          "ms": 158,
+          "ms": 160,
+          "usage": {
+            "input_tokens": 2671,
+            "output_tokens": 191
+          }
+        },
+        {
+          "engine": "jev",
+          "model": "jev-1.13.0",
+          "step": 3,
+          "judgments": {
+            "sso__customer_value": {
+              "kind": "score",
+              "score": 1.26,
+              "probabilities": [
+                0.02,
+                0.71,
+                0.25,
+                0.02
+              ],
+              "confidence": 0.69
+            },
+            "sso__revenue": {
+              "kind": "score",
+              "score": 2.97,
+              "probabilities": [
+                0,
+                0,
+                0.03,
+                0.97
+              ],
+              "confidence": 0.97
+            },
+            "sso__evidence": {
+              "kind": "score",
+              "score": 2.99,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "confidence": 1
+            },
+            "sso__cannot_ship": {
+              "kind": "noul",
+              "p": 0.05
+            },
+            "onboarding__customer_value": {
+              "kind": "score",
+              "score": 2.55,
+              "probabilities": [
+                0.01,
+                0.01,
+                0.39,
+                0.59
+              ],
+              "confidence": 0.56
+            },
+            "onboarding__revenue": {
+              "kind": "score",
+              "score": 1.17,
+              "probabilities": [
+                0.06,
+                0.73,
+                0.19,
+                0.02
+              ],
+              "confidence": 0.71
+            },
+            "onboarding__evidence": {
+              "kind": "score",
+              "score": 2.79,
+              "probabilities": [
+                0.01,
+                0,
+                0.19,
+                0.8
+              ],
+              "confidence": 0.78
+            },
+            "onboarding__cannot_ship": {
+              "kind": "noul",
+              "p": 0.05
+            },
+            "bulk_export__customer_value": {
+              "kind": "score",
+              "score": 0.62,
+              "probabilities": [
+                0.4,
+                0.59,
+                0.01,
+                0
+              ],
+              "confidence": 0.59
+            },
+            "bulk_export__revenue": {
+              "kind": "score",
+              "score": 0.76,
+              "probabilities": [
+                0.3,
+                0.66,
+                0.03,
+                0.01
+              ],
+              "confidence": 0.65
+            },
+            "bulk_export__evidence": {
+              "kind": "score",
+              "score": 0.96,
+              "probabilities": [
+                0.04,
+                0.96,
+                0,
+                0
+              ],
+              "confidence": 0.96
+            },
+            "bulk_export__cannot_ship": {
+              "kind": "noul",
+              "p": 0.04
+            },
+            "mobile_app__customer_value": {
+              "kind": "score",
+              "score": 0.56,
+              "probabilities": [
+                0.45,
+                0.54,
+                0.01,
+                0
+              ],
+              "confidence": 0.54
+            },
+            "mobile_app__revenue": {
+              "kind": "score",
+              "score": 0.61,
+              "probabilities": [
+                0.41,
+                0.58,
+                0.01,
+                0
+              ],
+              "confidence": 0.58
+            },
+            "mobile_app__evidence": {
+              "kind": "score",
+              "score": 0.91,
+              "probabilities": [
+                0.09,
+                0.91,
+                0,
+                0
+              ],
+              "confidence": 0.91
+            },
+            "mobile_app__cannot_ship": {
+              "kind": "noul",
+              "p": 0.07
+            },
+            "ai_summaries__customer_value": {
+              "kind": "score",
+              "score": 0.73,
+              "probabilities": [
+                0.29,
+                0.69,
+                0.02,
+                0
+              ],
+              "confidence": 0.69
+            },
+            "ai_summaries__revenue": {
+              "kind": "score",
+              "score": 0.91,
+              "probabilities": [
+                0.16,
+                0.78,
+                0.05,
+                0.01
+              ],
+              "confidence": 0.77
+            },
+            "ai_summaries__evidence": {
+              "kind": "score",
+              "score": 0.91,
+              "probabilities": [
+                0.09,
+                0.91,
+                0,
+                0
+              ],
+              "confidence": 0.91
+            },
+            "ai_summaries__cannot_ship": {
+              "kind": "noul",
+              "p": 0.04
+            },
+            "sso__effort": {
+              "kind": "score",
+              "score": 1.46,
+              "probabilities": [
+                0.11,
+                0.44,
+                0.33,
+                0.12
+              ],
+              "confidence": 0.32
+            },
+            "onboarding__effort": {
+              "kind": "score",
+              "score": 1.85,
+              "probabilities": [
+                0.01,
+                0.19,
+                0.74,
+                0.06
+              ],
+              "confidence": 0.73
+            },
+            "bulk_export__effort": {
+              "kind": "score",
+              "score": 2.99,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "confidence": 1
+            },
+            "mobile_app__effort": {
+              "kind": "score",
+              "score": 1.09,
+              "probabilities": [
+                0.09,
+                0.73,
+                0.17,
+                0.01
+              ],
+              "confidence": 0.72
+            },
+            "ai_summaries__effort": {
+              "kind": "score",
+              "score": 2.97,
+              "probabilities": [
+                0,
+                0,
+                0.01,
+                0.99
+              ],
+              "confidence": 0.99
+            }
+          },
+          "asked": 5,
+          "total": 25,
+          "requests": 1,
+          "ms": 139,
+          "usage": {
+            "input_tokens": 1289,
+            "output_tokens": 93
+          }
+        },
+        {
+          "engine": "jev",
+          "model": "jev-1.13.0",
+          "step": 4,
+          "judgments": {
+            "sso__customer_value": {
+              "kind": "score",
+              "score": 1.26,
+              "probabilities": [
+                0.02,
+                0.71,
+                0.25,
+                0.02
+              ],
+              "confidence": 0.69
+            },
+            "sso__revenue": {
+              "kind": "score",
+              "score": 2.97,
+              "probabilities": [
+                0,
+                0,
+                0.03,
+                0.97
+              ],
+              "confidence": 0.97
+            },
+            "sso__effort": {
+              "kind": "score",
+              "score": 1.46,
+              "probabilities": [
+                0.11,
+                0.44,
+                0.33,
+                0.12
+              ],
+              "confidence": 0.32
+            },
+            "sso__evidence": {
+              "kind": "score",
+              "score": 2.99,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "confidence": 1
+            },
+            "onboarding__customer_value": {
+              "kind": "score",
+              "score": 2.55,
+              "probabilities": [
+                0.01,
+                0.01,
+                0.39,
+                0.59
+              ],
+              "confidence": 0.56
+            },
+            "onboarding__revenue": {
+              "kind": "score",
+              "score": 1.17,
+              "probabilities": [
+                0.06,
+                0.73,
+                0.19,
+                0.02
+              ],
+              "confidence": 0.71
+            },
+            "onboarding__effort": {
+              "kind": "score",
+              "score": 1.85,
+              "probabilities": [
+                0.01,
+                0.19,
+                0.74,
+                0.06
+              ],
+              "confidence": 0.73
+            },
+            "onboarding__evidence": {
+              "kind": "score",
+              "score": 2.79,
+              "probabilities": [
+                0.01,
+                0,
+                0.19,
+                0.8
+              ],
+              "confidence": 0.78
+            },
+            "bulk_export__customer_value": {
+              "kind": "score",
+              "score": 0.62,
+              "probabilities": [
+                0.4,
+                0.59,
+                0.01,
+                0
+              ],
+              "confidence": 0.59
+            },
+            "bulk_export__revenue": {
+              "kind": "score",
+              "score": 0.76,
+              "probabilities": [
+                0.3,
+                0.66,
+                0.03,
+                0.01
+              ],
+              "confidence": 0.65
+            },
+            "bulk_export__effort": {
+              "kind": "score",
+              "score": 2.99,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "confidence": 1
+            },
+            "bulk_export__evidence": {
+              "kind": "score",
+              "score": 0.96,
+              "probabilities": [
+                0.04,
+                0.96,
+                0,
+                0
+              ],
+              "confidence": 0.96
+            },
+            "mobile_app__customer_value": {
+              "kind": "score",
+              "score": 0.56,
+              "probabilities": [
+                0.45,
+                0.54,
+                0.01,
+                0
+              ],
+              "confidence": 0.54
+            },
+            "mobile_app__revenue": {
+              "kind": "score",
+              "score": 0.61,
+              "probabilities": [
+                0.41,
+                0.58,
+                0.01,
+                0
+              ],
+              "confidence": 0.58
+            },
+            "mobile_app__effort": {
+              "kind": "score",
+              "score": 1.09,
+              "probabilities": [
+                0.09,
+                0.73,
+                0.17,
+                0.01
+              ],
+              "confidence": 0.72
+            },
+            "mobile_app__evidence": {
+              "kind": "score",
+              "score": 0.91,
+              "probabilities": [
+                0.09,
+                0.91,
+                0,
+                0
+              ],
+              "confidence": 0.91
+            },
+            "ai_summaries__customer_value": {
+              "kind": "score",
+              "score": 0.73,
+              "probabilities": [
+                0.29,
+                0.69,
+                0.02,
+                0
+              ],
+              "confidence": 0.69
+            },
+            "ai_summaries__revenue": {
+              "kind": "score",
+              "score": 0.91,
+              "probabilities": [
+                0.16,
+                0.78,
+                0.05,
+                0.01
+              ],
+              "confidence": 0.77
+            },
+            "ai_summaries__effort": {
+              "kind": "score",
+              "score": 2.97,
+              "probabilities": [
+                0,
+                0,
+                0.01,
+                0.99
+              ],
+              "confidence": 0.99
+            },
+            "ai_summaries__evidence": {
+              "kind": "score",
+              "score": 0.91,
+              "probabilities": [
+                0.09,
+                0.91,
+                0,
+                0
+              ],
+              "confidence": 0.91
+            },
+            "sso__cannot_ship": {
+              "kind": "noul",
+              "p": 0.08
+            },
+            "onboarding__cannot_ship": {
+              "kind": "noul",
+              "p": 0.06
+            },
+            "bulk_export__cannot_ship": {
+              "kind": "noul",
+              "p": 0.07
+            },
+            "mobile_app__cannot_ship": {
+              "kind": "noul",
+              "p": 0.07
+            },
+            "ai_summaries__cannot_ship": {
+              "kind": "noul",
+              "p": 0.89
+            }
+          },
+          "asked": 5,
+          "total": 25,
+          "requests": 1,
+          "ms": 137,
+          "usage": {
+            "input_tokens": 1096,
+            "output_tokens": 108
+          }
+        },
+        {
+          "engine": "jev",
+          "model": "jev-1.13.0",
+          "step": 5,
+          "judgments": {
+            "sso__revenue": {
+              "kind": "score",
+              "score": 2.97,
+              "probabilities": [
+                0,
+                0,
+                0.03,
+                0.97
+              ],
+              "confidence": 0.97
+            },
+            "sso__effort": {
+              "kind": "score",
+              "score": 1.46,
+              "probabilities": [
+                0.11,
+                0.44,
+                0.33,
+                0.12
+              ],
+              "confidence": 0.32
+            },
+            "sso__cannot_ship": {
+              "kind": "noul",
+              "p": 0.08
+            },
+            "onboarding__revenue": {
+              "kind": "score",
+              "score": 1.17,
+              "probabilities": [
+                0.06,
+                0.73,
+                0.19,
+                0.02
+              ],
+              "confidence": 0.71
+            },
+            "onboarding__effort": {
+              "kind": "score",
+              "score": 1.85,
+              "probabilities": [
+                0.01,
+                0.19,
+                0.74,
+                0.06
+              ],
+              "confidence": 0.73
+            },
+            "onboarding__cannot_ship": {
+              "kind": "noul",
+              "p": 0.06
+            },
+            "bulk_export__revenue": {
+              "kind": "score",
+              "score": 0.76,
+              "probabilities": [
+                0.3,
+                0.66,
+                0.03,
+                0.01
+              ],
+              "confidence": 0.65
+            },
+            "bulk_export__effort": {
+              "kind": "score",
+              "score": 2.99,
+              "probabilities": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "confidence": 1
+            },
+            "bulk_export__cannot_ship": {
+              "kind": "noul",
+              "p": 0.07
+            },
+            "mobile_app__revenue": {
+              "kind": "score",
+              "score": 0.61,
+              "probabilities": [
+                0.41,
+                0.58,
+                0.01,
+                0
+              ],
+              "confidence": 0.58
+            },
+            "mobile_app__effort": {
+              "kind": "score",
+              "score": 1.09,
+              "probabilities": [
+                0.09,
+                0.73,
+                0.17,
+                0.01
+              ],
+              "confidence": 0.72
+            },
+            "mobile_app__cannot_ship": {
+              "kind": "noul",
+              "p": 0.07
+            },
+            "ai_summaries__revenue": {
+              "kind": "score",
+              "score": 0.91,
+              "probabilities": [
+                0.16,
+                0.78,
+                0.05,
+                0.01
+              ],
+              "confidence": 0.77
+            },
+            "ai_summaries__effort": {
+              "kind": "score",
+              "score": 2.97,
+              "probabilities": [
+                0,
+                0,
+                0.01,
+                0.99
+              ],
+              "confidence": 0.99
+            },
+            "ai_summaries__cannot_ship": {
+              "kind": "noul",
+              "p": 0.89
+            },
+            "sso__customer_value": {
+              "kind": "score",
+              "score": 1.33,
+              "probabilities": [
+                0.01,
+                0.69,
+                0.26,
+                0.04
+              ],
+              "confidence": 0.65
+            },
+            "onboarding__customer_value": {
+              "kind": "score",
+              "score": 1.99,
+              "probabilities": [
+                0.06,
+                0.1,
+                0.62,
+                0.22
+              ],
+              "confidence": 0.56
+            },
+            "bulk_export__customer_value": {
+              "kind": "score",
+              "score": 2.74,
+              "probabilities": [
+                0,
+                0.01,
+                0.24,
+                0.75
+              ],
+              "confidence": 0.74
+            },
+            "mobile_app__customer_value": {
+              "kind": "score",
+              "score": 0.47,
+              "probabilities": [
+                0.53,
+                0.46,
+                0.01,
+                0
+              ],
+              "confidence": 0.52
+            },
+            "ai_summaries__customer_value": {
+              "kind": "score",
+              "score": 0.71,
+              "probabilities": [
+                0.32,
+                0.66,
+                0.02,
+                0
+              ],
+              "confidence": 0.66
+            },
+            "sso__evidence": {
+              "kind": "score",
+              "score": 2.99,
+              "probabilities": [
+                0,
+                0,
+                0.01,
+                0.99
+              ],
+              "confidence": 0.99
+            },
+            "onboarding__evidence": {
+              "kind": "score",
+              "score": 2.78,
+              "probabilities": [
+                0.01,
+                0,
+                0.17,
+                0.81
+              ],
+              "confidence": 0.8
+            },
+            "bulk_export__evidence": {
+              "kind": "score",
+              "score": 2.98,
+              "probabilities": [
+                0,
+                0,
+                0.02,
+                0.98
+              ],
+              "confidence": 0.98
+            },
+            "mobile_app__evidence": {
+              "kind": "score",
+              "score": 0.91,
+              "probabilities": [
+                0.09,
+                0.91,
+                0,
+                0
+              ],
+              "confidence": 0.91
+            },
+            "ai_summaries__evidence": {
+              "kind": "score",
+              "score": 0.93,
+              "probabilities": [
+                0.08,
+                0.92,
+                0,
+                0
+              ],
+              "confidence": 0.92
+            }
+          },
+          "asked": 10,
+          "total": 25,
+          "requests": 2,
+          "ms": 167,
           "usage": {
             "input_tokens": 2756,
             "output_tokens": 191
@@ -1549,249 +1549,249 @@
           "judgments": {
             "sso__customer_value": {
               "kind": "score",
-              "score": 2.05798577738667,
+              "score": 2.054496094640057,
               "probabilities": [
-                0.036197836828432306,
-                0.09839592208025312,
-                0.6366288679675263,
-                0.22877737312378824
+                0.036494023741871516,
+                0.09958930348389435,
+                0.63684322716654,
+                0.22707344560769424
               ],
-              "confidence": 0.2979720547103285
+              "confidence": 0.2970207319605268
             },
             "sso__revenue": {
               "kind": "score",
-              "score": 1.912055504015476,
+              "score": 1.9047153161864863,
               "probabilities": [
-                0.09928984898509464,
-                0.14390265875020813,
-                0.5022696315288236,
-                0.2545378607358736
+                0.10021602923151776,
+                0.14581346213898505,
+                0.5030096718409905,
+                0.25096083678850667
               ],
-              "confidence": 0.13260783431374246
+              "confidence": 0.13158645203960795
             },
             "sso__effort": {
               "kind": "score",
-              "score": 2.3643675317618396,
+              "score": 2.362483871983402,
               "probabilities": [
-                0.013139373618399697,
-                0.037724163926451657,
-                0.5207660195300581,
-                0.4283704429250906
+                0.01308207031999805,
+                0.03785422561931613,
+                0.5225614658179711,
+                0.4265022382427146
               ],
-              "confidence": 0.36269288617534745
+              "confidence": 0.362867344336546
             },
             "sso__evidence": {
               "kind": "score",
-              "score": 2.7966679813973205,
+              "score": 2.7948106940505757,
               "probabilities": [
-                0.003348453120068131,
-                0.015974576408171983,
-                0.16133750642613126,
-                0.8193394640456286
+                0.003394775696055239,
+                0.016195569058507893,
+                0.16261384074424276,
+                0.8177958145011941
               ],
-              "confidence": 0.6084910644359569
+              "confidence": 0.6061895004737787
             },
             "sso__cannot_ship": {
               "kind": "noul",
-              "p": 0.9390248191350352
+              "p": 0.9385759599453297
             },
             "onboarding__customer_value": {
               "kind": "score",
-              "score": 0.4936015146968865,
+              "score": 0.4971173957834591,
               "probabilities": [
-                0.7179568889575805,
-                0.14586178919608558,
-                0.06080424003820108,
-                0.07537708180813292
+                0.7161597412708829,
+                0.14663782107471535,
+                0.061127738254461585,
+                0.0760746993999402
               ],
-              "confidence": 0.36246128551164525
+              "confidence": 0.35986485825660186
             },
             "onboarding__revenue": {
               "kind": "score",
-              "score": 1.3742798791858661,
+              "score": 1.371483622285008,
               "probabilities": [
-                0.17768122713160095,
-                0.39343385550201637,
-                0.30580872841529855,
-                0.12307618895108423
+                0.17965352607422427,
+                0.39316653128094914,
+                0.30322273693042073,
+                0.12395720571440583
               ],
-              "confidence": 0.06645911119471193
+              "confidence": 0.06507772699597092
             },
             "onboarding__effort": {
               "kind": "score",
-              "score": 1.9444860579866188,
+              "score": 1.9385465120262655,
               "probabilities": [
-                0.03862608027618138,
-                0.10540751708352515,
-                0.7288206670177866,
-                0.12714573562250683
+                0.04030432487222334,
+                0.10743946042781452,
+                0.7256615925014356,
+                0.12659462219852655
               ],
-              "confidence": 0.38280396920508086
+              "confidence": 0.3771536207631564
             },
             "onboarding__evidence": {
               "kind": "score",
-              "score": 1.2856882855460778,
+              "score": 1.288216512840073,
               "probabilities": [
-                0.04694380066939555,
-                0.687144706776663,
-                0.1991908988924097,
-                0.06672059366153185
+                0.04770010754325644,
+                0.6847105214140708,
+                0.19926212170201638,
+                0.06832724934065655
               ],
-              "confidence": 0.34830772360592344
+              "confidence": 0.34409865703203457
             },
             "onboarding__cannot_ship": {
               "kind": "noul",
-              "p": 0.8757869916479466
+              "p": 0.8740772351648677
             },
             "bulk_export__customer_value": {
               "kind": "score",
-              "score": 1.3203329909195358,
+              "score": 1.3255457065195977,
               "probabilities": [
-                0.20720675336133765,
-                0.4104732873372031,
-                0.23710017432204503,
-                0.14521978497941423
+                0.2059987586105981,
+                0.40967744993633426,
+                0.2371031177759392,
+                0.14722067367712835
               ],
-              "confidence": 0.05279183050231806
+              "confidence": 0.05189962137187909
             },
             "bulk_export__revenue": {
               "kind": "score",
-              "score": 0.653037367208437,
+              "score": 0.6276014659280253,
               "probabilities": [
-                0.5384211049403744,
-                0.32913021967260214,
-                0.07343887862523561,
-                0.059009796761787865
+                0.5546371015694801,
+                0.31912397186767616,
+                0.07023928562818241,
+                0.05599964093466145
               ],
-              "confidence": 0.23690155550337189
+              "confidence": 0.2502455510684217
             },
             "bulk_export__effort": {
               "kind": "score",
-              "score": 2.8953266186342455,
+              "score": 2.8979608957242675,
               "probabilities": [
-                0.006427552566444965,
-                0.009207043956020396,
-                0.06697663575437852,
-                0.917388767723156
+                0.006494201499475911,
+                0.008738903304504867,
+                0.06507869316829525,
+                0.919688202027724
               ],
-              "confidence": 0.7577947090016268
+              "confidence": 0.7627238859230336
             },
             "bulk_export__evidence": {
               "kind": "score",
-              "score": 1.3480844512677153,
+              "score": 1.3478373871515148,
               "probabilities": [
-                0.09872328163815731,
-                0.5571249555500428,
-                0.24149579271772711,
-                0.10265597009407268
+                0.10046245199219299,
+                0.5548891814082393,
+                0.24099689405542746,
+                0.10365147254414023
               ],
-              "confidence": 0.18393116812490906
+              "confidence": 0.1808645166129954
             },
             "bulk_export__cannot_ship": {
               "kind": "noul",
-              "p": 0.9683812327313545
+              "p": 0.9675331855246277
             },
             "mobile_app__customer_value": {
               "kind": "score",
-              "score": 0.9818538178375011,
+              "score": 0.9785527006361819,
               "probabilities": [
-                0.2935833947380806,
-                0.5072666172766553,
-                0.12286276339494633,
-                0.0762872245903177
+                0.29485060744050345,
+                0.5074699831236261,
+                0.12195551079505566,
+                0.07572389864081482
               ],
-              "confidence": 0.16466799350642636
+              "confidence": 0.16587185197436594
             },
             "mobile_app__revenue": {
               "kind": "score",
-              "score": 0.7931621007751761,
+              "score": 0.7912967720379236,
               "probabilities": [
-                0.4142589495431686,
-                0.43244710152604093,
-                0.09916684754323596,
-                0.05412710138755441
+                0.417143703676635,
+                0.4287073531095208,
+                0.09985741071312922,
+                0.054291532500714806
               ],
-              "confidence": 0.19597377757712453
+              "confidence": 0.1949251270878234
             },
             "mobile_app__effort": {
               "kind": "score",
-              "score": 1.1963163274469346,
+              "score": 1.2049030545942723,
               "probabilities": [
-                0.15435957114088106,
-                0.5283471286758756,
-                0.28391070177867067,
-                0.0333825984045725
+                0.15286093194857328,
+                0.5232175360738446,
+                0.290079077412319,
+                0.033842454565263226
               ],
-              "confidence": 0.20906775624602092
+              "confidence": 0.2067918021264502
             },
             "mobile_app__evidence": {
               "kind": "score",
-              "score": 1.2613758540282545,
+              "score": 1.2546045649479085,
               "probabilities": [
-                0.11210345381170615,
-                0.5637757210502823,
-                0.27476234243606257,
-                0.049358482701949015
+                0.11167316058150951,
+                0.5704558459359254,
+                0.26946426143571245,
+                0.04840673204685275
               ],
-              "confidence": 0.2268074671417304
+              "confidence": 0.23180059718077095
             },
             "mobile_app__cannot_ship": {
               "kind": "noul",
-              "p": 0.38537465999204185
+              "p": 0.3863003116844215
             },
             "ai_summaries__customer_value": {
               "kind": "score",
-              "score": 1.123176486012295,
+              "score": 1.1249395570480456,
               "probabilities": [
-                0.28926717632499294,
-                0.42918239708176525,
-                0.15065719084919588,
-                0.13089323574404602
+                0.2892374786657013,
+                0.42746528319035315,
+                0.15241744057414414,
+                0.13087979756980142
               ],
-              "confidence": 0.08161410529221569
+              "confidence": 0.0803146686067382
             },
             "ai_summaries__revenue": {
               "kind": "score",
-              "score": 0.8079587856309085,
+              "score": 0.8179201446524893,
               "probabilities": [
-                0.4445932013744695,
-                0.3729254224563121,
-                0.11241076533305913,
-                0.07007061083615937
+                0.43909213500386257,
+                0.37557540593299377,
+                0.11365263846993547,
+                0.07167982059320822
               ],
-              "confidence": 0.16310698292894943
+              "confidence": 0.1594440386770124
             },
             "ai_summaries__effort": {
               "kind": "score",
-              "score": 2.5107948415859482,
+              "score": 2.505170335816353,
               "probabilities": [
-                0.030095409569180803,
-                0.06997392370291602,
-                0.2589710823006769,
-                0.6409595844272262
+                0.03050437913123664,
+                0.07092480642362889,
+                0.2614669139426795,
+                0.637103900502455
               ],
-              "confidence": 0.3316626083368732
+              "confidence": 0.32763318326967594
             },
             "ai_summaries__evidence": {
               "kind": "score",
-              "score": 1.098467926182091,
+              "score": 1.101216919100059,
               "probabilities": [
-                0.08173527153980327,
-                0.7754826648826866,
-                0.10536092943312639,
-                0.03742113414438388
+                0.0809925660261117,
+                0.7744629899676587,
+                0.1068794028862885,
+                0.03766504111994104
               ],
-              "confidence": 0.4503929771113149
+              "confidence": 0.44889002611495077
             },
             "ai_summaries__cannot_ship": {
               "kind": "noul",
-              "p": 0.878314245362953
+              "p": 0.8732148268211409
             }
           },
           "asked": 25,
           "total": 25,
           "requests": 1,
-          "ms": 7026,
+          "ms": 16569,
           "usage": {
             "input_tokens": 5233,
             "output_tokens": 0
@@ -1804,249 +1804,249 @@
           "judgments": {
             "sso__revenue": {
               "kind": "score",
-              "score": 1.912055504015476,
+              "score": 1.9047153161864863,
               "probabilities": [
-                0.09928984898509464,
-                0.14390265875020813,
-                0.5022696315288236,
-                0.2545378607358736
+                0.10021602923151776,
+                0.14581346213898505,
+                0.5030096718409905,
+                0.25096083678850667
               ],
-              "confidence": 0.13260783431374246
+              "confidence": 0.13158645203960795
             },
             "sso__effort": {
               "kind": "score",
-              "score": 2.3643675317618396,
+              "score": 2.362483871983402,
               "probabilities": [
-                0.013139373618399697,
-                0.037724163926451657,
-                0.5207660195300581,
-                0.4283704429250906
+                0.01308207031999805,
+                0.03785422561931613,
+                0.5225614658179711,
+                0.4265022382427146
               ],
-              "confidence": 0.36269288617534745
+              "confidence": 0.362867344336546
             },
             "sso__cannot_ship": {
               "kind": "noul",
-              "p": 0.9390248191350352
+              "p": 0.9385759599453297
             },
             "onboarding__revenue": {
               "kind": "score",
-              "score": 1.3742798791858661,
+              "score": 1.371483622285008,
               "probabilities": [
-                0.17768122713160095,
-                0.39343385550201637,
-                0.30580872841529855,
-                0.12307618895108423
+                0.17965352607422427,
+                0.39316653128094914,
+                0.30322273693042073,
+                0.12395720571440583
               ],
-              "confidence": 0.06645911119471193
+              "confidence": 0.06507772699597092
             },
             "onboarding__effort": {
               "kind": "score",
-              "score": 1.9444860579866188,
+              "score": 1.9385465120262655,
               "probabilities": [
-                0.03862608027618138,
-                0.10540751708352515,
-                0.7288206670177866,
-                0.12714573562250683
+                0.04030432487222334,
+                0.10743946042781452,
+                0.7256615925014356,
+                0.12659462219852655
               ],
-              "confidence": 0.38280396920508086
+              "confidence": 0.3771536207631564
             },
             "onboarding__cannot_ship": {
               "kind": "noul",
-              "p": 0.8757869916479466
+              "p": 0.8740772351648677
             },
             "bulk_export__revenue": {
               "kind": "score",
-              "score": 0.653037367208437,
+              "score": 0.6276014659280253,
               "probabilities": [
-                0.5384211049403744,
-                0.32913021967260214,
-                0.07343887862523561,
-                0.059009796761787865
+                0.5546371015694801,
+                0.31912397186767616,
+                0.07023928562818241,
+                0.05599964093466145
               ],
-              "confidence": 0.23690155550337189
+              "confidence": 0.2502455510684217
             },
             "bulk_export__effort": {
               "kind": "score",
-              "score": 2.8953266186342455,
+              "score": 2.8979608957242675,
               "probabilities": [
-                0.006427552566444965,
-                0.009207043956020396,
-                0.06697663575437852,
-                0.917388767723156
+                0.006494201499475911,
+                0.008738903304504867,
+                0.06507869316829525,
+                0.919688202027724
               ],
-              "confidence": 0.7577947090016268
+              "confidence": 0.7627238859230336
             },
             "bulk_export__cannot_ship": {
               "kind": "noul",
-              "p": 0.9683812327313545
+              "p": 0.9675331855246277
             },
             "mobile_app__revenue": {
               "kind": "score",
-              "score": 0.7931621007751761,
+              "score": 0.7912967720379236,
               "probabilities": [
-                0.4142589495431686,
-                0.43244710152604093,
-                0.09916684754323596,
-                0.05412710138755441
+                0.417143703676635,
+                0.4287073531095208,
+                0.09985741071312922,
+                0.054291532500714806
               ],
-              "confidence": 0.19597377757712453
+              "confidence": 0.1949251270878234
             },
             "mobile_app__effort": {
               "kind": "score",
-              "score": 1.1963163274469346,
+              "score": 1.2049030545942723,
               "probabilities": [
-                0.15435957114088106,
-                0.5283471286758756,
-                0.28391070177867067,
-                0.0333825984045725
+                0.15286093194857328,
+                0.5232175360738446,
+                0.290079077412319,
+                0.033842454565263226
               ],
-              "confidence": 0.20906775624602092
+              "confidence": 0.2067918021264502
             },
             "mobile_app__cannot_ship": {
               "kind": "noul",
-              "p": 0.38537465999204185
+              "p": 0.3863003116844215
             },
             "ai_summaries__revenue": {
               "kind": "score",
-              "score": 0.8079587856309085,
+              "score": 0.8179201446524893,
               "probabilities": [
-                0.4445932013744695,
-                0.3729254224563121,
-                0.11241076533305913,
-                0.07007061083615937
+                0.43909213500386257,
+                0.37557540593299377,
+                0.11365263846993547,
+                0.07167982059320822
               ],
-              "confidence": 0.16310698292894943
+              "confidence": 0.1594440386770124
             },
             "ai_summaries__effort": {
               "kind": "score",
-              "score": 2.5107948415859482,
+              "score": 2.505170335816353,
               "probabilities": [
-                0.030095409569180803,
-                0.06997392370291602,
-                0.2589710823006769,
-                0.6409595844272262
+                0.03050437913123664,
+                0.07092480642362889,
+                0.2614669139426795,
+                0.637103900502455
               ],
-              "confidence": 0.3316626083368732
+              "confidence": 0.32763318326967594
             },
             "ai_summaries__cannot_ship": {
               "kind": "noul",
-              "p": 0.878314245362953
+              "p": 0.8732148268211409
             },
             "sso__customer_value": {
               "kind": "score",
-              "score": 0.8067075321757773,
+              "score": 0.8053017192872585,
               "probabilities": [
-                0.513717887990894,
-                0.2623814231731357,
-                0.12737595750526945,
-                0.09652473133070089
+                0.520915443984246,
+                0.25189824920228754,
+                0.1281554503554284,
+                0.09903085645803802
               ],
-              "confidence": 0.1478176565431467
+              "confidence": 0.1493061712556002
             },
             "sso__evidence": {
               "kind": "score",
-              "score": 2.595827650352476,
+              "score": 2.592757694315001,
               "probabilities": [
-                0.0035870194416850157,
-                0.01939124389523758,
-                0.3546288035319935,
-                0.6223929331310839
+                0.0035676340343082733,
+                0.019136359048868092,
+                0.3582666854843381,
+                0.6190293214324856
               ],
-              "confidence": 0.4521933220320479
+              "confidence": 0.45144832541923485
             },
             "onboarding__customer_value": {
               "kind": "score",
-              "score": 2.36599448887473,
+              "score": 2.364251115852146,
               "probabilities": [
-                0.05683691377523991,
-                0.061695886236435536,
-                0.34010299732667926,
-                0.5413642026616454
+                0.058337283500636966,
+                0.061857611189816836,
+                0.33702181126630953,
+                0.5427832940432367
               ],
-              "confidence": 0.25422865900567226
+              "confidence": 0.2525948298085895
             },
             "onboarding__evidence": {
               "kind": "score",
-              "score": 2.8211687955331333,
+              "score": 2.8164204923041916,
               "probabilities": [
-                0.012487044821474702,
-                0.036132462250110194,
-                0.06910514550222205,
-                0.882275347426193
+                0.012938567178200052,
+                0.036858547839922026,
+                0.07104671048136368,
+                0.8791561745005141
               ],
-              "confidence": 0.661056647962956
+              "confidence": 0.654463795456064
             },
             "bulk_export__customer_value": {
               "kind": "score",
-              "score": 0.7042192663883656,
+              "score": 0.7003733155052138,
               "probabilities": [
-                0.5124848975341303,
-                0.32831015048534035,
-                0.10170574003856304,
-                0.05749921194196639
+                0.5147548240984595,
+                0.32719807373550747,
+                0.10096606472839252,
+                0.0570810374376404
               ],
-              "confidence": 0.20295324059680875
+              "confidence": 0.20484122193608378
             },
             "bulk_export__evidence": {
               "kind": "score",
-              "score": 0.9625683855137998,
+              "score": 0.9544880755561319,
               "probabilities": [
-                0.16962196967533905,
-                0.7310703938636595,
-                0.06642491773286414,
-                0.032882718728137354
+                0.176564371648549,
+                0.724726901839212,
+                0.0663650058197971,
+                0.03234372069244191
               ],
-              "confidence": 0.4067952188581285
+              "confidence": 0.40091281580254956
             },
             "mobile_app__customer_value": {
               "kind": "score",
-              "score": 0.6689455364779401,
+              "score": 0.6805111103217417,
               "probabilities": [
-                0.47246096116686814,
-                0.421860154490322,
-                0.06995127104081166,
-                0.03572761330199825
+                0.4655079007660033,
+                0.42550866803564813,
+                0.07194785130895176,
+                0.0370355798893967
               ],
-              "confidence": 0.26173206552064476
+              "confidence": 0.256332584706942
             },
             "mobile_app__evidence": {
               "kind": "score",
-              "score": 0.960651274674087,
+              "score": 0.9646492830760467,
               "probabilities": [
-                0.13064027178047968,
-                0.7940409458810963,
-                0.059346018222281374,
-                0.015972764116142645
+                0.1294737877654103,
+                0.7931231053100278,
+                0.060683143007666716,
+                0.01671996391689514
               ],
-              "confidence": 0.507530666528196
+              "confidence": 0.504469367579429
             },
             "ai_summaries__customer_value": {
               "kind": "score",
-              "score": 0.5269793196307336,
+              "score": 0.5217288217269785,
               "probabilities": [
-                0.6163031039723204,
-                0.28106406830160985,
-                0.061983231849085725,
-                0.04064959587698411
+                0.6196121732492778,
+                0.27928108709991056,
+                0.06087248432536681,
+                0.04023425532544479
               ],
-              "confidence": 0.3092524605588566
+              "confidence": 0.3129364189370547
             },
             "ai_summaries__evidence": {
               "kind": "score",
-              "score": 0.7665379113970671,
+              "score": 0.7662515066030876,
               "probabilities": [
-                0.28191948751332696,
-                0.6789366165045455,
-                0.029830393053861037,
-                0.009313502928266507
+                0.28198494805198976,
+                0.6790942627780483,
+                0.029605123684846732,
+                0.00931566548511527
               ],
-              "confidence": 0.44587924495444664
+              "confidence": 0.4463394911033274
             }
           },
           "asked": 10,
           "total": 25,
           "requests": 1,
-          "ms": 51,
+          "ms": 4111,
           "usage": {
             "input_tokens": 2252,
             "output_tokens": 0
@@ -2059,249 +2059,249 @@
           "judgments": {
             "sso__customer_value": {
               "kind": "score",
-              "score": 0.8067075321757773,
+              "score": 0.8053017192872585,
               "probabilities": [
-                0.513717887990894,
-                0.2623814231731357,
-                0.12737595750526945,
-                0.09652473133070089
+                0.520915443984246,
+                0.25189824920228754,
+                0.1281554503554284,
+                0.09903085645803802
               ],
-              "confidence": 0.1478176565431467
+              "confidence": 0.1493061712556002
             },
             "sso__effort": {
               "kind": "score",
-              "score": 2.3643675317618396,
+              "score": 2.362483871983402,
               "probabilities": [
-                0.013139373618399697,
-                0.037724163926451657,
-                0.5207660195300581,
-                0.4283704429250906
+                0.01308207031999805,
+                0.03785422561931613,
+                0.5225614658179711,
+                0.4265022382427146
               ],
-              "confidence": 0.36269288617534745
+              "confidence": 0.362867344336546
             },
             "sso__cannot_ship": {
               "kind": "noul",
-              "p": 0.9390248191350352
+              "p": 0.9385759599453297
             },
             "onboarding__customer_value": {
               "kind": "score",
-              "score": 2.36599448887473,
+              "score": 2.364251115852146,
               "probabilities": [
-                0.05683691377523991,
-                0.061695886236435536,
-                0.34010299732667926,
-                0.5413642026616454
+                0.058337283500636966,
+                0.061857611189816836,
+                0.33702181126630953,
+                0.5427832940432367
               ],
-              "confidence": 0.25422865900567226
+              "confidence": 0.2525948298085895
             },
             "onboarding__effort": {
               "kind": "score",
-              "score": 1.9444860579866188,
+              "score": 1.9385465120262655,
               "probabilities": [
-                0.03862608027618138,
-                0.10540751708352515,
-                0.7288206670177866,
-                0.12714573562250683
+                0.04030432487222334,
+                0.10743946042781452,
+                0.7256615925014356,
+                0.12659462219852655
               ],
-              "confidence": 0.38280396920508086
+              "confidence": 0.3771536207631564
             },
             "onboarding__cannot_ship": {
               "kind": "noul",
-              "p": 0.8757869916479466
+              "p": 0.8740772351648677
             },
             "bulk_export__customer_value": {
               "kind": "score",
-              "score": 0.7042192663883656,
+              "score": 0.7003733155052138,
               "probabilities": [
-                0.5124848975341303,
-                0.32831015048534035,
-                0.10170574003856304,
-                0.05749921194196639
+                0.5147548240984595,
+                0.32719807373550747,
+                0.10096606472839252,
+                0.0570810374376404
               ],
-              "confidence": 0.20295324059680875
+              "confidence": 0.20484122193608378
             },
             "bulk_export__effort": {
               "kind": "score",
-              "score": 2.8953266186342455,
+              "score": 2.8979608957242675,
               "probabilities": [
-                0.006427552566444965,
-                0.009207043956020396,
-                0.06697663575437852,
-                0.917388767723156
+                0.006494201499475911,
+                0.008738903304504867,
+                0.06507869316829525,
+                0.919688202027724
               ],
-              "confidence": 0.7577947090016268
+              "confidence": 0.7627238859230336
             },
             "bulk_export__cannot_ship": {
               "kind": "noul",
-              "p": 0.9683812327313545
+              "p": 0.9675331855246277
             },
             "mobile_app__customer_value": {
               "kind": "score",
-              "score": 0.6689455364779401,
+              "score": 0.6805111103217417,
               "probabilities": [
-                0.47246096116686814,
-                0.421860154490322,
-                0.06995127104081166,
-                0.03572761330199825
+                0.4655079007660033,
+                0.42550866803564813,
+                0.07194785130895176,
+                0.0370355798893967
               ],
-              "confidence": 0.26173206552064476
+              "confidence": 0.256332584706942
             },
             "mobile_app__effort": {
               "kind": "score",
-              "score": 1.1963163274469346,
+              "score": 1.2049030545942723,
               "probabilities": [
-                0.15435957114088106,
-                0.5283471286758756,
-                0.28391070177867067,
-                0.0333825984045725
+                0.15286093194857328,
+                0.5232175360738446,
+                0.290079077412319,
+                0.033842454565263226
               ],
-              "confidence": 0.20906775624602092
+              "confidence": 0.2067918021264502
             },
             "mobile_app__cannot_ship": {
               "kind": "noul",
-              "p": 0.38537465999204185
+              "p": 0.3863003116844215
             },
             "ai_summaries__customer_value": {
               "kind": "score",
-              "score": 0.5269793196307336,
+              "score": 0.5217288217269785,
               "probabilities": [
-                0.6163031039723204,
-                0.28106406830160985,
-                0.061983231849085725,
-                0.04064959587698411
+                0.6196121732492778,
+                0.27928108709991056,
+                0.06087248432536681,
+                0.04023425532544479
               ],
-              "confidence": 0.3092524605588566
+              "confidence": 0.3129364189370547
             },
             "ai_summaries__effort": {
               "kind": "score",
-              "score": 2.5107948415859482,
+              "score": 2.505170335816353,
               "probabilities": [
-                0.030095409569180803,
-                0.06997392370291602,
-                0.2589710823006769,
-                0.6409595844272262
+                0.03050437913123664,
+                0.07092480642362889,
+                0.2614669139426795,
+                0.637103900502455
               ],
-              "confidence": 0.3316626083368732
+              "confidence": 0.32763318326967594
             },
             "ai_summaries__cannot_ship": {
               "kind": "noul",
-              "p": 0.878314245362953
+              "p": 0.8732148268211409
             },
             "sso__revenue": {
               "kind": "score",
-              "score": 2.75825812357807,
+              "score": 2.7590463266921468,
               "probabilities": [
-                0.011340831660883297,
-                0.014113893040759624,
-                0.17949159535776057,
-                0.7950536799405964
+                0.011489658974759148,
+                0.014077424447610875,
+                0.17832984748835404,
+                0.796103069089276
               ],
-              "confidence": 0.5660555194307078
+              "confidence": 0.5669564716647395
             },
             "onboarding__revenue": {
               "kind": "score",
-              "score": 1.3309014432244148,
+              "score": 1.3280779671281775,
               "probabilities": [
-                0.14713756280434603,
-                0.5016639386432761,
-                0.2243579910759948,
-                0.12684050747638306
+                0.14754079894864736,
+                0.5030387679424574,
+                0.223222100140966,
+                0.1261983329679294
               ],
-              "confidence": 0.1161747112540763
+              "confidence": 0.11711922617818027
             },
             "bulk_export__revenue": {
               "kind": "score",
-              "score": 0.6853160466629915,
+              "score": 0.6942652174433556,
               "probabilities": [
-                0.5375209439560009,
-                0.3135331903306186,
-                0.07505474080776818,
-                0.0738911249056122
+                0.5326913717804148,
+                0.315609192827868,
+                0.07644228155966386,
+                0.0752571538320533
               ],
-              "confidence": 0.21791987906050436
+              "confidence": 0.2132256288300095
             },
             "mobile_app__revenue": {
               "kind": "score",
-              "score": 0.8823094934733258,
+              "score": 0.8884900999663824,
               "probabilities": [
-                0.33772423953111097,
-                0.49912407049526775,
-                0.1062696469428062,
-                0.0568820430308152
+                0.33757519077009956,
+                0.4950212906045751,
+                0.10874174651416889,
+                0.05866177211115651
               ],
-              "confidence": 0.1958773796371529
+              "confidence": 0.1904253450057749
             },
             "ai_summaries__revenue": {
               "kind": "score",
-              "score": 0.7871578903592251,
+              "score": 0.8016353784767885,
               "probabilities": [
-                0.44168937849496287,
-                0.3928466654309609,
-                0.10208064329396428,
-                0.06338331278011188
+                0.4342635678968822,
+                0.39540147813997323,
+                0.10477096155261852,
+                0.06556399241052607
               ],
-              "confidence": 0.18071507040220736
+              "confidence": 0.17470583111084792
             },
             "sso__evidence": {
               "kind": "score",
-              "score": 2.9378815750833325,
+              "score": 2.9378050637916373,
               "probabilities": [
-                0.004404953015204509,
-                0.011973903736446297,
-                0.024955758398161394,
-                0.9586653848501878
+                0.004491630563653602,
+                0.011833870371826401,
+                0.025052303773748733,
+                0.9586221952907712
               ],
-              "confidence": 0.8489115099433863
+              "confidence": 0.8487649234726624
             },
             "onboarding__evidence": {
               "kind": "score",
-              "score": 2.141829644551521,
+              "score": 2.1563931839930097,
               "probabilities": [
-                0.049577759544927776,
-                0.15511508680153238,
-                0.399206903210631,
-                0.3961002504429089
+                0.05073042801037285,
+                0.1538381212080658,
+                0.38373928955974007,
+                0.4116921612218213
               ],
-              "confidence": 0.15500030409440468
+              "confidence": 0.1544997034587411
             },
             "bulk_export__evidence": {
               "kind": "score",
-              "score": 0.7713703167753654,
+              "score": 0.7747859115170851,
               "probabilities": [
-                0.2974967750297355,
-                0.6491584437985528,
-                0.037822470538322314,
-                0.015522310633389293
+                0.29312293007863505,
+                0.6541433078529387,
+                0.03755868254113209,
+                0.015175079527294067
               ],
-              "confidence": 0.4015131301040409
+              "confidence": 0.4054915588865382
             },
             "mobile_app__evidence": {
               "kind": "score",
-              "score": 0.7726312968125308,
+              "score": 0.7742735808463092,
               "probabilities": [
-                0.2690325996089683,
-                0.6978174672997336,
-                0.024635969761096978,
-                0.00851396333020109
+                0.2681881011021924,
+                0.698349611960513,
+                0.024462891926088057,
+                0.008999395011206663
               ],
-              "confidence": 0.4690084512025495
+              "confidence": 0.4684749644407574
             },
             "ai_summaries__evidence": {
               "kind": "score",
-              "score": 0.6995236467962408,
+              "score": 0.7034288298269421,
               "probabilities": [
-                0.3296464941130483,
-                0.6473101447409672,
-                0.01691658138268029,
-                0.00612677976330433
+                0.3256197494879182,
+                0.6513777030392115,
+                0.016956515630880083,
+                0.006046031841990148
               ],
-              "confidence": 0.4607339378491291
+              "confidence": 0.4628879190264443
             }
           },
           "asked": 10,
           "total": 25,
           "requests": 2,
-          "ms": 47,
+          "ms": 4265,
           "usage": {
             "input_tokens": 2525,
             "output_tokens": 0
@@ -2314,249 +2314,249 @@
           "judgments": {
             "sso__customer_value": {
               "kind": "score",
-              "score": 0.8067075321757773,
+              "score": 0.8053017192872585,
               "probabilities": [
-                0.513717887990894,
-                0.2623814231731357,
-                0.12737595750526945,
-                0.09652473133070089
+                0.520915443984246,
+                0.25189824920228754,
+                0.1281554503554284,
+                0.09903085645803802
               ],
-              "confidence": 0.1478176565431467
+              "confidence": 0.1493061712556002
             },
             "sso__revenue": {
               "kind": "score",
-              "score": 2.75825812357807,
+              "score": 2.7590463266921468,
               "probabilities": [
-                0.011340831660883297,
-                0.014113893040759624,
-                0.17949159535776057,
-                0.7950536799405964
+                0.011489658974759148,
+                0.014077424447610875,
+                0.17832984748835404,
+                0.796103069089276
               ],
-              "confidence": 0.5660555194307078
+              "confidence": 0.5669564716647395
             },
             "sso__evidence": {
               "kind": "score",
-              "score": 2.9378815750833325,
+              "score": 2.9378050637916373,
               "probabilities": [
-                0.004404953015204509,
-                0.011973903736446297,
-                0.024955758398161394,
-                0.9586653848501878
+                0.004491630563653602,
+                0.011833870371826401,
+                0.025052303773748733,
+                0.9586221952907712
               ],
-              "confidence": 0.8489115099433863
+              "confidence": 0.8487649234726624
             },
             "sso__cannot_ship": {
               "kind": "noul",
-              "p": 0.9390248191350352
+              "p": 0.9385759599453297
             },
             "onboarding__customer_value": {
               "kind": "score",
-              "score": 2.36599448887473,
+              "score": 2.364251115852146,
               "probabilities": [
-                0.05683691377523991,
-                0.061695886236435536,
-                0.34010299732667926,
-                0.5413642026616454
+                0.058337283500636966,
+                0.061857611189816836,
+                0.33702181126630953,
+                0.5427832940432367
               ],
-              "confidence": 0.25422865900567226
+              "confidence": 0.2525948298085895
             },
             "onboarding__revenue": {
               "kind": "score",
-              "score": 1.3309014432244148,
+              "score": 1.3280779671281775,
               "probabilities": [
-                0.14713756280434603,
-                0.5016639386432761,
-                0.2243579910759948,
-                0.12684050747638306
+                0.14754079894864736,
+                0.5030387679424574,
+                0.223222100140966,
+                0.1261983329679294
               ],
-              "confidence": 0.1161747112540763
+              "confidence": 0.11711922617818027
             },
             "onboarding__evidence": {
               "kind": "score",
-              "score": 2.141829644551521,
+              "score": 2.1563931839930097,
               "probabilities": [
-                0.049577759544927776,
-                0.15511508680153238,
-                0.399206903210631,
-                0.3961002504429089
+                0.05073042801037285,
+                0.1538381212080658,
+                0.38373928955974007,
+                0.4116921612218213
               ],
-              "confidence": 0.15500030409440468
+              "confidence": 0.1544997034587411
             },
             "onboarding__cannot_ship": {
               "kind": "noul",
-              "p": 0.8757869916479466
+              "p": 0.8740772351648677
             },
             "bulk_export__customer_value": {
               "kind": "score",
-              "score": 0.7042192663883656,
+              "score": 0.7003733155052138,
               "probabilities": [
-                0.5124848975341303,
-                0.32831015048534035,
-                0.10170574003856304,
-                0.05749921194196639
+                0.5147548240984595,
+                0.32719807373550747,
+                0.10096606472839252,
+                0.0570810374376404
               ],
-              "confidence": 0.20295324059680875
+              "confidence": 0.20484122193608378
             },
             "bulk_export__revenue": {
               "kind": "score",
-              "score": 0.6853160466629915,
+              "score": 0.6942652174433556,
               "probabilities": [
-                0.5375209439560009,
-                0.3135331903306186,
-                0.07505474080776818,
-                0.0738911249056122
+                0.5326913717804148,
+                0.315609192827868,
+                0.07644228155966386,
+                0.0752571538320533
               ],
-              "confidence": 0.21791987906050436
+              "confidence": 0.2132256288300095
             },
             "bulk_export__evidence": {
               "kind": "score",
-              "score": 0.7713703167753654,
+              "score": 0.7747859115170851,
               "probabilities": [
-                0.2974967750297355,
-                0.6491584437985528,
-                0.037822470538322314,
-                0.015522310633389293
+                0.29312293007863505,
+                0.6541433078529387,
+                0.03755868254113209,
+                0.015175079527294067
               ],
-              "confidence": 0.4015131301040409
+              "confidence": 0.4054915588865382
             },
             "bulk_export__cannot_ship": {
               "kind": "noul",
-              "p": 0.9683812327313545
+              "p": 0.9675331855246277
             },
             "mobile_app__customer_value": {
               "kind": "score",
-              "score": 0.6689455364779401,
+              "score": 0.6805111103217417,
               "probabilities": [
-                0.47246096116686814,
-                0.421860154490322,
-                0.06995127104081166,
-                0.03572761330199825
+                0.4655079007660033,
+                0.42550866803564813,
+                0.07194785130895176,
+                0.0370355798893967
               ],
-              "confidence": 0.26173206552064476
+              "confidence": 0.256332584706942
             },
             "mobile_app__revenue": {
               "kind": "score",
-              "score": 0.8823094934733258,
+              "score": 0.8884900999663824,
               "probabilities": [
-                0.33772423953111097,
-                0.49912407049526775,
-                0.1062696469428062,
-                0.0568820430308152
+                0.33757519077009956,
+                0.4950212906045751,
+                0.10874174651416889,
+                0.05866177211115651
               ],
-              "confidence": 0.1958773796371529
+              "confidence": 0.1904253450057749
             },
             "mobile_app__evidence": {
               "kind": "score",
-              "score": 0.7726312968125308,
+              "score": 0.7742735808463092,
               "probabilities": [
-                0.2690325996089683,
-                0.6978174672997336,
-                0.024635969761096978,
-                0.00851396333020109
+                0.2681881011021924,
+                0.698349611960513,
+                0.024462891926088057,
+                0.008999395011206663
               ],
-              "confidence": 0.4690084512025495
+              "confidence": 0.4684749644407574
             },
             "mobile_app__cannot_ship": {
               "kind": "noul",
-              "p": 0.38537465999204185
+              "p": 0.3863003116844215
             },
             "ai_summaries__customer_value": {
               "kind": "score",
-              "score": 0.5269793196307336,
+              "score": 0.5217288217269785,
               "probabilities": [
-                0.6163031039723204,
-                0.28106406830160985,
-                0.061983231849085725,
-                0.04064959587698411
+                0.6196121732492778,
+                0.27928108709991056,
+                0.06087248432536681,
+                0.04023425532544479
               ],
-              "confidence": 0.3092524605588566
+              "confidence": 0.3129364189370547
             },
             "ai_summaries__revenue": {
               "kind": "score",
-              "score": 0.7871578903592251,
+              "score": 0.8016353784767885,
               "probabilities": [
-                0.44168937849496287,
-                0.3928466654309609,
-                0.10208064329396428,
-                0.06338331278011188
+                0.4342635678968822,
+                0.39540147813997323,
+                0.10477096155261852,
+                0.06556399241052607
               ],
-              "confidence": 0.18071507040220736
+              "confidence": 0.17470583111084792
             },
             "ai_summaries__evidence": {
               "kind": "score",
-              "score": 0.6995236467962408,
+              "score": 0.7034288298269421,
               "probabilities": [
-                0.3296464941130483,
-                0.6473101447409672,
-                0.01691658138268029,
-                0.00612677976330433
+                0.3256197494879182,
+                0.6513777030392115,
+                0.016956515630880083,
+                0.006046031841990148
               ],
-              "confidence": 0.4607339378491291
+              "confidence": 0.4628879190264443
             },
             "ai_summaries__cannot_ship": {
               "kind": "noul",
-              "p": 0.878314245362953
+              "p": 0.8732148268211409
             },
             "sso__effort": {
               "kind": "score",
-              "score": 2.027204252658739,
+              "score": 2.0245992397512746,
               "probabilities": [
-                0.04160932904913122,
-                0.0959917161954875,
-                0.655984327802892,
-                0.20641462695248927
+                0.04190830342341849,
+                0.09705984331753595,
+                0.6555561633433984,
+                0.2054756899156472
               ],
-              "confidence": 0.30785255460607974
+              "confidence": 0.30656682095675436
             },
             "onboarding__effort": {
               "kind": "score",
-              "score": 2.021935627271528,
+              "score": 2.0302841071826485,
               "probabilities": [
-                0.03522898422054308,
-                0.10641408108119736,
-                0.6595492579044478,
-                0.19880767679381173
+                0.03351409004629911,
+                0.1032306648367666,
+                0.6627122930049213,
+                0.2005429521120131
               ],
-              "confidence": 0.31331684173538454
+              "confidence": 0.31970511891993736
             },
             "bulk_export__effort": {
               "kind": "score",
-              "score": 2.8748763938800295,
+              "score": 2.872920787618474,
               "probabilities": [
-                0.00522657299302075,
-                0.007486720145597608,
-                0.0944704468497136,
-                0.8928162600116681
+                0.005214890063931428,
+                0.0074699851223444325,
+                0.0964945719450423,
+                0.8908205528686818
               ],
-              "confidence": 0.7199529199946495
+              "confidence": 0.7167916089609663
             },
             "mobile_app__effort": {
               "kind": "score",
-              "score": 1.1523777080052864,
+              "score": 1.1590957986971204,
               "probabilities": [
-                0.14007593710854788,
-                0.603727044962241,
-                0.21994039074458804,
-                0.03625662718462303
+                0.1422267381384171,
+                0.5941370588843605,
+                0.22594986911890685,
+                0.03768633385831542
               ],
-              "confidence": 0.2546061471972648
+              "confidence": 0.2452075573801754
             },
             "ai_summaries__effort": {
               "kind": "score",
-              "score": 2.6456159299255004,
+              "score": 2.651143635982375,
               "probabilities": [
-                0.02508728356012382,
-                0.03736739701562048,
-                0.2043874253628871,
-                0.7331578940613686
+                0.024228153964486354,
+                0.03665602632647867,
+                0.20285984947120841,
+                0.7362559702378265
               ],
-              "confidence": 0.4464644819468583
+              "confidence": 0.4515154991786863
             }
           },
           "asked": 5,
           "total": 25,
           "requests": 1,
-          "ms": 1560,
+          "ms": 2061,
           "usage": {
             "input_tokens": 1241,
             "output_tokens": 0
@@ -2569,249 +2569,249 @@
           "judgments": {
             "sso__customer_value": {
               "kind": "score",
-              "score": 0.8067075321757773,
+              "score": 0.8053017192872585,
               "probabilities": [
-                0.513717887990894,
-                0.2623814231731357,
-                0.12737595750526945,
-                0.09652473133070089
+                0.520915443984246,
+                0.25189824920228754,
+                0.1281554503554284,
+                0.09903085645803802
               ],
-              "confidence": 0.1478176565431467
+              "confidence": 0.1493061712556002
             },
             "sso__revenue": {
               "kind": "score",
-              "score": 2.75825812357807,
+              "score": 2.7590463266921468,
               "probabilities": [
-                0.011340831660883297,
-                0.014113893040759624,
-                0.17949159535776057,
-                0.7950536799405964
+                0.011489658974759148,
+                0.014077424447610875,
+                0.17832984748835404,
+                0.796103069089276
               ],
-              "confidence": 0.5660555194307078
+              "confidence": 0.5669564716647395
             },
             "sso__effort": {
               "kind": "score",
-              "score": 2.027204252658739,
+              "score": 2.0245992397512746,
               "probabilities": [
-                0.04160932904913122,
-                0.0959917161954875,
-                0.655984327802892,
-                0.20641462695248927
+                0.04190830342341849,
+                0.09705984331753595,
+                0.6555561633433984,
+                0.2054756899156472
               ],
-              "confidence": 0.30785255460607974
+              "confidence": 0.30656682095675436
             },
             "sso__evidence": {
               "kind": "score",
-              "score": 2.9378815750833325,
+              "score": 2.9378050637916373,
               "probabilities": [
-                0.004404953015204509,
-                0.011973903736446297,
-                0.024955758398161394,
-                0.9586653848501878
+                0.004491630563653602,
+                0.011833870371826401,
+                0.025052303773748733,
+                0.9586221952907712
               ],
-              "confidence": 0.8489115099433863
+              "confidence": 0.8487649234726624
             },
             "onboarding__customer_value": {
               "kind": "score",
-              "score": 2.36599448887473,
+              "score": 2.364251115852146,
               "probabilities": [
-                0.05683691377523991,
-                0.061695886236435536,
-                0.34010299732667926,
-                0.5413642026616454
+                0.058337283500636966,
+                0.061857611189816836,
+                0.33702181126630953,
+                0.5427832940432367
               ],
-              "confidence": 0.25422865900567226
+              "confidence": 0.2525948298085895
             },
             "onboarding__revenue": {
               "kind": "score",
-              "score": 1.3309014432244148,
+              "score": 1.3280779671281775,
               "probabilities": [
-                0.14713756280434603,
-                0.5016639386432761,
-                0.2243579910759948,
-                0.12684050747638306
+                0.14754079894864736,
+                0.5030387679424574,
+                0.223222100140966,
+                0.1261983329679294
               ],
-              "confidence": 0.1161747112540763
+              "confidence": 0.11711922617818027
             },
             "onboarding__effort": {
               "kind": "score",
-              "score": 2.021935627271528,
+              "score": 2.0302841071826485,
               "probabilities": [
-                0.03522898422054308,
-                0.10641408108119736,
-                0.6595492579044478,
-                0.19880767679381173
+                0.03351409004629911,
+                0.1032306648367666,
+                0.6627122930049213,
+                0.2005429521120131
               ],
-              "confidence": 0.31331684173538454
+              "confidence": 0.31970511891993736
             },
             "onboarding__evidence": {
               "kind": "score",
-              "score": 2.141829644551521,
+              "score": 2.1563931839930097,
               "probabilities": [
-                0.049577759544927776,
-                0.15511508680153238,
-                0.399206903210631,
-                0.3961002504429089
+                0.05073042801037285,
+                0.1538381212080658,
+                0.38373928955974007,
+                0.4116921612218213
               ],
-              "confidence": 0.15500030409440468
+              "confidence": 0.1544997034587411
             },
             "bulk_export__customer_value": {
               "kind": "score",
-              "score": 0.7042192663883656,
+              "score": 0.7003733155052138,
               "probabilities": [
-                0.5124848975341303,
-                0.32831015048534035,
-                0.10170574003856304,
-                0.05749921194196639
+                0.5147548240984595,
+                0.32719807373550747,
+                0.10096606472839252,
+                0.0570810374376404
               ],
-              "confidence": 0.20295324059680875
+              "confidence": 0.20484122193608378
             },
             "bulk_export__revenue": {
               "kind": "score",
-              "score": 0.6853160466629915,
+              "score": 0.6942652174433556,
               "probabilities": [
-                0.5375209439560009,
-                0.3135331903306186,
-                0.07505474080776818,
-                0.0738911249056122
+                0.5326913717804148,
+                0.315609192827868,
+                0.07644228155966386,
+                0.0752571538320533
               ],
-              "confidence": 0.21791987906050436
+              "confidence": 0.2132256288300095
             },
             "bulk_export__effort": {
               "kind": "score",
-              "score": 2.8748763938800295,
+              "score": 2.872920787618474,
               "probabilities": [
-                0.00522657299302075,
-                0.007486720145597608,
-                0.0944704468497136,
-                0.8928162600116681
+                0.005214890063931428,
+                0.0074699851223444325,
+                0.0964945719450423,
+                0.8908205528686818
               ],
-              "confidence": 0.7199529199946495
+              "confidence": 0.7167916089609663
             },
             "bulk_export__evidence": {
               "kind": "score",
-              "score": 0.7713703167753654,
+              "score": 0.7747859115170851,
               "probabilities": [
-                0.2974967750297355,
-                0.6491584437985528,
-                0.037822470538322314,
-                0.015522310633389293
+                0.29312293007863505,
+                0.6541433078529387,
+                0.03755868254113209,
+                0.015175079527294067
               ],
-              "confidence": 0.4015131301040409
+              "confidence": 0.4054915588865382
             },
             "mobile_app__customer_value": {
               "kind": "score",
-              "score": 0.6689455364779401,
+              "score": 0.6805111103217417,
               "probabilities": [
-                0.47246096116686814,
-                0.421860154490322,
-                0.06995127104081166,
-                0.03572761330199825
+                0.4655079007660033,
+                0.42550866803564813,
+                0.07194785130895176,
+                0.0370355798893967
               ],
-              "confidence": 0.26173206552064476
+              "confidence": 0.256332584706942
             },
             "mobile_app__revenue": {
               "kind": "score",
-              "score": 0.8823094934733258,
+              "score": 0.8884900999663824,
               "probabilities": [
-                0.33772423953111097,
-                0.49912407049526775,
-                0.1062696469428062,
-                0.0568820430308152
+                0.33757519077009956,
+                0.4950212906045751,
+                0.10874174651416889,
+                0.05866177211115651
               ],
-              "confidence": 0.1958773796371529
+              "confidence": 0.1904253450057749
             },
             "mobile_app__effort": {
               "kind": "score",
-              "score": 1.1523777080052864,
+              "score": 1.1590957986971204,
               "probabilities": [
-                0.14007593710854788,
-                0.603727044962241,
-                0.21994039074458804,
-                0.03625662718462303
+                0.1422267381384171,
+                0.5941370588843605,
+                0.22594986911890685,
+                0.03768633385831542
               ],
-              "confidence": 0.2546061471972648
+              "confidence": 0.2452075573801754
             },
             "mobile_app__evidence": {
               "kind": "score",
-              "score": 0.7726312968125308,
+              "score": 0.7742735808463092,
               "probabilities": [
-                0.2690325996089683,
-                0.6978174672997336,
-                0.024635969761096978,
-                0.00851396333020109
+                0.2681881011021924,
+                0.698349611960513,
+                0.024462891926088057,
+                0.008999395011206663
               ],
-              "confidence": 0.4690084512025495
+              "confidence": 0.4684749644407574
             },
             "ai_summaries__customer_value": {
               "kind": "score",
-              "score": 0.5269793196307336,
+              "score": 0.5217288217269785,
               "probabilities": [
-                0.6163031039723204,
-                0.28106406830160985,
-                0.061983231849085725,
-                0.04064959587698411
+                0.6196121732492778,
+                0.27928108709991056,
+                0.06087248432536681,
+                0.04023425532544479
               ],
-              "confidence": 0.3092524605588566
+              "confidence": 0.3129364189370547
             },
             "ai_summaries__revenue": {
               "kind": "score",
-              "score": 0.7871578903592251,
+              "score": 0.8016353784767885,
               "probabilities": [
-                0.44168937849496287,
-                0.3928466654309609,
-                0.10208064329396428,
-                0.06338331278011188
+                0.4342635678968822,
+                0.39540147813997323,
+                0.10477096155261852,
+                0.06556399241052607
               ],
-              "confidence": 0.18071507040220736
+              "confidence": 0.17470583111084792
             },
             "ai_summaries__effort": {
               "kind": "score",
-              "score": 2.6456159299255004,
+              "score": 2.651143635982375,
               "probabilities": [
-                0.02508728356012382,
-                0.03736739701562048,
-                0.2043874253628871,
-                0.7331578940613686
+                0.024228153964486354,
+                0.03665602632647867,
+                0.20285984947120841,
+                0.7362559702378265
               ],
-              "confidence": 0.4464644819468583
+              "confidence": 0.4515154991786863
             },
             "ai_summaries__evidence": {
               "kind": "score",
-              "score": 0.6995236467962408,
+              "score": 0.7034288298269421,
               "probabilities": [
-                0.3296464941130483,
-                0.6473101447409672,
-                0.01691658138268029,
-                0.00612677976330433
+                0.3256197494879182,
+                0.6513777030392115,
+                0.016956515630880083,
+                0.006046031841990148
               ],
-              "confidence": 0.4607339378491291
+              "confidence": 0.4628879190264443
             },
             "sso__cannot_ship": {
               "kind": "noul",
-              "p": 0.9427180267807429
+              "p": 0.9412234441519332
             },
             "onboarding__cannot_ship": {
               "kind": "noul",
-              "p": 0.31237000428514555
+              "p": 0.34246157314932935
             },
             "bulk_export__cannot_ship": {
               "kind": "noul",
-              "p": 0.13660839002621938
+              "p": 0.13432105377342907
             },
             "mobile_app__cannot_ship": {
               "kind": "noul",
-              "p": 0.14706452045904778
+              "p": 0.1500288243424251
             },
             "ai_summaries__cannot_ship": {
               "kind": "noul",
-              "p": 0.904313056994317
+              "p": 0.9003546962924533
             }
           },
           "asked": 5,
           "total": 25,
           "requests": 1,
-          "ms": 1326,
+          "ms": 1869,
           "usage": {
             "input_tokens": 1108,
             "output_tokens": 0
@@ -2824,249 +2824,249 @@
           "judgments": {
             "sso__revenue": {
               "kind": "score",
-              "score": 2.75825812357807,
+              "score": 2.7590463266921468,
               "probabilities": [
-                0.011340831660883297,
-                0.014113893040759624,
-                0.17949159535776057,
-                0.7950536799405964
+                0.011489658974759148,
+                0.014077424447610875,
+                0.17832984748835404,
+                0.796103069089276
               ],
-              "confidence": 0.5660555194307078
+              "confidence": 0.5669564716647395
             },
             "sso__effort": {
               "kind": "score",
-              "score": 2.027204252658739,
+              "score": 2.0245992397512746,
               "probabilities": [
-                0.04160932904913122,
-                0.0959917161954875,
-                0.655984327802892,
-                0.20641462695248927
+                0.04190830342341849,
+                0.09705984331753595,
+                0.6555561633433984,
+                0.2054756899156472
               ],
-              "confidence": 0.30785255460607974
+              "confidence": 0.30656682095675436
             },
             "sso__cannot_ship": {
               "kind": "noul",
-              "p": 0.9427180267807429
+              "p": 0.9412234441519332
             },
             "onboarding__revenue": {
               "kind": "score",
-              "score": 1.3309014432244148,
+              "score": 1.3280779671281775,
               "probabilities": [
-                0.14713756280434603,
-                0.5016639386432761,
-                0.2243579910759948,
-                0.12684050747638306
+                0.14754079894864736,
+                0.5030387679424574,
+                0.223222100140966,
+                0.1261983329679294
               ],
-              "confidence": 0.1161747112540763
+              "confidence": 0.11711922617818027
             },
             "onboarding__effort": {
               "kind": "score",
-              "score": 2.021935627271528,
+              "score": 2.0302841071826485,
               "probabilities": [
-                0.03522898422054308,
-                0.10641408108119736,
-                0.6595492579044478,
-                0.19880767679381173
+                0.03351409004629911,
+                0.1032306648367666,
+                0.6627122930049213,
+                0.2005429521120131
               ],
-              "confidence": 0.31331684173538454
+              "confidence": 0.31970511891993736
             },
             "onboarding__cannot_ship": {
               "kind": "noul",
-              "p": 0.31237000428514555
+              "p": 0.34246157314932935
             },
             "bulk_export__revenue": {
               "kind": "score",
-              "score": 0.6853160466629915,
+              "score": 0.6942652174433556,
               "probabilities": [
-                0.5375209439560009,
-                0.3135331903306186,
-                0.07505474080776818,
-                0.0738911249056122
+                0.5326913717804148,
+                0.315609192827868,
+                0.07644228155966386,
+                0.0752571538320533
               ],
-              "confidence": 0.21791987906050436
+              "confidence": 0.2132256288300095
             },
             "bulk_export__effort": {
               "kind": "score",
-              "score": 2.8748763938800295,
+              "score": 2.872920787618474,
               "probabilities": [
-                0.00522657299302075,
-                0.007486720145597608,
-                0.0944704468497136,
-                0.8928162600116681
+                0.005214890063931428,
+                0.0074699851223444325,
+                0.0964945719450423,
+                0.8908205528686818
               ],
-              "confidence": 0.7199529199946495
+              "confidence": 0.7167916089609663
             },
             "bulk_export__cannot_ship": {
               "kind": "noul",
-              "p": 0.13660839002621938
+              "p": 0.13432105377342907
             },
             "mobile_app__revenue": {
               "kind": "score",
-              "score": 0.8823094934733258,
+              "score": 0.8884900999663824,
               "probabilities": [
-                0.33772423953111097,
-                0.49912407049526775,
-                0.1062696469428062,
-                0.0568820430308152
+                0.33757519077009956,
+                0.4950212906045751,
+                0.10874174651416889,
+                0.05866177211115651
               ],
-              "confidence": 0.1958773796371529
+              "confidence": 0.1904253450057749
             },
             "mobile_app__effort": {
               "kind": "score",
-              "score": 1.1523777080052864,
+              "score": 1.1590957986971204,
               "probabilities": [
-                0.14007593710854788,
-                0.603727044962241,
-                0.21994039074458804,
-                0.03625662718462303
+                0.1422267381384171,
+                0.5941370588843605,
+                0.22594986911890685,
+                0.03768633385831542
               ],
-              "confidence": 0.2546061471972648
+              "confidence": 0.2452075573801754
             },
             "mobile_app__cannot_ship": {
               "kind": "noul",
-              "p": 0.14706452045904778
+              "p": 0.1500288243424251
             },
             "ai_summaries__revenue": {
               "kind": "score",
-              "score": 0.7871578903592251,
+              "score": 0.8016353784767885,
               "probabilities": [
-                0.44168937849496287,
-                0.3928466654309609,
-                0.10208064329396428,
-                0.06338331278011188
+                0.4342635678968822,
+                0.39540147813997323,
+                0.10477096155261852,
+                0.06556399241052607
               ],
-              "confidence": 0.18071507040220736
+              "confidence": 0.17470583111084792
             },
             "ai_summaries__effort": {
               "kind": "score",
-              "score": 2.6456159299255004,
+              "score": 2.651143635982375,
               "probabilities": [
-                0.02508728356012382,
-                0.03736739701562048,
-                0.2043874253628871,
-                0.7331578940613686
+                0.024228153964486354,
+                0.03665602632647867,
+                0.20285984947120841,
+                0.7362559702378265
               ],
-              "confidence": 0.4464644819468583
+              "confidence": 0.4515154991786863
             },
             "ai_summaries__cannot_ship": {
               "kind": "noul",
-              "p": 0.904313056994317
+              "p": 0.9003546962924533
             },
             "sso__customer_value": {
               "kind": "score",
-              "score": 0.9065590141574825,
+              "score": 0.9063453938394437,
               "probabilities": [
-                0.43237231612911503,
-                0.32256940099313625,
-                0.1511852354688995,
-                0.09387304740884908
+                0.4347378344267068,
+                0.3193058496949871,
+                0.15082940349046164,
+                0.09512691238784442
               ],
-              "confidence": 0.10898433202875002
+              "confidence": 0.10858522316056685
             },
             "onboarding__customer_value": {
               "kind": "score",
-              "score": 1.7626157606363781,
+              "score": 1.7332191265972605,
               "probabilities": [
-                0.2541611805739552,
-                0.10031157929889528,
-                0.27427753904396573,
-                0.37124970108318384
+                0.2589733911132305,
+                0.1062824655668326,
+                0.2772957689293827,
+                0.35744837439055416
               ],
-              "confidence": 0.0611777444681072
+              "confidence": 0.05392481710842534
             },
             "bulk_export__customer_value": {
               "kind": "score",
-              "score": 2.5573228252690976,
+              "score": 2.5669261348167822,
               "probabilities": [
-                0.013293524130894442,
-                0.02727654046674294,
-                0.3482435214047328,
-                0.6111864139976297
+                0.013072532712157756,
+                0.02703347166293206,
+                0.3397893237208803,
+                0.6201046719040298
               ],
-              "confidence": 0.4056511093460583
+              "confidence": 0.4103603596776455
             },
             "mobile_app__customer_value": {
               "kind": "score",
-              "score": 0.4399396371951531,
+              "score": 0.4463559219025901,
               "probabilities": [
-                0.630491317129048,
-                0.3133374215168388,
-                0.041911568384025114,
-                0.014259692970088013
+                0.6256475707322313,
+                0.31706275719685717,
+                0.04257585150700132,
+                0.014713820563910102
               ],
-              "confidence": 0.3882988855960734
+              "confidence": 0.38391794899824716
             },
             "ai_summaries__customer_value": {
               "kind": "score",
-              "score": 0.3544444998705705,
+              "score": 0.357893386195005,
               "probabilities": [
-                0.7156960191109574,
-                0.23099501899512376,
-                0.036477404806309954,
-                0.016831557087608934
+                0.7124795555583618,
+                0.23403483405884082,
+                0.036598279012228035,
+                0.016887331370569372
               ],
-              "confidence": 0.4464247456104442
+              "confidence": 0.4435544307008127
             },
             "sso__evidence": {
               "kind": "score",
-              "score": 2.901692352520324,
+              "score": 2.9013888457801267,
               "probabilities": [
-                0.004791538830086161,
-                0.016209566922782324,
-                0.05151389714385318,
-                0.9274849971032785
+                0.004641037931023306,
+                0.01619881405786047,
+                0.05229041231108235,
+                0.9268697357000338
               ],
-              "confidence": 0.7727650304145783
+              "confidence": 0.7717550013703687
             },
             "onboarding__evidence": {
               "kind": "score",
-              "score": 2.385255365787557,
+              "score": 2.3880295116555965,
               "probabilities": [
-                0.030736977559090745,
-                0.10236976553290326,
-                0.3177941704693643,
-                0.5490990864386417
+                0.03055358029691752,
+                0.10096706488478617,
+                0.3183756176840788,
+                0.5501037371342176
               ],
-              "confidence": 0.25425058120756905
+              "confidence": 0.2561105558485588
             },
             "bulk_export__evidence": {
               "kind": "score",
-              "score": 2.916755081998509,
+              "score": 2.918501976109799,
               "probabilities": [
-                0.006351843414805579,
-                0.01323837848807408,
-                0.037712630780926536,
-                0.9426971473161939
+                0.006262535649581855,
+                0.013052245121624914,
+                0.036605926698206066,
+                0.9440792925305872
               ],
-              "confidence": 0.806226642887004
+              "confidence": 0.809705035235225
             },
             "mobile_app__evidence": {
               "kind": "score",
-              "score": 0.5901196334338409,
+              "score": 0.5881201318012822,
               "probabilities": [
-                0.433479056613785,
-                0.5479688721802549,
-                0.013505452364294528,
-                0.005046618841665663
+                0.43539859883370413,
+                0.5461121899205235,
+                0.013459691856558636,
+                0.0050295193892138
               ],
-              "confidence": 0.43965590856808123
+              "confidence": 0.43951684527990986
             },
             "ai_summaries__evidence": {
               "kind": "score",
-              "score": 0.5554125153098395,
+              "score": 0.5555550753786955,
               "probabilities": [
-                0.4580917155503759,
-                0.5313956866618025,
-                0.00752096471542786,
-                0.0029916330723937807
+                0.45805394839479446,
+                0.5313518759948722,
+                0.007579327447176424,
+                0.0030148481631568167
               ],
-              "confidence": 0.46060161923158727
+              "confidence": 0.4603399003912806
             }
           },
           "asked": 10,
           "total": 25,
           "requests": 2,
-          "ms": 47,
+          "ms": 4302,
           "usage": {
             "input_tokens": 2585,
             "output_tokens": 0

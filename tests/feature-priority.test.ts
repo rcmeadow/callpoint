@@ -40,4 +40,13 @@ describe("feature-priority scenario", () => {
     const tops = jev.steps.map((st) => rank(s, st.judgments).find((r) => !r.blocked)!.optionId);
     expect(new Set(tops).size).toBeGreaterThan(1);
   });
+
+  it("reaches too close to call at the top at least once", () => {
+    const rec = read("feature-priority.recording.json") as Recording;
+    const topTies = rec.engines.jev!.steps.filter((st) => {
+      const open = rank(s, st.judgments).filter((r) => !r.blocked);
+      return open[0]!.nearTie && open[1]!.nearTie && open[0]!.groupRank === open[1]!.groupRank;
+    });
+    expect(topTies.length).toBeGreaterThan(0);
+  });
 });
