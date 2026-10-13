@@ -284,7 +284,7 @@ li.tie .bar span { background: var(--amber); }
 .lf-label { font-weight: 700; color: var(--accent); }
 /* Simple view: switch between the starter problems */
 .try-other { display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 13px; color: var(--muted); flex-wrap: wrap; }
-.try-other select { min-width: 0; min-height: 34px; padding: 4px 8px; font-size: 13px; max-width: 100%; }
+.try-other select { min-width: 0; max-width: 100%; }
 .latest-fact.flash { animation: fact-in 900ms ease both; }
 @keyframes fact-in { 0% { background: var(--accent-soft); transform: translateY(-4px); opacity: 0.4; } 40% { opacity: 1; transform: none; } 100% { background: var(--surface); } }
 .call { border-radius: var(--radius); padding: 14px 18px; border: 1px solid transparent; }
@@ -415,6 +415,7 @@ input[type="range"] { width: 100%; accent-color: var(--accent); min-height: 28px
   .problem-head { gap: 8px; margin-bottom: 6px; }
   .problem .actions { width: 100%; flex-wrap: nowrap; gap: 6px; }
   .problem .actions button { flex: 1 1 0; min-width: 0; padding: 6px 6px; font-size: 13px; min-height: 36px; }
+  .problem .try-other select { padding: 6px 8px; font-size: 13px; min-height: 36px; }
   .editor { margin-top: 6px; padding-top: 6px; }
   .actions button { flex: 1 1 auto; }
   .problem h2 { font-size: 18px; }
