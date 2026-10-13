@@ -44,6 +44,17 @@ const scenarios: Scenario[] = Object.entries(scenarioFiles)
   .sort((a, b) => Number(b.id === DEFAULT_SCENARIO_ID) - Number(a.id === DEFAULT_SCENARIO_ID) || a.title.localeCompare(b.title));
 const defaultScenario: Scenario = scenarios.find((x) => x.id === DEFAULT_SCENARIO_ID) ?? scenarios[0]!;
 
+/** ?scenario=<id> opens a starter problem directly; anything unknown falls back to the default. */
+function initialScenario(): Scenario {
+  try {
+    const id = new URLSearchParams(location.search).get("scenario");
+    return (id && scenarios.find((x) => x.id === id)) || defaultScenario;
+  } catch {
+    return defaultScenario;
+  }
+}
+const startScenario = initialScenario();
+
 /** Prefer a real recording over a synthetic sample. */
 function recordingFor(id: string): Recording | undefined {
   const all = Object.values(recordingFiles).filter((r) => r.scenarioId === id);
@@ -80,11 +91,11 @@ interface Status {
 
 const state = {
   mode: "replay" as Mode,
-  base: defaultScenario,
+  base: startScenario,
   /** Edited problem, used in Live mode. */
   edited: null as Scenario | null,
-  draft: cloneScenario(defaultScenario),
-  settings: defaultSettings(defaultScenario),
+  draft: cloneScenario(startScenario),
+  settings: defaultSettings(startScenario),
   facts: [] as Fact[],
   started: false,
   compareLocal: false,
@@ -338,6 +349,17 @@ function setMode(mode: Mode) {
 function setScenario(id: string) {
   const s = scenarios.find((x) => x.id === id);
   if (!s) return;
+  // The starter problems replay their recordings; switching from the simple view goes to Replay.
+  if (isSimple() && state.mode !== "replay") state.mode = "replay";
+  // Keep the address shareable: ?scenario=<id>, leaving other params (theme, view) alone.
+  try {
+    const u = new URL(location.href);
+    if (id === DEFAULT_SCENARIO_ID) u.searchParams.delete("scenario");
+    else u.searchParams.set("scenario", id);
+    history.replaceState(null, "", u.toString());
+  } catch {
+    // No history API: the switch still works for this page view.
+  }
   state.base = s;
   state.edited = null;
   state.draft = cloneScenario(s);
@@ -574,6 +596,13 @@ function renderProblem() {
       <div>
         <p class="eyebrow">The problem${state.mode === "live" && state.edited ? " (edited)" : ""}</p>
         <h2>${esc(s.title)}</h2>
+        ${
+          isSimple() && scenarios.length > 1
+            ? `<label class="try-other"><span>Try another problem</span><select id="try-scenario">${scenarios
+                .map((x) => `<option value="${esc(x.id)}" ${x.id === state.base.id ? "selected" : ""}>${esc(x.title)}</option>`)
+                .join("")}</select></label>`
+            : ""
+        }
       </div>
       <div class="actions">
         <button type="button" class="primary" id="play" ${isBusy || state.playing || applied >= n ? "disabled" : ""}>${playLabel(applied, n)}</button>
@@ -590,6 +619,7 @@ function renderProblem() {
       <summary>Edit the problem${editable ? "" : " (runs in Live mode)"}</summary>
       <div id="editor"></div>
     </details>`;
+  document.querySelector<HTMLSelectElement>("#try-scenario")?.addEventListener("change", (e) => setScenario((e.target as HTMLSelectElement).value));
   $("#play").addEventListener("click", () => void playDemo());
   $("#next").addEventListener("click", () => void nextUpdate());
   $("#problem-more").addEventListener("click", () => {
