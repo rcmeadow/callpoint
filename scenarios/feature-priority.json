@@ -1,0 +1,147 @@
+{
+  "id": "feature-priority",
+  "title": "Which feature ships next",
+  "noun": "decision",
+  "nearTieMargin": 0.02,
+  "goal": "Pick the one feature to build next quarter that does the most for customers and the business, without breaking a promise already made.",
+  "incident": {
+    "summary": "A six-person product team can build one feature next quarter. Five candidates are on the table. Some of the largest customers have asked for single sign-on, and nobody has looked at cancellations yet.",
+    "team": "6 engineers, one quarter (about 12 weeks)",
+    "owner": "Head of product"
+  },
+  "options": [
+    {
+      "id": "sso",
+      "name": "Single sign-on",
+      "description": "Let enterprise customers log in through Okta, Azure AD or Google Workspace. Estimated at about 5 weeks."
+    },
+    {
+      "id": "onboarding",
+      "name": "Guided setup for new accounts",
+      "description": "A step-by-step setup flow that walks a new small account through its first project. Estimated at about 7 weeks."
+    },
+    {
+      "id": "bulk_export",
+      "name": "One-click data export",
+      "description": "Let any customer export all of their data to a spreadsheet in one click. Estimated at about 2 weeks."
+    },
+    {
+      "id": "mobile_app",
+      "name": "Mobile app",
+      "description": "A first iOS and Android app with read-only dashboards. Estimated at about 10 weeks."
+    },
+    {
+      "id": "ai_summaries",
+      "name": "AI weekly summaries",
+      "description": "An automatic weekly email that summarizes each account's activity with an AI model. Estimated at about 3 weeks."
+    }
+  ],
+  "criteria": [
+    {
+      "id": "customer_value",
+      "name": "Customer value",
+      "question": "How much would building the option help current customers with problems they actually have?",
+      "levels": [
+        "Little or no real help to current customers",
+        "Helps a few customers a little",
+        "Clearly helps many customers",
+        "Solves a top problem for most customers"
+      ],
+      "weight": 0.35
+    },
+    {
+      "id": "revenue",
+      "name": "Revenue impact",
+      "question": "How much is building the option likely to protect or grow revenue in the next two quarters?",
+      "levels": [
+        "No visible effect on revenue",
+        "A small effect on revenue",
+        "A noticeable effect on revenue",
+        "A large, direct effect, such as signed deals or fewer cancellations"
+      ],
+      "weight": 0.3
+    },
+    {
+      "id": "effort",
+      "name": "Fits the quarter",
+      "question": "How comfortably does the option fit into one quarter for a six-person team?",
+      "levels": [
+        "Will not fit into one quarter",
+        "Tight, likely to slip past the quarter",
+        "Fits with some room",
+        "Fits easily with time to spare"
+      ],
+      "weight": 0.2
+    },
+    {
+      "id": "evidence",
+      "name": "Evidence",
+      "question": "How strong is the evidence in the timeline that customers or buyers want the option?",
+      "levels": [
+        "The evidence points against it",
+        "No real evidence either way",
+        "Some evidence that people want it",
+        "Strong, direct evidence that people want it"
+      ],
+      "weight": 0.15
+    }
+  ],
+  "constraints": [
+    {
+      "id": "cannot_ship",
+      "name": "Can actually ship this quarter",
+      "question": "Is there a statement in the timeline saying that the option cannot ship next quarter, for example because a required review or dependency will not be ready?",
+      "threshold": 0.5
+    }
+  ],
+  "updates": [
+    {
+      "id": "f1",
+      "at": "Mon",
+      "title": "Cancellation analysis",
+      "text": "Analytics: 6 in 10 small accounts that cancelled last quarter never finished setting up. Support says \"how do I get started\" is the most common ticket.",
+      "affects": [
+        "customer_value",
+        "evidence"
+      ]
+    },
+    {
+      "id": "f2",
+      "at": "Tue",
+      "title": "Sales update",
+      "text": "Sales: two enterprise prospects, worth about $400k a year together, have put in writing that single sign-on is the only thing blocking their contracts this quarter.",
+      "affects": [
+        "revenue",
+        "evidence"
+      ]
+    },
+    {
+      "id": "f3",
+      "at": "Wed",
+      "title": "Engineering estimate",
+      "text": "Engineering re-estimated single sign-on at about 7 weeks, because part of the login service needs a rewrite first. The other estimates did not change.",
+      "affects": [
+        "effort"
+      ]
+    },
+    {
+      "id": "f4",
+      "at": "Thu",
+      "title": "Security review",
+      "text": "Security: any feature that sends customer data to an outside AI model needs a privacy review, and the next review slot is two quarters away.",
+      "affects": [
+        "cannot_ship"
+      ]
+    },
+    {
+      "id": "f5",
+      "at": "Fri",
+      "title": "Customer advisory board",
+      "text": "At the customer advisory board, 7 of 9 customers named one-click data export as their top request, mostly so they can build their own reports.",
+      "affects": [
+        "customer_value",
+        "evidence"
+      ]
+    }
+  ]
+}

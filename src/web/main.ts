@@ -36,9 +36,13 @@ const GUIDE_KEY = "callpoint-guide";
 const scenarioFiles = import.meta.glob<unknown>(["/scenarios/*.json", "!/scenarios/*.recording*.json"], { eager: true, import: "default" });
 const recordingFiles = import.meta.glob<Recording>("/scenarios/*.recording*.json", { eager: true, import: "default" });
 
+/** The starter problem shown first, chosen by id (not by title order). */
+const DEFAULT_SCENARIO_ID = "incident-triage";
+
 const scenarios: Scenario[] = Object.entries(scenarioFiles)
   .map(([path, data]) => validateScenario(data, path))
-  .sort((a, b) => a.title.localeCompare(b.title));
+  .sort((a, b) => Number(b.id === DEFAULT_SCENARIO_ID) - Number(a.id === DEFAULT_SCENARIO_ID) || a.title.localeCompare(b.title));
+const defaultScenario: Scenario = scenarios.find((x) => x.id === DEFAULT_SCENARIO_ID) ?? scenarios[0]!;
 
 /** Prefer a real recording over a synthetic sample. */
 function recordingFor(id: string): Recording | undefined {
@@ -76,11 +80,11 @@ interface Status {
 
 const state = {
   mode: "replay" as Mode,
-  base: scenarios[0]!,
+  base: defaultScenario,
   /** Edited problem, used in Live mode. */
   edited: null as Scenario | null,
-  draft: cloneScenario(scenarios[0]!),
-  settings: defaultSettings(scenarios[0]!),
+  draft: cloneScenario(defaultScenario),
+  settings: defaultSettings(defaultScenario),
   facts: [] as Fact[],
   started: false,
   compareLocal: false,
