@@ -13,6 +13,8 @@
 .lp-hero h1 { font-size: clamp(32px, 4.6vw + 8px, 60px); line-height: 1.06; letter-spacing: -0.025em; font-weight: 800; margin: 0 0 18px; text-wrap: balance; }
 .lp-sub { font-size: clamp(16px, 0.6vw + 13px, 19px); line-height: 1.55; color: var(--ink); opacity: 0.85; margin: 0 0 28px; max-width: 60ch; }
 .lp-cta { display: flex; flex-wrap: wrap; gap: 10px; }
+.lp-alt { margin: 16px 0 0; font-size: 15px; color: var(--muted); }
+.lp-alt a { color: var(--accent); font-weight: 600; }
 .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 10px 20px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font-weight: 700; text-decoration: none; }
 .btn:hover { border-color: var(--accent); }
 .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }

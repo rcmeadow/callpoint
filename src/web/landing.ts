@@ -8,7 +8,7 @@ const REPO = "https://github.com/rcmeadow/callpoint";
 function withTheme(href: string): string {
   try {
     const t = new URLSearchParams(location.search).get("theme");
-    return t ? `${href}?theme=${encodeURIComponent(t)}` : href;
+    return t ? `${href}${href.includes("?") ? "&" : "?"}theme=${encodeURIComponent(t)}` : href;
   } catch {
     return href;
   }
@@ -32,6 +32,7 @@ document.querySelector<HTMLElement>("#landing")!.innerHTML = `
         <a class="btn primary" href="${withTheme("./demo/")}">Try the demo</a>
         <a class="btn" href="${REPO}" target="_blank" rel="noopener noreferrer">View on GitHub</a>
       </div>
+      <p class="lp-alt">Not an incident person? <a href="${withTheme("./demo/?scenario=feature-priority")}">Try a product call</a></p>
       </div>
       <figure class="lp-video">
         <div class="lp-video-frame">

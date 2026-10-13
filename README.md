@@ -50,6 +50,19 @@ short first-visit guide. "Show the engine" reveals everything above (timeline, t
 the compare and what-would-change cards, the receipt, the Clef switch). The choice is remembered
 per browser, and `?view=full` opens the full view directly.
 
+## Starter scenarios
+
+Two starter problems ship with real recordings, and "Try another problem" in the simple view
+switches between them. `?scenario=<id>` opens one directly.
+
+| Scenario | What it is | Open it |
+|---|---|---|
+| `incident-triage` (default) | Checkout errors after a payments deploy: which response to run. | https://callpoint.itsryanm.com/demo/ |
+| `feature-priority` | Which feature ships next: a product call for one team and one quarter. | https://callpoint.itsryanm.com/demo/?scenario=feature-priority |
+
+Each has a scenario file and a recording in `scenarios/` (`<id>.json` and
+`<id>.recording.json`).
+
 ## Quickstart
 
 Needs Node 22.12+ (24 recommended; `.nvmrc` says 24).
@@ -109,8 +122,8 @@ browser requests whose `Origin` is not localhost or 127.0.0.1 on the dev, previe
 npm run record
 ```
 
-This runs the whole scenario live through Jev (and the local engine if it is ready), writes
-`scenarios/incident-triage.recording.json` with the real judgments and timings, then runs Jev a
+This runs the whole scenario (incident triage unless you pass `--scenario <id>`) live through Jev (and the local engine if it is ready), writes
+`scenarios/<id>.recording.json` with the real judgments and timings, then runs Jev a
 second time with the cache cleared and checks that the ranking order matches at every update,
 after collapsing near ties (see below). It prints every swap it collapsed.
 Options: `--scenario <id>`, `--once` (skip the second run), `--no-local`.
@@ -135,6 +148,7 @@ code change (in dev, reload the page; for a static build, rebuild). The shape:
   "title": "Short title",
   "goal": "What a good response achieves.",
   "incident": { "summary": "What is happening, in plain words." },
+  "noun": "incident",
   "nearTieMargin": 0.02,
   "options": [{ "id": "a", "name": "Do A", "description": "What doing A involves." }],
   "criteria": [
@@ -164,6 +178,10 @@ Tips:
   the criterion name into each question's instructions.
 - `affects` matters. Each question only sees the updates that list its criterion or constraint,
   so an update re-asks just those questions and everything else comes from the cache.
+- `incident.summary` is required: it is the problem text the app and the receipt show.
+- `noun` (optional, default `"incident"`) is one plain word for what the scenario is about, such
+  as `"decision"`. The app copy and the question wording use it ("Judge it against the goal,
+  decision, and timeline"), so a non-incident scenario does not read like one.
 
 ## A sample receipt
 
