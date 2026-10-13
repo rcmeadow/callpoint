@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Outlook } from "../src/engine/insight";
-import { plainHeadline, plainOutlook } from "../src/web/plain";
+import { latestFact, plainHeadline, plainOutlook } from "../src/web/plain";
 
 const names: Record<string, string> = { a: "Roll back to v2.30", b: "Fail over" };
 const nameOf = (id: string) => names[id] ?? id;
@@ -36,5 +36,25 @@ describe("plain copy for the simple view", () => {
     expect(plainHeadline("call", ["Roll back to v2.30"])).toBe("Current call: Roll back to v2.30");
     expect(plainHeadline("tie", ["Roll back to v2.30", "Disable the smart-retries flag"])).toBe("Too close to call: Roll back to v2.30 or Disable the smart-retries flag");
     expect(plainHeadline("none", [])).not.toMatch(/below|constraint/i);
+  });
+});
+
+describe("latest fact in the simple view", () => {
+  const f1 = { id: "f1", text: "First fact." };
+  const f2 = { id: "f2", text: "Second fact." };
+  it("is null before any fact", () => {
+    expect(latestFact([])).toBeNull();
+    expect(latestFact([{ fact: null }])).toBeNull();
+  });
+  it("is the fact behind the latest result, not one still loading", () => {
+    expect(latestFact([{ fact: null }, { fact: f1 }])).toBe(f1);
+    expect(latestFact([{ fact: null }, { fact: f1 }, { fact: f2 }])).toBe(f2);
+    // Step 2 has no result yet: still show fact 1.
+    expect(latestFact([{ fact: null }, { fact: f1 }, undefined])).toBe(f1);
+  });
+  it("makes the headline read as the fact's result", () => {
+    expect(plainHeadline("call", ["Guided setup"], true)).toBe("So now: Guided setup");
+    expect(plainHeadline("tie", ["A", "B"], true)).toBe("So now it's too close to call: A or B");
+    expect(plainHeadline("call", ["Guided setup"])).toBe("Current call: Guided setup");
   });
 });

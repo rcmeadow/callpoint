@@ -25,7 +25,7 @@ import {
 } from "../engine/index";
 import { cloneScenario, renderEditor } from "./editor";
 import { gaugeLayout, type GaugeLabel } from "./gauge";
-import { plainHeadline, plainOutlook } from "./plain";
+import { latestFact, plainHeadline, plainOutlook } from "./plain";
 import { readPref, themeToggleHtml, wireThemeToggle, writePref } from "./theme";
 
 const VIEW_KEY = "callpoint-view";
@@ -478,6 +478,7 @@ ${themeToggleHtml}
     <main class="layout" id="layout">
       <section class="card timeline" id="timeline" aria-label="Timeline"></section>
       <section class="center" id="center">
+        <div class="latest-fact" id="latest-fact" aria-live="polite"></div>
         <div class="call" id="call" aria-live="polite"></div>
         <section class="race" id="race" aria-label="Ranking"></section>
       </section>
@@ -994,10 +995,30 @@ function renderInsight() {
 }
 
 /** The hero: the current call, straight from the code, with the one-line outlook under it. */
+/** Simple view: the fact behind the current ranking, right above the call. */
+function renderLatestFact() {
+  const el = $("#latest-fact");
+  const f = isSimple() ? latestFact(state.cols.jev.snapshots) : null;
+  if (!f) {
+    el.innerHTML = "";
+    delete el.dataset.key;
+    return;
+  }
+  const changed = el.dataset.key !== f.id;
+  el.innerHTML = `<span class="lf-label">New fact:</span> ${esc(f.text)}`;
+  if (changed && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    el.classList.remove("flash");
+    void el.offsetWidth;
+    el.classList.add("flash");
+  }
+  el.dataset.key = f.id;
+}
+
 function renderCall() {
   const el = $("#call");
   const s = scenario();
   const last = latest("jev");
+  const afterFact = isSimple() && !!latestFact(state.cols.jev.snapshots);
   if (!last) {
     el.innerHTML = "";
     el.className = "call";
@@ -1013,16 +1034,16 @@ function renderCall() {
   let sub = isSimple() ? plainOutlook(outlook, nameOf) : outlook.text;
   if (!top) {
     tone = "red";
-    headline = isSimple() ? plainHeadline("none", []) : "No call: every option is blocked by a constraint. This is your decision.";
+    headline = isSimple() ? plainHeadline("none", [], afterFact) : "No call: every option is blocked by a constraint. This is your decision.";
     sub = isSimple() ? plainOutlook(outlook, nameOf) : "Change a constraint below, or add a fact that unblocks an option.";
   } else if (top.nearTie) {
     tone = "amber";
     const group = open.filter((r) => r.nearTie && r.groupRank === top.groupRank).map((r) => nameOf(r.optionId));
     const names = group.length === 2 ? `${group[0]} vs ${group[1]}` : `${group.slice(0, -1).join(", ")} vs ${group[group.length - 1]}`;
-    headline = isSimple() ? plainHeadline("tie", group) : `Too close to call: ${names} (gap ${top.tieSpread.toFixed(3)}). This is your decision.`;
+    headline = isSimple() ? plainHeadline("tie", group, afterFact) : `Too close to call: ${names} (gap ${top.tieSpread.toFixed(3)}). This is your decision.`;
     sub = isSimple() ? plainOutlook(outlook, nameOf) : `Callpoint won't pick between options within the ${nearTieMarginOf(s)} near-tie margin.`;
   } else {
-    headline = isSimple() ? plainHeadline("call", [nameOf(top.optionId)]) : `Current call: ${nameOf(top.optionId)} · ${top.total.toFixed(3)}`;
+    headline = isSimple() ? plainHeadline("call", [nameOf(top.optionId)], afterFact) : `Current call: ${nameOf(top.optionId)} · ${top.total.toFixed(3)}`;
   }
   const key = `${tone}|${headline}`;
   const changed = el.dataset.key !== key;
@@ -1189,6 +1210,7 @@ function renderAll(full = false) {
     else renderProblem();
   }
   renderTimeline();
+  renderLatestFact();
   renderCall();
   renderRace();
   renderInsight();

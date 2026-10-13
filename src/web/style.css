@@ -278,6 +278,12 @@ li.tie .bar span { background: var(--amber); }
 /* The call: the hero above the race */
 .center { display: grid; gap: 12px; min-width: 0; align-content: start; }
 .call:empty { display: none; }
+/* Simple view: the fact that just landed, right above the call it changed. */
+.latest-fact:empty { display: none; }
+.latest-fact { padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); font-size: 15px; line-height: 1.45; }
+.lf-label { font-weight: 700; color: var(--accent); }
+.latest-fact.flash { animation: fact-in 900ms ease both; }
+@keyframes fact-in { 0% { background: var(--accent-soft); transform: translateY(-4px); opacity: 0.4; } 40% { opacity: 1; transform: none; } 100% { background: var(--surface); } }
 .call { border-radius: var(--radius); padding: 14px 18px; border: 1px solid transparent; }
 .call.teal { background: var(--accent-soft); border-color: var(--accent); }
 .call.amber { background: var(--amber-soft); border-color: var(--amber-line); }
@@ -434,5 +440,6 @@ input[type="range"] { width: 100%; accent-color: var(--accent); min-height: 28px
 @media (prefers-reduced-motion: reduce) {
   .bar span, .conf span, .toast, .switch .track, .switch .thumb { transition: none; }
   .call.swap .call-head, .call.swap .call-sub { animation: none; }
+  .latest-fact.flash { animation: none; }
   .loading::after { animation: none; }
 }
